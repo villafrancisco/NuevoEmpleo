@@ -1,0 +1,131 @@
+*, *:after, *:before {
+    box-sizing:border-box;
+    -moz-box-sizing:border-box;
+    -webkit-box-sizing:border-box;
+  }
+  :root {
+	--main-bg-color: #504e4e;
+	--main-content-color: aliceblue;
+	--header-bg-color: #292929;
+	--modal-bg-color: rgba(0, 0, 0, 0.9);
+}
+ 
+  .navbar {
+    padding: 10px 10%;
+    background-color: var(--header-bg-color);
+  }
+  #logo {
+    display: inline-block;
+    margin-top: 7px;
+    color: var(--main-content-color);
+  }
+  #link {
+    color: var(--main-content-color);
+    font-weight: bold;
+    margin: 0 10px;
+  }
+  i { margin: 0 7px; }
+  #sidebarCollapse {
+    
+    color:var(--main-content-color);
+    background: transparent;
+    outline: none;
+    margin: 0 20px;
+  }
+  #sidebarCollapse:hover {
+    color: var(--header-bg-color);
+    background: var(--main-content-color);
+    outline: none;
+  }
+  .wrapper {
+    display: flex;
+    width: 100%;
+    align-items: stretch;
+  }.wrapper {
+    display: flex;
+    width: 100%;
+    align-items: stretch;
+  }#sidebar {
+      min-width: 250px;
+      max-width: 250px;
+      margin-top: 70px;
+      background: var(--main-bg-color);
+      color: var(--main-content-color);
+      transition: all 0.3s;
+  }
+  #sidebar.active{
+      margin-left: -250px;
+  }
+  
+  #sidebar .sidebar-header{
+      padding: 20px;
+      background: var(--main-bg-color);
+  }
+  #sidebar ul.components{
+      padding: 20px 0px;
+  }
+  
+  #sidebar ul p{
+      padding: 10px;
+      font-size: 1.1em;
+      display: block;
+  }
+  
+  #sidebar ul li a{
+      padding: 10px 10px 10px 20px;
+      font-size: 1.1em;
+      display: block;
+      color: var(--main-content-color);
+      font-weight: bold;
+  }
+  #sidebar ul li a:hover {
+      color:var(--header-bg-color);
+
+      background: var(--main-content-color);
+      text-decoration: none;
+  }
+  
+  #sidebar ul li.active>a,
+  a[aria-expanded="true"] {
+      color: var(--header-bg-color);
+      background: var(--main-content-color);
+  }
+  a[data-toggle="collapse"] {
+      position: relative;
+  }
+  .dropdown-toggle::after {
+      display: block;
+      position: absolute;
+      top: 50%;
+      right: 20px;
+      transform: translateY(-50%);
+  }
+  
+  #content {
+      width: 100%;
+      padding: 40px;
+      min-height: 100vh;
+      transition: all 0.3s;
+      margin-top: 70px;
+  }
+  @media (max-width:800px) {
+    #sidebar {
+      margin-left: -250px;}
+    #sidebar.active{
+      margin-left: 0px;
+    }
+    #sidebarCollapse span{
+      display: none;
+    }
+    .card {
+      width:100%;
+    }
+  }
+  @media (max-width:400px) {
+    #sidebar {
+      margin-top: -20px;
+    }
+    #logo {
+      display: none;
+    }
+  }
