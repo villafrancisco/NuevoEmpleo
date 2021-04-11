@@ -74,21 +74,27 @@ function login($email,$contrasena,$tipo){
        $_SESSION["usuario"]=$usuario;
        return true;
     }else{
-        //preguntar si existe el email en la tabla usuarios
-        if($db->getEmailUsuario($email)){
-            //existe el email
-            return false;
-        }else{
-            //no existe el email
-            //Creo el usuario y la sesion
-            if($db->crearNuevoUsuario($email,$contrasena,$tipo)){
-                session_start();
-                $_SESSION["usuario"]=$db->getUsuario($email,$contrasena,$tipo);
-                return true;
+        
+            //preguntar si existe el email en la tabla usuarios
+            if($db->getEmailUsuario($email)){
+                //existe el email
+                return false;
+            }else{
+                 if($tipo!=1){//Solo para los que no sean administradores
+                    //no existe el email
+                    //Creo el usuario y la sesion
+                    if($db->crearNuevoUsuario($email,$contrasena,$tipo)){
+                        session_start();
+                        $_SESSION["usuario"]=$db->getUsuario($email,$contrasena,$tipo);
+                        return true;
+                    }
+                    return false;
+                 }
+                 else{//Solo para los que no sean administradores
+                     return false;
+                }
+                
             }
-            return false;
-        }
-
         
         
     }
