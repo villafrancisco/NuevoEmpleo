@@ -67,7 +67,26 @@ class DB extends Conexion{
         }catch(PDOException $e){
             return false;
         }
-        
+    }
+
+    public function getAllEmpleos(){
+        try{
+            $sql = "SELECT * FROM empleos";
+            $parametros=array();
+            $resultado = self::ejecutaConsulta($sql,$parametros);
+            $empleos = array();
+            if ($resultado) {
+                $row = $resultado->fetch();
+                while ($row != null) {
+                    $empleos[] = new Empleo($row);
+                    $row = $resultado->fetch();
+                }
+            }
+            return $empleos;
+
+        }catch(PDOException $e){
+            $e->getMessage();
+        }
     }
     public function getFamilia($idfamilia) {
         try{

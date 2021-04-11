@@ -9,6 +9,9 @@ $db=new DB();
 if(isset($_GET["familia"])){
     $array_empleos=$db->getEmpleosFamilia($_GET["familia"]);
     $familia=$db->getFamilia($_GET['familia']);
+}else{
+    $array_empleos=$db->getAllEmpleos();
+    
 }
 ?>
 <body>
@@ -18,9 +21,20 @@ if(isset($_GET["familia"])){
         </header>
         <div class="listado-categorias container">
             <div class="row">
-                <h4 class="text-center text-light col-sm-12">Ofertas de empleo de <?php echo $familia->getFamilia() ?></h4>
+            <?php if(isset($familia)){
+                ?>
+                    <h4 class="text-center text-light col-sm-12">Ofertas de empleo de <?php echo $familia->getFamilia() ?></h4>
+                <?php 
+                }else{
+                  ?>
+                    <h4 class="text-center text-light col-sm-12">Listado de todas las ofertas de empleo</h4>
+                <?php 
+                 
+                }
+            ?>
+                
             <?php 
-            if(isset($array_empleos) && isset($familia)){
+            if(isset($array_empleos)){
                 if(count($array_empleos)!=0){
                     foreach ($array_empleos as $empleo) {
                     //conseguir titulos requeridos
@@ -44,7 +58,12 @@ if(isset($_GET["familia"])){
                     echo '</div>';
                     }
                 }else{
-                echo 'No hay ninguna oferta en la categoria de '.$familia->getFamilia();
+                    if(isset($familia)){
+                        echo 'No hay ninguna oferta en la categoria de '.$familia->getFamilia();
+                    }else{
+                        echo 'No hay ninguna oferta de empleo.';
+                    }
+                
                 }
             } ?>
             
