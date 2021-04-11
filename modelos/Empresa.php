@@ -3,19 +3,26 @@
 
 class Empresa extends Usuario{
     protected $idempresa;
+    protected $email;
+    protected $contrasena;
     protected $nombre;
     protected $direccion;
     protected $nif;
-    protected $fecha_registro;
+    
 
     function __construct($row) {
         $this->idempresa = $row['idempresa'];
+        $this->email = $row['email'];
+        $this->contrasena = $row['contrasena'];
         $this->nombre = $row['nombre'];
         $this->direccion = $row['direccion'];
         $this->nif = $row['nif'];
-        $this->fecha_registro = $row['fecha_registro'];
         parent::__construct($row);
     }
+  
+
+    
+
     /**
      * Get the value of idempresa
      */ 
@@ -132,26 +139,6 @@ class Empresa extends Usuario{
     public function setContrasena($contrasena)
     {
         $this->contrasena = $contrasena;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of fecha_registro
-     */ 
-    public function getFecha_registro()
-    {
-        return $this->fecha_registro;
-    }
-
-    /**
-     * Set the value of fecha_registro
-     *
-     * @return  self
-     */ 
-    public function setFecha_registro($fecha_registro)
-    {
-        $this->fecha_registro = $fecha_registro;
 
         return $this;
     }

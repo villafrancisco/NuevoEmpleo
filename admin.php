@@ -7,11 +7,7 @@
    
     <link rel="stylesheet" href="css/login.css">
 </head>
-<?php 
-if(isset($_GET["tipo"]) && ($_GET["tipo"]=="empresa" || $_GET["tipo"]=="titulado")){
-    $tipo=$_GET["tipo"];
-}
-?>
+
 <body>
     <div id="index" class="container-fluid bg-secondary">
         <header class="navbar navbar-dark bg-dark">
@@ -19,14 +15,12 @@ if(isset($_GET["tipo"]) && ($_GET["tipo"]=="empresa" || $_GET["tipo"]=="titulado
         </header>
         
         <div class="container">
-            <?php 
-            if(isset($tipo)){
-            ?>
+            
             <div class="d-flex justify-content-center h-100">
                 
                 <div class="card m-4 p4">
                     <div class="card-header">
-                        <h3><?php echo $tipo ?></h3>
+                        <h3>Administrador</h3>
                     </div>
                     <div class="card-body">
                         <form id="formLogin">
@@ -48,7 +42,7 @@ if(isset($_GET["tipo"]) && ($_GET["tipo"]=="empresa" || $_GET["tipo"]=="titulado
                                     <span class="input-group-text bg-primary"><i class="fas fa-key"></i></span>
                                 </div>
                                 <input type="password" class="form-control" placeholder="contraseña" name="contrasena">
-                                <input type="hidden" name="tipo" value="<?php echo $tipo ?>">
+                                
                                 
                             </div>
                             
@@ -62,10 +56,7 @@ if(isset($_GET["tipo"]) && ($_GET["tipo"]=="empresa" || $_GET["tipo"]=="titulado
                     </div>
                 </div>
             </div>
-            <?php 
-            }else{
-                header("Location: index.php");
-            } ?>
+            
         </div>
     </div>
 

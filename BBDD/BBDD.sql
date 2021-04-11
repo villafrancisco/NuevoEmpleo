@@ -16,6 +16,19 @@
 CREATE DATABASE IF NOT EXISTS `nuevoempleo` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci */;
 USE `nuevoempleo`;
 
+-- Volcando estructura para tabla nuevoempleo.administradores
+CREATE TABLE IF NOT EXISTS `administradores` (
+  `idadmin` int(11) NOT NULL,
+  `email` varchar(50) DEFAULT NULL,
+  `contrasena` blob DEFAULT NULL,
+  KEY `idadmin` (`idadmin`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Volcando datos para la tabla nuevoempleo.administradores: ~0 rows (aproximadamente)
+DELETE FROM `administradores`;
+/*!40000 ALTER TABLE `administradores` DISABLE KEYS */;
+/*!40000 ALTER TABLE `administradores` ENABLE KEYS */;
+
 -- Volcando estructura para tabla nuevoempleo.empleos
 CREATE TABLE IF NOT EXISTS `empleos` (
   `idempleo` int(11) NOT NULL AUTO_INCREMENT,
@@ -55,7 +68,7 @@ INSERT INTO `empleotitulo` (`idempleo`, `idtitulo`) VALUES
 
 -- Volcando estructura para tabla nuevoempleo.empresas
 CREATE TABLE IF NOT EXISTS `empresas` (
-  `idempresa` int(11) NOT NULL AUTO_INCREMENT,
+  `idempresa` int(11) NOT NULL,
   `nombre` varchar(50) NOT NULL,
   `direccion` varchar(50) NOT NULL,
   `nif` varchar(50) NOT NULL,
@@ -63,7 +76,7 @@ CREATE TABLE IF NOT EXISTS `empresas` (
   `contrasena` blob NOT NULL,
   `fecha_registro` datetime DEFAULT NULL,
   KEY `idempresa` (`idempresa`)
-) ENGINE=InnoDB AUTO_INCREMENT=101 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- Volcando datos para la tabla nuevoempleo.empresas: ~100 rows (aproximadamente)
 DELETE FROM `empresas`;
@@ -179,7 +192,7 @@ CREATE TABLE IF NOT EXISTS `familia` (
   KEY `idfamilia` (`idfamilia`)
 ) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4;
 
--- Volcando datos para la tabla nuevoempleo.familia: ~21 rows (aproximadamente)
+-- Volcando datos para la tabla nuevoempleo.familia: ~23 rows (aproximadamente)
 DELETE FROM `familia`;
 /*!40000 ALTER TABLE `familia` DISABLE KEYS */;
 INSERT INTO `familia` (`idfamilia`, `familia`, `nombre_imagen`) VALUES
@@ -226,9 +239,25 @@ DELETE FROM `inscripciones`;
 /*!40000 ALTER TABLE `inscripciones` DISABLE KEYS */;
 /*!40000 ALTER TABLE `inscripciones` ENABLE KEYS */;
 
+-- Volcando estructura para tabla nuevoempleo.tiposusuario
+CREATE TABLE IF NOT EXISTS `tiposusuario` (
+  `idtipo` int(11) NOT NULL AUTO_INCREMENT,
+  `tipousuario` enum('administrador','empresa','titulado') NOT NULL,
+  KEY `idtipo` (`idtipo`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
+
+-- Volcando datos para la tabla nuevoempleo.tiposusuario: ~3 rows (aproximadamente)
+DELETE FROM `tiposusuario`;
+/*!40000 ALTER TABLE `tiposusuario` DISABLE KEYS */;
+INSERT INTO `tiposusuario` (`idtipo`, `tipousuario`) VALUES
+	(1, 'administrador'),
+	(2, 'empresa'),
+	(3, 'titulado');
+/*!40000 ALTER TABLE `tiposusuario` ENABLE KEYS */;
+
 -- Volcando estructura para tabla nuevoempleo.titulados
 CREATE TABLE IF NOT EXISTS `titulados` (
-  `idtitulado` int(11) NOT NULL AUTO_INCREMENT,
+  `idtitulado` int(11) NOT NULL,
   `nombre` varchar(50) NOT NULL,
   `apellidos` varchar(50) NOT NULL,
   `direccion` varchar(50) NOT NULL,
@@ -241,7 +270,7 @@ CREATE TABLE IF NOT EXISTS `titulados` (
   `foto` varchar(50) NOT NULL,
   `fecha_registro` datetime NOT NULL,
   KEY `idtitulado` (`idtitulado`)
-) ENGINE=InnoDB AUTO_INCREMENT=101 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- Volcando datos para la tabla nuevoempleo.titulados: ~100 rows (aproximadamente)
 DELETE FROM `titulados`;
@@ -478,6 +507,20 @@ INSERT INTO `titulos` (`idtitulo`, `nombre`, `grado`, `idfamilia`) VALUES
 	(113, 'Automoción', 'superior', 21),
 	(114, 'Mantenimiento aeromecánico de aviones con motor de turbina', 'superior', 21);
 /*!40000 ALTER TABLE `titulos` ENABLE KEYS */;
+
+-- Volcando estructura para tabla nuevoempleo.usuarios
+CREATE TABLE IF NOT EXISTS `usuarios` (
+  `idusuario` int(11) NOT NULL AUTO_INCREMENT,
+  `idtipo` int(11) NOT NULL,
+  KEY `idusuario` (`idusuario`),
+  KEY `FK_usuario_tipousuario` (`idtipo`),
+  CONSTRAINT `FK_usuario_tipousuario` FOREIGN KEY (`idtipo`) REFERENCES `tiposusuario` (`idtipo`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Volcando datos para la tabla nuevoempleo.usuarios: ~0 rows (aproximadamente)
+DELETE FROM `usuarios`;
+/*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
+/*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
 /*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;

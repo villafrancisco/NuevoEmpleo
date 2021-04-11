@@ -2,54 +2,57 @@
 
 class Usuario{
     
-    protected $email;
-    protected $contrasena;
-
+    protected $idusuario;
+    
+    protected $idtipo;
+    
     function __construct($row) {
-        $this->email = $row['email'];
-        $this->contrasena = $row['contrasena'];
+        $this->idusuario = $row['idusuario'];
+        $this->idtipo = $row['idtipo'];
      
     }
+    
 
     /**
-     * Get the value of email
+     * Get the value of idusuario
      */ 
-    public function getEmail()
+    public function getIdusuario()
     {
-        return $this->email;
+        return $this->idusuario;
     }
 
     /**
-     * Set the value of email
+     * Set the value of idusuario
      *
      * @return  self
      */ 
-    public function setEmail($email)
+    public function setIdusuario($idusuario)
     {
-        $this->email = $email;
+        $this->idusuario = $idusuario;
+
+        return $this;
+    }
+    
+    /**
+     * Get the value of idtipo
+     */ 
+    public function getIdtipo()
+    {
+        return $this->idtipo;
+    }
+
+    /**
+     * Set the value of idtipo
+     *
+     * @return  self
+     */ 
+    public function setIdtipo($idtipo)
+    {
+        $this->idtipo = $idtipo;
 
         return $this;
     }
 
-    /**
-     * Get the value of contrasena
-     */ 
-    public function getContrasena()
-    {
-        return $this->contrasena;
-    }
-
-    /**
-     * Set the value of contrasena
-     *
-     * @return  self
-     */ 
-    public function setContrasena($contrasena)
-    {
-        $this->contrasena = $contrasena;
-
-        return $this;
-    }
 }
 
 ?>
