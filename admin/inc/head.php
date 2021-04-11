@@ -1,0 +1,24 @@
+<meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <link href="css/fontawesome/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    
+    <link rel="stylesheet" href="css/sidebar.css">
+    <?php
+     require_once "../config/app.php";
+     require_once '../includes/conexion.php';
+     require_once '../includes/DB.php';
+     require_once '../modelos/Usuario.php';
+     require_once '../modelos/Administrador.php';
+     require_once '../modelos/Empresa.php';
+     require_once '../modelos/Familia.php';
+     require_once '../modelos/Empleo.php';
+     require_once '../modelos/Titulo.php';
+     
+
+     
+     
+     ?> 
+    <title><?php echo EMPRESA ?></title>

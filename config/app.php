@@ -1,4 +1,6 @@
 <?php 
+
+//Archivo de configuración de la aplicacion
     const SERVERURL="http://localhost/NuevoEmpleo/";
     const EMPRESA="NuevoEmpleo";
     const SERVER="localhost";

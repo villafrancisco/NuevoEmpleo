@@ -1,12 +1,15 @@
 const formLogin=document.getElementById('formLogin');
 var msjerror='';  
+
+//Enviamos el formulario de login
 formLogin.addEventListener('submit',(e)=>{
     e.preventDefault();
-      
+    //recogemos los datos  
     const datosForm=new FormData(formLogin);
-    
+    //Validamos el usuario y la contraseña
     if(validarEmail(datosForm.get('email'))==true && validarContrasena(datosForm.get('contrasena'))==true){
         $('#alert').removeClass('show');
+        //Hacemos las peticion ajax
         fetch('ajax/login.php',{
             method: "POST",
             body: datosForm
@@ -15,7 +18,7 @@ formLogin.addEventListener('submit',(e)=>{
                 if(data==1){
                     //login correcto
                     //Ir al panel de administracion
-                    window.location.href="admin/index.php";
+                    window.location.href="admin/dashboard.php";
                 }else{
                     $('#alert').text('Contraseña erronea'); 
                     $('#alert').addClass('show');

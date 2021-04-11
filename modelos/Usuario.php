@@ -53,6 +53,23 @@ class Usuario{
         return $this;
     }
 
+    public function getTipo(){
+        switch ($this->getIdtipo()){
+            case 1:
+                return "administrador";
+                break;
+            case 2:
+                return "empresa";
+                break;
+            case 3:
+                return "titulado";
+                break;
+            default:
+                break;
+        }
+        
+    }
+
 }
 
 ?>

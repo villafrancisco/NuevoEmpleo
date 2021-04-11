@@ -1,24 +1,16 @@
-
-
 .card{
-background-color: rgba(0,0,0,0.5) !important;
-
+    background-color: rgba(0,0,0,0.5) !important;
 }
-
-
 .card-header h3{
-color: white;
-text-transform: capitalize;
+    color: white;
+    text-transform: capitalize;
 }
-
-
 .input-group-prepend span{
-width: 50px;
-border:0 !important;
+    width: 50px;
+    border:0 !important;
 }
-
 .login_btn{
-width: 100px;
+    width: 100px;
 }
 
 

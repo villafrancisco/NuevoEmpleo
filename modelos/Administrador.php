@@ -1,11 +1,20 @@
 <?php 
 
 
+/**
+ * Administrador
+ */
 class Administrador extends Usuario{
     protected $idadmin;
     protected $nombre;
     protected $apellidos;
-    
+        
+    /**
+     * __construct
+     *
+     * @param  mixed $row
+     * @return void
+     */
     function __construct($row) {
         $this->idadmin = $row['idadmin'];
         $this->nombre = $row['nombre'];
