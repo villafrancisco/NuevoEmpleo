@@ -10,11 +10,14 @@
         </header>
         
         <section class="index-section">
-            <h4>El portal de empleo para recien titulados de FP</h4>
+            <!-- <h4>El portal de empleo para recien titulados de FP</h4> -->
             <div class="index-section_item"><a href="login.php?tipo=empresa">EMPRESAS</a></div>
             <div class="index-section_item"><a href="login.php?tipo=titulado">TITULADOS</a></div>
-            <div class="index-section_item"><a href="empleos.php">VER OFERTAS DE EMPLEOS</a></div>
+            <div class="index-section_item"><a href="empleos.php">OFERTAS DE EMPLEOS</a></div>
         </section>
+        <footer>
+        
+        </footer>
     </div>
     
 

@@ -21,7 +21,7 @@ body a{
 
 .container header{
     display: flex;
-    justify-content: space-around;
+    justify-content:center;
     align-items: center;
     background-color: var(--second-color);
 }
@@ -31,5 +31,20 @@ body a{
 .container header .logo{
     width: 80px;
 }
+.index-section{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items:flex-start;
+}
+.index-section_item{
+    padding: 10px;
+    background-color: var(--main-color);
+    width: 200px;
+    text-align: center;
     
+}
+.index-section_item a{
     
+color:var(--second-color);    
+}
