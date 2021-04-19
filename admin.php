@@ -10,7 +10,7 @@
 
 <body>
     <div id="index" class="container-fluid bg-secondary">
-        <header class="navbar navbar-dark bg-dark">
+        <header class="navbar navbar-dark bg-light">
             <h1 class="text-light"><a href="index.php">NuevoEmpleo</a></h1>
         </header>
         

@@ -16,129 +16,41 @@
 CREATE DATABASE IF NOT EXISTS `nuevoempleo` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci */;
 USE `nuevoempleo`;
 
--- Volcando estructura para tabla nuevoempleo.administradores
-CREATE TABLE IF NOT EXISTS `administradores` (
-  `idadmin` int(11) NOT NULL AUTO_INCREMENT,
-  `idusuario` int(11) NOT NULL,
-  `email` varchar(50) NOT NULL,
-  `contrasena` blob NOT NULL,
-  `nombre` varchar(50) NOT NULL,
-  `apellidos` varchar(50) NOT NULL,
-  KEY `idadmin` (`idadmin`) USING BTREE,
-  KEY `FK_administrador_usuario` (`idusuario`),
-  CONSTRAINT `FK_administrador_usuario` FOREIGN KEY (`idusuario`) REFERENCES `usuarios` (`idusuario`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
-
--- Volcando datos para la tabla nuevoempleo.administradores: ~0 rows (aproximadamente)
-DELETE FROM `administradores`;
-/*!40000 ALTER TABLE `administradores` DISABLE KEYS */;
-INSERT INTO `administradores` (`idadmin`, `idusuario`, `email`, `contrasena`, `nombre`, `apellidos`) VALUES
-	(1, 1, 'fvillag01@educantabria.es', _binary 0x6261333235333837366165643662633232643461366666353364383430366336616438363431393565643134346162356338373632316236633233336235343862616561653639353664663334366563386331376635656131306633356565336362633531343739376564376464643331343534363465326130626162343133, '', '');
-/*!40000 ALTER TABLE `administradores` ENABLE KEYS */;
-
--- Volcando estructura para tabla nuevoempleo.empleos
-CREATE TABLE IF NOT EXISTS `empleos` (
-  `idempleo` int(11) NOT NULL AUTO_INCREMENT,
-  `idempresa` int(11) NOT NULL,
-  `descripcion` varchar(50) NOT NULL DEFAULT '',
-  KEY `idempleo` (`idempleo`),
-  KEY `FK_empleos_empresas` (`idempresa`),
-  CONSTRAINT `FK_empleos_empresas` FOREIGN KEY (`idempresa`) REFERENCES `empresas` (`idempresa`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- Volcando datos para la tabla nuevoempleo.empleos: ~0 rows (aproximadamente)
-DELETE FROM `empleos`;
-/*!40000 ALTER TABLE `empleos` DISABLE KEYS */;
-/*!40000 ALTER TABLE `empleos` ENABLE KEYS */;
-
--- Volcando estructura para tabla nuevoempleo.empleotitulo
-CREATE TABLE IF NOT EXISTS `empleotitulo` (
-  `idempleo` int(11) NOT NULL,
-  `idtitulo` int(11) NOT NULL,
-  KEY `FK empleo_titulo_empleo` (`idempleo`),
-  KEY `FK_empleo_titulo_titulo` (`idtitulo`),
-  CONSTRAINT `FK empleo_titulo_empleo` FOREIGN KEY (`idempleo`) REFERENCES `empleos` (`idempleo`),
-  CONSTRAINT `FK_empleo_titulo_titulo` FOREIGN KEY (`idtitulo`) REFERENCES `titulos` (`idtitulo`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- Volcando datos para la tabla nuevoempleo.empleotitulo: ~0 rows (aproximadamente)
-DELETE FROM `empleotitulo`;
-/*!40000 ALTER TABLE `empleotitulo` DISABLE KEYS */;
-/*!40000 ALTER TABLE `empleotitulo` ENABLE KEYS */;
-
--- Volcando estructura para tabla nuevoempleo.empresas
-CREATE TABLE IF NOT EXISTS `empresas` (
-  `idempresa` int(11) NOT NULL AUTO_INCREMENT,
-  `idusuario` int(11) NOT NULL,
-  `email` varchar(50) NOT NULL,
-  `contrasena` blob NOT NULL,
-  `nombre` varchar(50) NOT NULL,
-  `direccion` varchar(50) NOT NULL,
-  `nif` varchar(50) NOT NULL,
-  KEY `idempresa` (`idempresa`),
-  KEY `FK_empresas_usuarios` (`idusuario`),
-  CONSTRAINT `FK_empresas_usuarios` FOREIGN KEY (`idusuario`) REFERENCES `usuarios` (`idusuario`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- Volcando datos para la tabla nuevoempleo.empresas: ~0 rows (aproximadamente)
-DELETE FROM `empresas`;
-/*!40000 ALTER TABLE `empresas` DISABLE KEYS */;
-/*!40000 ALTER TABLE `empresas` ENABLE KEYS */;
-
 -- Volcando estructura para tabla nuevoempleo.familia
 CREATE TABLE IF NOT EXISTS `familia` (
   `idfamilia` int(11) NOT NULL AUTO_INCREMENT,
   `familia` varchar(50) NOT NULL,
   `nombre_imagen` varchar(50) NOT NULL DEFAULT 'no-imagen.svg',
   KEY `idfamilia` (`idfamilia`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=102 DEFAULT CHARSET=utf8mb4;
 
--- Volcando datos para la tabla nuevoempleo.familia: ~0 rows (aproximadamente)
-DELETE FROM `familia`;
+-- Volcando datos para la tabla nuevoempleo.familia: ~23 rows (aproximadamente)
 /*!40000 ALTER TABLE `familia` DISABLE KEYS */;
 INSERT INTO `familia` (`idfamilia`, `familia`, `nombre_imagen`) VALUES
-	(1, 'Agraria', 'no-imagen.svg'),
+	(1, 'Agraria', 'agraria.jpg'),
 	(2, 'Actividades físicas y deportivas', 'actividades-fisicas.jpg'),
 	(3, 'Administración y gestión', 'administracion-gestion.jpg'),
-	(4, 'Artes gráficas', 'no-imagen.svg'),
-	(5, 'Comercio y marketing', 'no-imagen.svg'),
-	(6, 'Edificación y obra civil', 'no-imagen.svg'),
-	(7, 'Electricidad y electrónica', 'no-imagen.svg'),
-	(8, 'Energía y agua', 'no-imagen.svg'),
-	(9, 'Fabricación mecánica', 'no-imagen.svg'),
-	(10, 'Hostelería y turismo', 'no-imagen.svg'),
-	(11, 'Imagen personal', 'no-imagen.svg'),
-	(12, 'Imagen y sonido', 'no-imagen.svg'),
-	(13, 'Industrias alimentarias', 'no-imagen.svg'),
-	(14, 'Informática y comunicaciones', 'no-imagen.svg'),
-	(15, 'Instalación y mantenimiento', 'no-imagen.svg'),
-	(16, 'Madera, mueble y corcho', 'no-imagen.svg'),
-	(17, 'Marítimo pesquera', 'no-imagen.svg'),
-	(18, 'Química', 'no-imagen.svg'),
-	(19, 'Sanidad', 'no-imagen.svg'),
-	(20, 'Servicios socioculturales y a la comunidad', 'no-imagen.svg'),
-	(21, 'Transporte y mantenimiento de vehículos', 'no-imagen.svg'),
-	(22, 'Textil, confección y piel', 'no-imagen.svg'),
-	(23, 'Seguridad y medio ambiente', 'no-imagen.svg');
+	(4, 'Artes gráficas', 'artes-graficas.jpg'),
+	(5, 'Comercio y marketing', 'comercio-marketing.jpg'),
+	(6, 'Edificación y obra civil', 'edificacion-obra-civil.jpg'),
+	(7, 'Electricidad y electrónica', 'electricidad-electronica.jpg'),
+	(8, 'Energía y agua', 'energia-agua.jpg'),
+	(9, 'Fabricación mecánica', 'fabricacion-mecanica.jpg'),
+	(10, 'Hostelería y turismo', 'hosteleria-turismo.jpg'),
+	(11, 'Imagen personal', 'imagen-personal.jpg'),
+	(12, 'Imagen y sonido', 'imagen-sonido.jpg'),
+	(13, 'Industrias alimentarias', 'industrias-alimentarias.jpg'),
+	(14, 'Informática y comunicaciones', 'informatica-comunicaciones.jpg'),
+	(15, 'Instalación y mantenimiento', 'instalacion-mantenimiento.jpg'),
+	(16, 'Madera, mueble y corcho', 'madera-corcho.jpg'),
+	(17, 'Marítimo pesquera', 'maritimo-pesquera.jpg'),
+	(18, 'Química', 'quimica.jpg'),
+	(19, 'Sanidad', 'sanidad.jpg'),
+	(20, 'Servicios socioculturales y a la comunidad', 'servicios-sociales.jpg'),
+	(21, 'Transporte y mantenimiento de vehículos', 'transporte-mantenimiento.jpg'),
+	(22, 'Textil, confección y piel', 'confeccion-textil.jpg'),
+	(23, 'Seguridad y medio ambiente', 'seguridad-medioambiente.jpg');
 /*!40000 ALTER TABLE `familia` ENABLE KEYS */;
-
--- Volcando estructura para tabla nuevoempleo.inscripciones
-CREATE TABLE IF NOT EXISTS `inscripciones` (
-  `idinscripcion` int(11) NOT NULL AUTO_INCREMENT,
-  `idempleo` int(11) NOT NULL,
-  `idtitulado` int(11) NOT NULL,
-  `fecha_inscripcion` datetime NOT NULL,
-  KEY `idinscripcion` (`idinscripcion`),
-  KEY `FK_inscripciones_empleo` (`idempleo`),
-  KEY `FK_inscripciones_titulado` (`idtitulado`),
-  CONSTRAINT `FK_incscripciones_titulado` FOREIGN KEY (`idtitulado`) REFERENCES `titulados` (`idtitulado`),
-  CONSTRAINT `FK_inscripciones_empleo` FOREIGN KEY (`idempleo`) REFERENCES `empleos` (`idempleo`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- Volcando datos para la tabla nuevoempleo.inscripciones: ~0 rows (aproximadamente)
-DELETE FROM `inscripciones`;
-/*!40000 ALTER TABLE `inscripciones` DISABLE KEYS */;
-/*!40000 ALTER TABLE `inscripciones` ENABLE KEYS */;
 
 -- Volcando estructura para tabla nuevoempleo.tipousuario
 CREATE TABLE IF NOT EXISTS `tipousuario` (
@@ -148,53 +60,12 @@ CREATE TABLE IF NOT EXISTS `tipousuario` (
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
 
 -- Volcando datos para la tabla nuevoempleo.tipousuario: ~3 rows (aproximadamente)
-DELETE FROM `tipousuario`;
 /*!40000 ALTER TABLE `tipousuario` DISABLE KEYS */;
 INSERT INTO `tipousuario` (`idtipo`, `tipousuario`) VALUES
 	(1, 'administrador'),
 	(2, 'empresa'),
 	(3, 'titulado');
 /*!40000 ALTER TABLE `tipousuario` ENABLE KEYS */;
-
--- Volcando estructura para tabla nuevoempleo.titulados
-CREATE TABLE IF NOT EXISTS `titulados` (
-  `idtitulado` int(11) NOT NULL AUTO_INCREMENT,
-  `idusuario` int(11) NOT NULL,
-  `email` varchar(50) NOT NULL,
-  `contrasena` blob NOT NULL,
-  `nombre` varchar(50) NOT NULL,
-  `apellidos` varchar(50) NOT NULL,
-  `direccion` varchar(50) NOT NULL,
-  `dni` varchar(50) NOT NULL,
-  `telefono` varchar(50) NOT NULL,
-  `fecha_titulacion` date NOT NULL,
-  `curriculum` varchar(50) NOT NULL,
-  `foto` varchar(50) NOT NULL,
-  `fecha_registro` datetime NOT NULL,
-  KEY `idtitulado` (`idtitulado`),
-  KEY `FK1_titulado_usuario` (`idusuario`),
-  CONSTRAINT `FK1_titulado_usuario` FOREIGN KEY (`idusuario`) REFERENCES `usuarios` (`idusuario`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- Volcando datos para la tabla nuevoempleo.titulados: ~0 rows (aproximadamente)
-DELETE FROM `titulados`;
-/*!40000 ALTER TABLE `titulados` DISABLE KEYS */;
-/*!40000 ALTER TABLE `titulados` ENABLE KEYS */;
-
--- Volcando estructura para tabla nuevoempleo.tituladostitulacion
-CREATE TABLE IF NOT EXISTS `tituladostitulacion` (
-  `idtitulado` int(11) NOT NULL,
-  `idtitulacion` int(11) NOT NULL,
-  `fecha` date NOT NULL,
-  KEY `FK_tituladostitulacion_titulados` (`idtitulado`),
-  KEY `FK_titulados_titulacion` (`idtitulacion`),
-  CONSTRAINT `FK_titulados_titulacion` FOREIGN KEY (`idtitulacion`) REFERENCES `titulos` (`idtitulo`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- Volcando datos para la tabla nuevoempleo.tituladostitulacion: ~0 rows (aproximadamente)
-DELETE FROM `tituladostitulacion`;
-/*!40000 ALTER TABLE `tituladostitulacion` DISABLE KEYS */;
-/*!40000 ALTER TABLE `tituladostitulacion` ENABLE KEYS */;
 
 -- Volcando estructura para tabla nuevoempleo.titulos
 CREATE TABLE IF NOT EXISTS `titulos` (
@@ -207,8 +78,7 @@ CREATE TABLE IF NOT EXISTS `titulos` (
   CONSTRAINT `FK_titulos_familia` FOREIGN KEY (`idfamilia`) REFERENCES `familia` (`idfamilia`)
 ) ENGINE=InnoDB AUTO_INCREMENT=115 DEFAULT CHARSET=utf8mb4;
 
--- Volcando datos para la tabla nuevoempleo.titulos: ~0 rows (aproximadamente)
-DELETE FROM `titulos`;
+-- Volcando datos para la tabla nuevoempleo.titulos: ~97 rows (aproximadamente)
 /*!40000 ALTER TABLE `titulos` DISABLE KEYS */;
 INSERT INTO `titulos` (`idtitulo`, `nombre`, `grado`, `idfamilia`) VALUES
 	(1, 'Producción agroecológica', 'medio', 1),
@@ -320,7 +190,6 @@ CREATE TABLE IF NOT EXISTS `usuarios` (
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 
 -- Volcando datos para la tabla nuevoempleo.usuarios: ~0 rows (aproximadamente)
-DELETE FROM `usuarios`;
 /*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
 INSERT INTO `usuarios` (`idusuario`, `idtipo`) VALUES
 	(1, 1);
