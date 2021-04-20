@@ -3,6 +3,7 @@
 	--second-color: #E8C11A;
 	--text-color: #828282;
     --light-color: #FFF;
+    --dark-color:#000;
     
 }
 @font-face {
@@ -15,6 +16,7 @@
     font-family: "Roboto",sans-serif;
     text-decoration: none;
 }
+
 body a{
     color:var(--main-color);
 }
@@ -24,27 +26,52 @@ body a{
     justify-content:center;
     align-items: center;
     background-color: var(--second-color);
+    height: 70px;
 }
 .container header h1{
-    font-size: 50px;
+    font-size: 40px;
 }
 .container header .logo{
     width: 80px;
 }
 .index-section{
+    background: url(../assets/images/recruit.png);
+    background-position: left;
+    background-repeat: no-repeat;
+    background-size: 300px;
+
+    min-height: calc(100vh - 120px);
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items:flex-start;
+    justify-content: space-evenly;
+    align-items:center;
 }
 .index-section_item{
+   
+	
+}
+.index-section_item a{
+    display: block;
     padding: 10px;
     background-color: var(--main-color);
     width: 200px;
     text-align: center;
+    box-shadow: inset 3px 3px 3px rgba(255,255,255,.7), inset -2px -2px 3px rgba(0,0,0,.1), 2px 2px 10px rgba(0,0,0,.1);
+	border: 1px solid #9b9bff; /* Borde */
+	text-shadow: -1px -1px rgba(0,0,0,.2);  /* Sombra del texto */
+	border-radius: 5px;  /* Bordes redondos */
+    color:var(--dark-color);    
     
 }
-.index-section_item a{
+
+.index-section_item a:active /* Al presionarse el botón */ {
+	text-shadow: 1px 1px rgba(0,0,0,.3);  /* Sombra del texto */
+	background:#3d3dff;  /* Fondo más oscuro que el original */
+	box-shadow:inset 4px 4px 4px rgba(0,0,0,.3), inset -3px -3px 3px rgba(255,255,255,.2);
+}
     
-color:var(--second-color);    
+
+footer{
+    background-color:var(--second-color);
+    height: 50px;
 }
