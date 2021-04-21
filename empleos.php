@@ -24,13 +24,7 @@ $array_familias=$db->getFamilias();
               echo          '<h6>'.$familia->getFamilia().'</h6>';
               echo      '</a>';
               echo  '</div>';
-
-             
-
             } ?>
-            
- 
-             
         </section>
         <footer>
             <small>Página realizada por Fr@ncisc@ Vill@</small>

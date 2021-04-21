@@ -45,12 +45,7 @@ body a{
     justify-content: space-evenly;
     align-items:center;
 }
-.empleos-section{
-    display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
 
-}
 .index-section_item a{
     display: block;
     padding: 10px;
@@ -64,12 +59,42 @@ body a{
     color:var(--dark-color);    
     
 }
-
 .index-section_item a:active /* Al presionarse el botón */ {
 	text-shadow: 1px 1px rgba(0,0,0,.3);  /* Sombra del texto */
 	background:var(--second-color);  /* Fondo más oscuro que el original */
 	box-shadow:inset 4px 4px 4px rgba(0,0,0,.3), inset -3px -3px 3px rgba(255,255,255,.2);
 }
+
+.empleos-section{
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+	align-content: flex-start;
+	margin-top: 50px;
+    flex-wrap: wrap;
+}
+
+.card {
+	width: 150px;
+	border: 10px solid #fff;
+	border-bottom: 40px solid #fff;
+	box-shadow: 10px 10px 20px #ccc;
+	background-color: #ccc;
+	padding: 10px;
+	transform: rotate(4deg);
+	transition: transform 0.8s;
+}
+.card:hover {
+	transition: transform 0.8s;
+	transform: rotate(0deg);
+	transform: scale(1.2);
+}
+img {
+	max-width: 100%;
+}
+
+
+
 
 footer{
     background-color:var(--second-color);
