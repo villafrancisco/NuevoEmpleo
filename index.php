@@ -19,7 +19,7 @@
             <small>Página realizada por Fr@ncisc@ Vill@</small>
             
         </footer>
-        <div class="imagenfondo"></div>
+       
     </div>
     
 

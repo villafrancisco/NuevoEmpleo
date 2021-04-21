@@ -38,17 +38,18 @@ body a{
     background: url(../assets/images/recruit.png);
     background-position: left;
     background-repeat: no-repeat;
-    background-size: 300px;
-
+    background-size: 40%;
     min-height: calc(100vh - 120px);
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
     align-items:center;
 }
-.index-section_item{
-   
-	
+.empleos-section{
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+
 }
 .index-section_item a{
     display: block;
@@ -66,10 +67,9 @@ body a{
 
 .index-section_item a:active /* Al presionarse el botón */ {
 	text-shadow: 1px 1px rgba(0,0,0,.3);  /* Sombra del texto */
-	background:#3d3dff;  /* Fondo más oscuro que el original */
+	background:var(--second-color);  /* Fondo más oscuro que el original */
 	box-shadow:inset 4px 4px 4px rgba(0,0,0,.3), inset -3px -3px 3px rgba(255,255,255,.2);
 }
-    
 
 footer{
     background-color:var(--second-color);
