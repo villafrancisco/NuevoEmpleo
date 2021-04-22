@@ -76,12 +76,14 @@ body a{
 .card {
 	width: 150px;
 	box-shadow: 10px 10px 20px #ccc;
-	border:10px solid var(--main-color);
-	border-bottom:5px solid var(--main-color);
+	border:3px solid var(--main-color);
+	
     text-align: center;
     margin: 30px;
-	
+    border-radius: 5px;
+	background-color: var(--second-color);
 	transition: transform 0.8s;
+    
 }
 .card:nth-child(odd){
     transform: rotate(4deg);
@@ -97,7 +99,7 @@ body a{
 	transform: scale(1.2);
 }
 .card a{
-    color:var(--dark-color);
+    color:var(--main-color);
 }
 .card a .txt{
     padding: 5px;
