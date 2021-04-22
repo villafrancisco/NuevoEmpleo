@@ -15,11 +15,11 @@ if(isset($_GET["familia"])){
 }
 ?>
 <body>
-    <div class="container-fluid bg-secondary">
-        <header class="navbar navbar-dark bg-dark">
+    <div id="listado" class="container">
+        <header class="index-header">
             <?php include 'inc/cabecera.php' ?>
         </header>
-        <div class="listado-categorias container">
+        <section class="mh listado-empleos">
             <div class="row">
             <?php if(isset($familia)){
                 ?>
@@ -68,7 +68,10 @@ if(isset($_GET["familia"])){
             } ?>
             
             </div>
-        </div>
+        </section>
+        <footer>
+            <small>Página realizada por Fr@ncisc@ Vill@</small>
+        </footer>
     </div>
     <?php include 'inc/scripts.php' ?>
 </body>

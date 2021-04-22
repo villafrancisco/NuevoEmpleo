@@ -9,7 +9,7 @@
         <?php include 'inc/cabecera.php' ?>
         </header>
         
-        <section class="index-section">
+        <section class="mh index-section">
             <!-- <h4>El portal de empleo para recien titulados de FP</h4> -->
             <div class="index-section_item"><a href="login.php?tipo=empresa"><i class="fas fa-building"></i> EMPRESAS</a></div>
             <div class="index-section_item"><a href="login.php?tipo=titulado"><i class="fas fa-graduation-cap"></i> TITULADOS</a></div>

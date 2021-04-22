@@ -13,15 +13,15 @@ $array_familias=$db->getFamilias();
         <header class="index-header">
             <?php include 'inc/cabecera.php' ?>
         </header>
-        <section class="empleos-section">
+        <section class="mh empleos-section">
             
             
             
             <?php foreach ($array_familias as $familia) {
               echo '<div class="card">';  
               echo      '<a href="listado-empleos.php?familia='.$familia->getIdfamilia().'">';
-              echo          '<img src="assets/images/'.$familia->getNombre_imagen().'"';
-              echo          '<h6>'.$familia->getFamilia().'</h6>';
+              echo          '<img src="assets/images/'.$familia->getNombre_imagen().'"/>';
+              echo          '<p class="txt">'.$familia->getFamilia().'</p>';
               echo      '</a>';
               echo  '</div>';
             } ?>
