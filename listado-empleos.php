@@ -17,7 +17,7 @@ if(isset($_GET["familia"])){
 <body>
     <div id="listado" class="container">
         <header class="index-header">
-            <?php include 'inc/cabecera.php' ?>
+            <?php include 'inc/header.php' ?>
         </header>
         <section class="mh listado-empleos">
             <div class="row">

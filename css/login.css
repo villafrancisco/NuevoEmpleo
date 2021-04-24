@@ -1,0 +1,90 @@
+
+.container .login{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.form-login{
+    display: block;
+    background-color: var(--second-color);
+    box-shadow: inset 3px 3px 3px rgba(255,255,255,.7), inset -2px -2px 3px rgba(0,0,0,.1), 2px 2px 10px rgba(0,0,0,.1);
+	text-shadow: -1px -1px rgba(0,0,0,.2);  /* Sombra del texto */
+	border-radius: 5px;  /* Bordes redondos */
+    
+    position:relative;
+    top:-90px;  
+}
+#formLogin{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    
+}
+.form-login_item{
+    margin: 10px;
+    
+}
+.form-login_item i{
+    color:var(--main-color);
+    border:none;
+    padding-bottom: 12px;
+    padding-right: 10px;
+    padding-left: 10px;
+    border-bottom: 2px solid var(--main-color);
+    position: relative;
+    left: 4px;
+    top:1px;
+}
+.form-login_item input{
+    padding: 10px;
+    background-color: var(--second-color);
+    color:var(--main-color);
+    border:none;
+    border-bottom: 2px solid var(--main-color);
+    font-size: 15px;
+    width: 250px;
+}
+.form-login_item input:focus{
+    outline: 0;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus{
+    border: none;
+    -webkit-text-fill-color: var(--main-color);
+     border-bottom: 2px solid var(--main-color);
+    -webkit-box-shadow: 0 0 0px 0px var(--main-color) inset; 
+    transition: background-color 1000s ease-in-out 0s; 
+    color:var(--main-color);
+
+}
+
+.form-login_item .btn{
+    background-color: var(--main-color);
+    color:var(--second-color);
+    border-radius: 5px;
+    
+    box-shadow: inset 3px 3px 3px rgba(255,255,255,.7), inset -2px -2px 3px rgba(0,0,0,.1), 2px 2px 10px rgba(0,0,0,.1);
+    text-shadow: -1px -1px rgba(0,0,0,.2); 
+    border-bottom: none; 
+}
+
+.form-login_item .btn:active {/* Al presionarse el botón */ 
+	text-shadow: 1px 1px rgba(0,0,0,.3);  /* Sombra del texto */
+	background:var(--second-color);  /* Fondo más oscuro que el original */
+	box-shadow:inset 4px 4px 4px rgba(0,0,0,.3), inset -3px -3px 3px rgba(255,255,255,.2);
+    color:var(--main-color);
+}
+
+.form-login h2{
+    padding: 10px;
+    text-align: center;
+    color:var(--second-color);
+    background-color: var(--main-color);
+    border-top-left-radius:5px;
+    border-top-right-radius:5px;
+    box-shadow: inset 3px 3px 3px rgba(255,255,255,.7), inset -2px -2px 3px rgba(0,0,0,.1), 2px 2px 10px rgba(0,0,0,.1);
+    text-shadow: -1px -1px rgba(0,0,0,.2);  
+}

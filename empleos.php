@@ -11,7 +11,7 @@ $array_familias=$db->getFamilias();
 <body>
     <div id="empleos" class="container">
         <header class="index-header">
-            <?php include 'inc/cabecera.php' ?>
+            <?php include 'inc/header.php' ?>
         </header>
         <section class="mh empleos-section">
             
@@ -32,5 +32,6 @@ $array_familias=$db->getFamilias();
         </footer>
     </div>
     <?php include 'inc/scripts.php' ?>
+  
 </body>
 </html>

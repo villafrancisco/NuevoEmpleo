@@ -6,7 +6,7 @@
 <body>
     <div id="index" class="container" >
         <header class="index-header">
-        <?php include 'inc/cabecera.php' ?>
+        <?php include 'inc/header.php' ?>
         </header>
         
         <section class="mh index-section">
@@ -24,5 +24,6 @@
     
 
 <?php include 'inc/scripts.php' ?>
+
 </body>
 </html>

@@ -12,7 +12,7 @@ if(isset($_GET["tipo"]) && ($_GET["tipo"]=="empresa" || $_GET["tipo"]=="titulado
 <body>
     <div id="login" class="container">
         <header class="login-header">
-            <?php include 'inc/cabecera.php' ?>
+            <?php include 'inc/header.php' ?>
         </header>
         
         <section class="mh login">
