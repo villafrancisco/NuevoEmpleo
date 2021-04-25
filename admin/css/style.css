@@ -1,6 +1,3 @@
-  :root {
-	--main-color: #258FE8;
-	--second-color: #E8C11A;
-	--text-color: #828282;
-  --background-color: #FFF;
-}
+@import url("main.css");
+@import url("sidebar.css");
+@import url("footer.css");

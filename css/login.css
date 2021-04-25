@@ -53,6 +53,7 @@ input:-webkit-autofill,
 input:-webkit-autofill:hover, 
 input:-webkit-autofill:focus{
     border: none;
+    background-color: var(--second-color);
     -webkit-text-fill-color: var(--main-color);
      border-bottom: 2px solid var(--main-color);
     -webkit-box-shadow: 0 0 0px 0px var(--main-color) inset; 
@@ -88,4 +89,14 @@ input:-webkit-autofill:focus{
     border-top-right-radius:5px;
     box-shadow: inset 3px 3px 3px rgba(255,255,255,.7), inset -2px -2px 3px rgba(0,0,0,.1), 2px 2px 10px rgba(0,0,0,.1);
     text-shadow: -1px -1px rgba(0,0,0,.2);  
+}
+.msj-alert{
+    background-color: #DC3545;
+    padding: 10px 20px 10px 20px;
+    border-radius: 5px;
+    transform: scale(0);
+}
+.show{
+    transform: scale(1);
+    transition: 0.3s;
 }

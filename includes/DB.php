@@ -221,7 +221,14 @@ class DB extends Conexion{
      */
     public function getUsuario($email,$contrasena,$tipo){
         try{
-            $sql = "SELECT * FROM usuarios t1 INNER JOIN ".$this->getTipoTabla($tipo)." as t2 ON t1.idusuario=t2.idusuario WHERE t2.email=:email AND t2.contrasena= :contrasena AND t1.idtipo = :tipo";
+            // $sql = "SELECT * FROM usuarios t1 INNER JOIN ".$this->getTipoTabla($tipo)." as t2 ON t1.idusuario=t2.idusuario WHERE t2.email=:email AND t2.contrasena= :contrasena AND t1.idtipo = :tipo";
+
+            $sql=" SELECT t1.idusuario,t1.tipousuario  FROM usuarios AS t1 INNER JOIN (SELECT administradores.email AS email, administradores.idusuario AS idusuario, administradores.contrasena AS contrasena  FROM administradores 
+                UNION 
+            SELECT empresas.email AS email,  empresas.idusuario AS idusuario, empresas.contrasena AS contrasena  FROM empresas 
+                UNION
+            SELECT titulados.email AS email,  titulados.idusuario AS idusuario, titulados.contrasena AS contrasena FROM titulados) AS t2 ON t1.idusuario=t2.idusuario
+            WHERE  email= :email AND contrasena=:contrasena AND tipousuario=:tipo";
             $parametros=array(':email'   =>  $email,
                                 ':contrasena'  => hash('sha512',$contrasena),
                                 ':tipo'  => $tipo );
@@ -229,6 +236,7 @@ class DB extends Conexion{
             while($resultado=$consulta->fetch()){
                 $usuario=new Usuario($resultado);
             }
+            //Si ha encontrado a un usuario devuelve el usuario
             if(isset($usuario)){
                 return $usuario;
             }
@@ -237,6 +245,9 @@ class DB extends Conexion{
             return false;
         }     
     }
+
+  
+
     
     /**
      * getEmailUsuario
@@ -297,9 +308,9 @@ class DB extends Conexion{
         try{
             $conexion= parent::conectar();
             $conexion->beginTransaction();
-            $conexion->query('INSERT INTO usuarios (idtipo) VALUES ("'.$tipo.'")');
+            $conexion->query('INSERT INTO usuarios (tipousuario) VALUES ("'.$tipo.'")');
             $idusuario=$conexion->lastInsertId();
-            $consulta='INSERT INTO '.$this->getTipoTabla($tipo).' (idusuario,email,contrasena) VALUES ('.$idusuario.','.$email.','.$contrasena.')';
+            
             $conexion->query('INSERT INTO '.$this->getTipoTabla($tipo).' (idusuario,email,contrasena) VALUES ("'.$idusuario.'","'.$email.'","'.hash('sha512',$contrasena).'")');
             $conexion->commit();
             $usuario=$this->getUsuario($email,$contrasena,$tipo);

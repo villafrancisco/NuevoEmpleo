@@ -4,15 +4,13 @@ class Usuario{
     
     protected $idusuario;
     
-    protected $idtipo;
+    protected $tipousuario;
     
     function __construct($row) {
         $this->idusuario = $row['idusuario'];
-        $this->idtipo = $row['idtipo'];
+        $this->tipousuario = $row['tipousuario'];
      
     }
-    
-
     /**
      * Get the value of idusuario
      */ 
@@ -38,7 +36,7 @@ class Usuario{
      */ 
     public function getIdtipo()
     {
-        return $this->idtipo;
+        return $this->tipousuario;
     }
 
     /**
@@ -46,9 +44,9 @@ class Usuario{
      *
      * @return  self
      */ 
-    public function setIdtipo($idtipo)
+    public function setIdtipo($tipousuario)
     {
-        $this->idtipo = $idtipo;
+        $this->tipousuario = $tipousuario;
 
         return $this;
     }

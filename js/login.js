@@ -23,11 +23,13 @@ formLogin.addEventListener('submit',(e)=>{
                 }else{
                     msjalert.innerText='Contraseña erronea'; 
                     msjalert.classList.add('show');
+                    setTimeout(function(){ msjalert.classList.remove('show'); }, 3000);
                 }
             });
     }else{
         msjalert.innerText=msjerror;
         msjalert.classList.add('show');
+        setTimeout(function(){ msjalert.classList.remove('show'); }, 3000);
     }
 })
 

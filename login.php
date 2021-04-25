@@ -26,11 +26,11 @@ if(isset($_GET["tipo"]) && ($_GET["tipo"]=="empresa" || $_GET["tipo"]=="titulado
                                 
                                 <div class="form-login_item">
                                     <i class="fas fa-user fa-lg"></i>
-                                    <input type="text" name="email" class="form-control redondeadonorelieve" placeholder="email" id="email">
+                                    <input type="text" name="email" class="form-control" placeholder="email" id="email">
                                 </div>
                                 <div class="form-login_item">
                                     <i class="fas fa-key fa-lg"></i>
-                                    <input type="password" class="form-control redondeadonorelieve" placeholder="contraseña" name="contrasena">
+                                    <input type="password" class="form-control" placeholder="contraseña" name="contrasena">
                                 </div>
                                 <div class="form-login_item">
                                     <input type="hidden" name="tipo" value="<?php echo $tipo ?>">

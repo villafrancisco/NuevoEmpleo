@@ -94,21 +94,23 @@ function login($email,$contrasena,$tipo){
     }else{
             //preguntar si existe el email introducido como usuario
             if($db->getEmailUsuario($email)){
-                //existe el email
+                //existe el email pero la contraseña no coincide
                 return false;
-            }else{
+            }else{//No existe ni el email ni la contraseña
                  if($tipo!=1){//Solo para los que no sean administradores
-                    //no existe el email
                     //Creo el usuario y la sesion
                     if($db->crearNuevoUsuario($email,$contrasena,$tipo)){
                         session_start();
                         $_SESSION["usuario"]=$db->getUsuario($email,$contrasena,$tipo);
                         return true;
+                    }else{
+                        return false; //Error al crear el usuario
                     }
-                    return false;
                  }
-                 else{
-                     return false;
+                 else{//Aqui entra si es administrador pero no existe usuario ni contraseña
+                    //Metodo para insertar en la base de datos que solo debe estar en desarrollo
+                    //$db->crearNuevoUsuario($email,$contrasena,$tipo);
+                    return false;
                 }
             }
     }
