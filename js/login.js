@@ -1,4 +1,5 @@
 const formLogin=document.getElementById('formLogin');
+const msjalert=document.getElementById('alert');
 var msjerror='';  
 
 //Enviamos el formulario de login
@@ -8,7 +9,7 @@ formLogin.addEventListener('submit',(e)=>{
     const datosForm=new FormData(formLogin);
     //Validamos el usuario y la contraseña
     if(validarEmail(datosForm.get('email'))==true && validarContrasena(datosForm.get('contrasena'))==true){
-        $('#alert').removeClass('show');
+        msjalert.classList.remove('show');
         //Hacemos las peticion ajax
         fetch('ajax/login.php',{
             method: "POST",
@@ -20,13 +21,13 @@ formLogin.addEventListener('submit',(e)=>{
                     //Ir al panel de administracion
                     window.location.href="admin/dashboard.php";
                 }else{
-                    $('#alert').text('Contraseña erronea'); 
-                    $('#alert').addClass('show');
+                    msjalert.innerText='Contraseña erronea'; 
+                    msjalert.classList.add('show');
                 }
             });
     }else{
-        $('#alert').text(msjerror);
-        $('#alert').addClass('show');
+        msjalert.innerText=msjerror;
+        msjalert.classList.add('show');
     }
 })
 

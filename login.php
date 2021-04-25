@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
     <?php include 'inc/head.php' ?>
-    <link rel="stylesheet" href="css/login.css">
 </head>
 <?php 
 if(isset($_GET["tipo"]) && ($_GET["tipo"]=="empresa" || $_GET["tipo"]=="titulado")){
@@ -20,7 +19,7 @@ if(isset($_GET["tipo"]) && ($_GET["tipo"]=="empresa" || $_GET["tipo"]=="titulado
             if(isset($tipo)){
             ?>
                 <div class="form-login">
-                        <h2>LOGIN</h2>
+                        <h2>Login - <?php echo $tipo ?></h2>
                         <form id="formLogin" action="#" method="GET">
                                 <div id="alert">
                                 </div>

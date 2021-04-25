@@ -1,68 +1,43 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <?php include 'inc/head.php' ?>
-    
-
-   
-    <link rel="stylesheet" href="css/login.css">
 </head>
 
 <body>
-    <div id="index" class="container-fluid bg-secondary">
-        <header class="navbar navbar-dark bg-light">
-            <h1 class="text-light"><a href="index.php">NuevoEmpleo</a></h1>
+    <div id="admin" class="container">
+        <header class="index-header">
+            <?php include 'inc/header.php' ?>
         </header>
         
-        <div class="container">
-            
-            <div class="d-flex justify-content-center h-100">
-                
-                <div class="card m-4 p4">
-                    <div class="card-header">
-                        <h3>Administrador</h3>
+        <section class="mh login">
+            <div class="form-login">
+                <h2>LOGIN - ADMINISTRADOR</h2>
+                <form id="formLogin" action="#" method="GET">
+                    <div id="alert">
                     </div>
-                    <div class="card-body">
-                        <form id="formLogin">
-                            
-                                <div id="alert" class="alert alert-danger fade hide" role="alert">
-                                    
-                                </div>
-                            
-                            <div class="input-group form-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text bg-primary"><i class="fas fa-user"></i></span>
-                                </div>
-                                <input type="text" name="email" class="form-control" placeholder="email" id="email">
-                                
-                                
-                            </div>
-                            <div class="input-group form-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text bg-primary"><i class="fas fa-key"></i></span>
-                                </div>
-                                <input type="password" class="form-control" placeholder="contraseña" name="contrasena">
-                                
-                                
-                            </div>
-                            
-                            <div class="form-group">
-                                <input type="submit" value="Entrar" class="btn float-right login_btn bg-primary"/>
-                               
-                            </div>
-                            
-                            
-                        </form>
+                    <div class="form-login_item">
+                        <i class="fas fa-user fa-lg"></i>
+                        <input type="text" name="email" class="form-control redondeadonorelieve" placeholder="email" id="email">
                     </div>
-                </div>
+                    <div class="form-login_item">
+                        <i class="fas fa-key fa-lg"></i>
+                        <input type="password" class="form-control redondeadonorelieve" placeholder="contraseña" name="contrasena">
+                    </div>
+                    <div class="form-login_item">
+                        <input type="hidden" name="tipo" value="<?php echo $tipo ?>">
+                    </div>
+                    <div class="form-login_item">
+                        <input type="submit" value="Entrar" class="btn"/>
+                    </div>
+                </form>
             </div>
-            
-        </div>
+        </section>
+        <footer>
+            <small>Página realizada por Fr@ncisc@ Vill@</small>
+        </footer>
     </div>
-
     <?php include 'inc/scripts.php' ?> 
-
 <script src="js/login.js"></script>
-
 </body>
 </html>

@@ -79,6 +79,7 @@ input:-webkit-autofill:focus{
 }
 
 .form-login h2{
+    text-transform: uppercase;
     padding: 10px;
     text-align: center;
     color:var(--second-color);

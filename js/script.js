@@ -2,27 +2,30 @@
  * GUARDAR PREFERENCIAS DEL TEMA DEL USUARIO
  */
 const root = document.documentElement;
+const logo=document.getElementById('logo');
 let user={
     colorbg:''
 };
 
 //Funcion para cambiar colores del tema
 const changeThemeUser = (user) => {
-    console.log(user.colorbg);
+   
     if (user.colorbg == 'default-theme') {
-        console.log('default');
+       
         root.style.setProperty('--main-color', '#258FE8');
         root.style.setProperty('--second-color', '#E8C11A');
         root.style.setProperty('--third-color', '#828282');
         root.style.setProperty('--light-color', '#FFF');
         root.style.setProperty('--dark-color', '#000');
+        logo.setAttribute('src','assets/images/logo.PNG');
     }else if(user.colorbg=='second-theme'){
-        // console.log('second');
+        
         root.style.setProperty('--main-color', '#E8C11A');
         root.style.setProperty('--second-color', '#258FE8');
         root.style.setProperty('--third-color', '#FFF');
         root.style.setProperty('--light-color', '#000');
         root.style.setProperty('--dark-color', '#FFF');
+        logo.setAttribute('src','assets/images/logo-yellow.PNG');
         checkbox.checked = true;
     } 
 };
