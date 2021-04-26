@@ -24,16 +24,12 @@
             <small>Página realizada por Fr@ncisc@ Vill@</small>
         </footer>
   </div> -->
-  <div class="grid-container">
-        <div class="menu-icon">
-            <i class="fas fa-bars"></i>
-        </div>
+  <div class="grid-container grid-container-close">
+        
         <header class="header index-header">
             <?php include 'inc/header.php' ?>
         </header>
-        <aside class="sidenav"><div class="sidenav__close-icon">
-            <i class="fas fa-times"></i>
-            </div>
+        <aside class="sidenav sidenav-close">aside
         </aside>
         <main class="main">main</main>
         <footer class="footer">footer</footer>
