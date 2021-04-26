@@ -1,39 +1,80 @@
 
-#sidebar-wrapper {
-  min-height: 100vh;
-  margin-left: -15rem;
-  -webkit-transition: margin .25s ease-out;
-  -moz-transition: margin .25s ease-out;
-  -o-transition: margin .25s ease-out;
-  transition: margin .25s ease-out;
+
+
+.grid-container {
+  display: grid;
+  grid-template-columns: 1fr; /* la barra de navegacion lateras esta oculta en moviles */
+  grid-template-rows: 50px 1fr 50px;
+  grid-template-areas:
+    'header'
+    'main'
+    'footer';
+  height: 100vh;
 }
 
-#sidebar-wrapper .sidebar-heading {
-  padding: 0.875rem 1.25rem;
-  font-size: 1.2rem;
-}
-
-#sidebar-wrapper .list-group {
-  width: 15rem;
-}
-
-#page-content-wrapper {
-  min-width: 100vw;
+.sidenav {
+  display: none;
+  grid-area: sidenav;
+  background-color: var(--second-color);
 }
 
 
+.header {
+  grid-area: header;
+  background-color: var(--second-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+img.logo{
+  width: 80px;
+}
 
-@media (min-width: 768px) {
-  #sidebar-wrapper {
-    margin-left: 0;
+.sidenav {
+  grid-area: sidenav;
+  background-color: var(--main-color);
+}
+
+.main {
+  grid-area: main;
+  background-color: var(--third-color);
+}
+
+.footer {
+  grid-area: footer;
+  background-color: var(--second-color);
+}
+
+
+
+
+.main-cards {
+  column-count: 1;
+  column-gap: 20px;
+  margin: 20px;
+}
+
+/* Non-mobile styles, 750px breakpoint */
+@media only screen and (min-width: 46.875em) {
+  /* Show the sidenav */
+  .grid-container {
+    grid-template-columns: 240px 1fr; /* Show the side nav for non-mobile screens */
+    grid-template-areas:
+      "sidenav header"
+      "sidenav main"
+      "sidenav footer";
   }
 
-  #page-content-wrapper {
-    min-width: 0;
-    width: 100%;
+  .sidenav {
+    display: flex;
+    flex-direction: column;
   }
+}
 
-  #wrapper.toggled #sidebar-wrapper {
-    margin-left: -15rem;
+/* Medium-sized screen breakpoint (tablet, 1050px) */
+@media only screen and (min-width: 65.625em) {
+  /* Break out main cards into two columns */
+  .main-cards {
+    column-count: 2;
   }
 }
