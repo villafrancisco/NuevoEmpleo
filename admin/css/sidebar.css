@@ -1,62 +1,101 @@
 
 
-
-.grid-container {
-  display: grid;
-  grid-template-columns: 240px 1fr;
-  grid-template-rows: 50px 1fr 50px;
-  grid-template-areas:
-    "sidenav header"
-    "sidenav main"
-    "sidenav footer";
-  height: 100vh;
-  
-  transition: 0.6s;
-}
-
 .sidenav {
-  grid-area: sidenav;
   background-color: var(--main-color);
-  width: 240px;
+  color: var(--second-color);
   min-height: 100vh;
-  transform: translateX(0px);
-  transition: 0.6s;  
-}
-.grid-container-close{
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: 50px 1fr 50px;
-  grid-template-areas:
-    "header"
-    "main"
-    "footer";
-    height: 100vh;
-    transform: translateX(-260px);
-    transition: 0.6s;
-}
-.sidenav-close{
-  display: none;
-  
+  position:fixed;
+  top:0;
+  left: 0;
+  overflow-x: hidden;
+  z-index: 1;
+  width: 200px;
+  transform: translateX(-200px);
   transition: 0.6s;
 }
-.header {
-  grid-area: header;
-  background-color: var(--second-color);
+.sidenav .fa-times{
+  color:var(--second-color);
+}
+
+.sidenav ul {
   display: flex;
-  justify-content: center;
+ 
+  flex-direction: column;
+}
+.sidenav ul li{
+  list-style: none;
+  margin-top:37px;
+  margin-bottom:20px;
+  width: 100%;
+}
+.sidenav a{
+  padding: 15px;
+  color:var(--second-color);
+  font-size: 18px;
+  background-color: var(--dark-color);
+  display: block;
+}
+.sidenav a:hover{
+  background-color: var(--light-color);
+  color:var(--main-color);
+}
+
+  
+
+.header {
+  background-color: var(--second-color);
+  transition: 0.6s;
+  color:var(--main-color);
+}
+
+.main {
+  background-color: var(--third-color);
+  transition: 0.6s;
+}
+.footer {
+  display: flex;
+  background-color: var(--second-color);
+  transition: 0.6s;
+}
+.open{
+  transform: translateX(0);
+  transition: 0.6s;
+}
+.open-main{
+  margin-left: 200px;
+  transition: 0.6s;
+}
+.name-logo{
+  display: flex;
   align-items: center;
 }
+.hide{
+  display: none;
+}
+
+.sidenav .fa-times{
+  position: relative;
+  top:20px;
+  left: 170px;
+}
+
 img.logo{
   width: 80px;
 }
-
-
-
-.main {
-  grid-area: main;
-  background-color: var(--third-color);
+/* Extra small devices (phones, 660px and down) */
+@media only screen and (max-width: 660px) {
+  .show-mobile{
+    display: block;
+  }
+  .open-main{
+    margin-left: 0px;
+  }
+  .open{
+    transform: translateX(-200px); 
+  }
+  .open-main-mobile{
+    transform: translateX(0px);
+  }
 }
-.footer {
-  grid-area: footer;
-  background-color: var(--second-color);
-}
+
+
