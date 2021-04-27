@@ -24,17 +24,19 @@
             <small>Página realizada por Fr@ncisc@ Vill@</small>
         </footer>
   </div> -->
-  <div class="grid-container grid-container-close">
+  <div class="grid-container">
         
         <header class="header index-header">
             <?php include 'inc/header.php' ?>
         </header>
-        <aside class="sidenav sidenav-close">aside
+
+        <aside class="sidenav">aside
         </aside>
+
         <main class="main">main</main>
         <footer class="footer">footer</footer>
     </div>
   <?php include 'inc/scripts.php' ?>  
-  
+  <script src="js/sidenav.js"></script>
 </body>
 </html>
