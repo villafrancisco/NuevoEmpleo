@@ -49,12 +49,24 @@ if(isset($_POST["email"]) && isset($_POST["contrasena"])){
     if(comprobarEmail($email) && comprobarContrasena($contrasena)){
         //Si existe el campo tipo hacemos el login como empresa o como titulado
         if(isset($_POST["tipo"])){
-            if($_POST["tipo"]=="empresa"){
+            if($_POST["tipo"]=="empresa"){//login empresa
                 $tipo=2;
-                login($email,$contrasena,$tipo);
-            }elseif($_POST["tipo"]=="titulado"){
+                if(login($email,$contrasena,$tipo)){
+                    //Si el login es correcto
+                  echo 1;
+                }else{
+                    //Si el login es incorrecto
+                   echo 0;
+                }
+            }elseif($_POST["tipo"]=="titulado"){//login titulado
                 $tipo=3;
-                login($email,$contrasena,$tipo);
+                if(login($email,$contrasena,$tipo)){
+                    //Si el login es correcto
+                  echo 1;
+                }else{
+                    //Si el login es incorrecto
+                   echo 0;
+                }
             }
         }else{
             //Login como administrador
@@ -93,7 +105,7 @@ function login($email,$contrasena,$tipo){
        return true;
     }else{
             //preguntar si existe el email introducido como usuario
-            if($db->getEmailUsuario($email)){
+            if($db->getEmailUsuario($email,$tipo)){
                 //existe el email pero la contraseña no coincide
                 return false;
             }else{//No existe ni el email ni la contraseña

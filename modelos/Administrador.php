@@ -1,11 +1,11 @@
 <?php 
-
-
 /**
  * Administrador
  */
 class Administrador extends Usuario{
     protected $idadmin;
+    protected $email;
+    protected $contrasena;
     protected $nombre;
     protected $apellidos;
         
@@ -17,6 +17,8 @@ class Administrador extends Usuario{
      */
     function __construct($row) {
         $this->idadmin = $row['idadmin'];
+        $this->email = $row['email'];
+        $this->contrasena = $row['contrasena'];
         $this->nombre = $row['nombre'];
         $this->apellidos = $row['apellidos'];
         parent::__construct($row);
@@ -73,7 +75,7 @@ class Administrador extends Usuario{
     }
 
     /**
-     * Set the value of apellidos
+     * Set the value of email
      *
      * @return  self
      */ 
@@ -83,6 +85,50 @@ class Administrador extends Usuario{
 
         return $this;
     }
+
+    /**
+     * Get the value of email
+     */ 
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     * Set the value of email
+     *
+     * @return  self
+     */ 
+    public function setEmail($email)
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+     /**
+     * Get the value of contrasena
+     */ 
+    public function getContrasena()
+    {
+        return $this->contrasena;
+    }
+
+    /**
+     * Set the value of contrasena
+     *
+     * @return  self
+     */ 
+    public function setContrasena($contrasena)
+    {
+        $this->contrasena = $contrasena;
+
+        return $this;
+    }
+
+    
+
+    
 }
 
 ?>

@@ -13,7 +13,7 @@
         <section class="mh login">
             <div class="form-login">
                 <h2>LOGIN - ADMINISTRADOR</h2>
-                <form id="formLogin" action="#" method="GET">
+                <form id="formLogin" action="ajax/login.php" method="POST">
                     <div class="form-login_item ">
                         <div id="alert" class="msj-alert">
                         </div>

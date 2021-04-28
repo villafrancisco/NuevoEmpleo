@@ -3,7 +3,6 @@
 class Usuario{
     
     protected $idusuario;
-    
     protected $tipousuario;
     
     function __construct($row) {
@@ -50,8 +49,9 @@ class Usuario{
 
         return $this;
     }
+    
 
-    public function getTipo(){
+    public function getNameTipo(){
         switch ($this->getIdtipo()){
             case 1:
                 return "administrador";

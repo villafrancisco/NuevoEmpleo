@@ -223,7 +223,7 @@ class DB extends Conexion{
         try{
             // $sql = "SELECT * FROM usuarios t1 INNER JOIN ".$this->getTipoTabla($tipo)." as t2 ON t1.idusuario=t2.idusuario WHERE t2.email=:email AND t2.contrasena= :contrasena AND t1.idtipo = :tipo";
 
-            $sql=" SELECT t1.idusuario,t1.tipousuario  FROM usuarios AS t1 INNER JOIN (SELECT administradores.email AS email, administradores.idusuario AS idusuario, administradores.contrasena AS contrasena  FROM administradores 
+            $sql="SELECT t1.idusuario,t1.tipousuario  FROM usuarios AS t1 INNER JOIN (SELECT administradores.email AS email, administradores.idusuario AS idusuario, administradores.contrasena AS contrasena  FROM administradores 
                 UNION 
             SELECT empresas.email AS email,  empresas.idusuario AS idusuario, empresas.contrasena AS contrasena  FROM empresas 
                 UNION
@@ -257,14 +257,21 @@ class DB extends Conexion{
      * @param  mixed $email
      * @return miexed
      */
-    public function getEmailUsuario($email){
+    public function getEmailUsuario($email,$tipo){
         try{
-            $sql = "SELECT administradores.email AS email FROM administradores WHERE administradores.email=:email
-                    UNION 
-                    SELECT empresas.email AS email FROM empresas WHERE empresas.email=:email
-                    UNION
-                    SELECT titulados.email AS email FROM titulados WHERE titulados.email=:email";
-            $parametros=array(':email'   =>  $email);
+            // $sql = "SELECT administradores.email AS email FROM administradores WHERE administradores.email=:email
+            //         UNION 
+            //         SELECT empresas.email AS email FROM empresas WHERE empresas.email=:email
+            //         UNION
+            //         SELECT titulados.email AS email FROM titulados WHERE titulados.email=:email";
+            $sql="SELECT t1.idusuario,t1.tipousuario  FROM usuarios AS t1 INNER JOIN (SELECT administradores.email AS email, administradores.idusuario AS idusuario FROM administradores 
+                UNION 
+            SELECT empresas.email AS email,  empresas.idusuario AS idusuario FROM empresas 
+                UNION
+            SELECT titulados.email AS email,  titulados.idusuario AS idusuario FROM titulados) AS t2 ON t1.idusuario=t2.idusuario
+            WHERE  email= :email AND tipousuario=:tipo";
+            $parametros=array(':email'      =>  $email,
+                                ':tipo'     =>  $tipo);
             $consulta=self::ejecutaConsulta($sql, $parametros);
             return $consulta->fetch();
         }catch(PDOException $e){

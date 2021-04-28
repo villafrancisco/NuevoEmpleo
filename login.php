@@ -20,11 +20,11 @@ if(isset($_GET["tipo"]) && ($_GET["tipo"]=="empresa" || $_GET["tipo"]=="titulado
             ?>
                 <div class="form-login">
                         <h2>Login - <?php echo $tipo ?></h2>
-                        <form id="formLogin" action="#" method="GET">
-                                <div id="alert">
-                                </div>
-                                
-                                <div class="form-login_item">
+                        <form id="formLogin" action="ajax/login.php" method="POST">
+                        <div class="form-login_item ">
+                            <div id="alert" class="msj-alert"></div>
+                        </div>
+                            <div class="form-login_item">
                                     <i class="fas fa-user fa-lg"></i>
                                     <input type="text" name="email" class="form-control" placeholder="email" id="email">
                                 </div>
@@ -38,8 +38,6 @@ if(isset($_GET["tipo"]) && ($_GET["tipo"]=="empresa" || $_GET["tipo"]=="titulado
                                 <div class="form-login_item">
                                     <input type="submit" value="Entrar" class="btn"/>
                                 </div>
-                                
-                                
                         </form>
                 </div>
             <?php 
