@@ -51,35 +51,21 @@ if(isset($_POST["email"]) && isset($_POST["contrasena"])){
         if(isset($_POST["tipo"])){
             if($_POST["tipo"]=="empresa"){//login empresa
                 $tipo=2;
-                if(login($email,$contrasena,$tipo)){
-                    //Si el login es correcto
-                  echo 1;
-                }else{
-                    //Si el login es incorrecto
-                   echo 0;
-                }
             }elseif($_POST["tipo"]=="titulado"){//login titulado
                 $tipo=3;
-                if(login($email,$contrasena,$tipo)){
-                    //Si el login es correcto
-                  echo 1;
-                }else{
-                    //Si el login es incorrecto
-                   echo 0;
-                }
             }
         }else{
             //Login como administrador
             $tipo=1;
-            if(login($email,$contrasena,$tipo)){
-                //Si el login es correcto
-              echo 1;
-            }else{
-                //Si el login es incorrecto
-               echo 0;
-            }
         }
-    } else{
+        if(login($email,$contrasena,$tipo)){
+            //Si el login es correcto
+          echo 1;
+        }else{
+            //Si el login es incorrecto
+           echo 0;
+        }
+    }else{//La comprobacion de usuario y contraseña son incorrectas
         echo 0;
     }
 }
