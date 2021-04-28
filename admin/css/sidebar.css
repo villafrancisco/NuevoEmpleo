@@ -39,6 +39,16 @@
   background-color: var(--light-color);
   color:var(--main-color);
 }
+.sidenav .active{
+  background-color: var(--light-color);
+  color:var(--main-color);
+}
+.header .options{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 
   
 

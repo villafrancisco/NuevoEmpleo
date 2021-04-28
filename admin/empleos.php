@@ -22,10 +22,10 @@
         <aside class="sidenav open">
             <i class="fas fa-times fa-2x "></i>
             <ul>
-                <li><a href="dashboard.php" class="active"><i class="fas fa-user"></i>Administrador</a></li>
+                <li><a href="dashboard.php"><i class="fas fa-user"></i>Administrador</a></li>
                 <li><a href="empresas.php"><i class="fas fa-building"></i>Empresas</a></li>
                 <li><a href="titulados.php"><i class="fas fa-graduation-cap"></i>Titulados</a></li>
-                <li><a href="empleos.php"><i class="fas fa-briefcase"></i>Empleos</a></li>
+                <li><a href="ofertas.php"  class="active"><i class="fas fa-briefcase"></i>Empleos</a></li>
 
             </ul>
         </aside>

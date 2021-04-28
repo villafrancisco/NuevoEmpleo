@@ -109,3 +109,8 @@ input:checked + .slider:before {
 .slider.round:before {
 	border-radius: 50%;
 }
+
+
+.table a{
+	color:#000;
+  }
