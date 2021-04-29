@@ -52,28 +52,7 @@ class DB extends Conexion{
         
     }
       
-    /**
-     * getEmpresa
-     * 
-     * //devuelve una empresa  
-     *
-     * @param  mixed $idempresa
-     * @return mixed
-     */
-    public function getEmpresa($idempresa) {
-        try{
-            $sql = "SELECT * FROM empresas WHERE idempresa = :idempresa";
-            $parametros=array(':idempresa'   =>  $idempresa);
-            $resultado = self::ejecutaConsulta($sql,$parametros);
-            if ($resultado) {
-                $empresa=new Empresa($resultado->fetch());
-            }
-            return $empresa;
-        }catch(PDOException $e){
-            return false;
-        }
-        
-    }
+    
     
     /**
      * getFamilias
@@ -219,19 +198,23 @@ class DB extends Conexion{
      * @param  mixed $tipo
      * @return mixed
      */
-    public function getUsuario($email,$contrasena,$tipo){
+    public function getUsuario($email,$tipo,$contrasena=null){
         try{
-            // $sql = "SELECT * FROM usuarios t1 INNER JOIN ".$this->getTipoTabla($tipo)." as t2 ON t1.idusuario=t2.idusuario WHERE t2.email=:email AND t2.contrasena= :contrasena AND t1.idtipo = :tipo";
-
-            $sql="SELECT t1.idusuario,t1.tipousuario  FROM usuarios AS t1 INNER JOIN (SELECT administradores.email AS email, administradores.idusuario AS idusuario, administradores.contrasena AS contrasena  FROM administradores 
-                UNION 
-            SELECT empresas.email AS email,  empresas.idusuario AS idusuario, empresas.contrasena AS contrasena  FROM empresas 
-                UNION
-            SELECT titulados.email AS email,  titulados.idusuario AS idusuario, titulados.contrasena AS contrasena FROM titulados) AS t2 ON t1.idusuario=t2.idusuario
-            WHERE  email= :email AND contrasena=:contrasena AND tipousuario=:tipo";
-            $parametros=array(':email'   =>  $email,
-                                ':contrasena'  => hash('sha512',$contrasena),
-                                ':tipo'  => $tipo );
+                 // $sql = "SELECT * FROM usuarios t1 INNER JOIN ".$this->getTipoTabla($tipo)." as t2 ON t1.idusuario=t2.idusuario WHERE t2.email=:email AND t2.contrasena= :contrasena AND t1.idtipo = :tipo";
+                $sql="SELECT t1.idusuario,t1.tipousuario  FROM usuarios AS t1 INNER JOIN (SELECT administradores.email AS email, administradores.idusuario AS idusuario, administradores.contrasena AS contrasena  FROM administradores 
+                        UNION 
+                    SELECT empresas.email AS email,  empresas.idusuario AS idusuario, empresas.contrasena AS contrasena  FROM empresas 
+                        UNION
+                    SELECT titulados.email AS email,  titulados.idusuario AS idusuario, titulados.contrasena AS contrasena FROM titulados) AS t2 ON t1.idusuario=t2.idusuario
+                    WHERE  email= :email AND contrasena=:contrasena AND tipousuario=:tipo";
+                $parametros=array(':email'   =>  $email,
+                                    ':contrasena'  => hash('sha512',$contrasena),
+                                    ':tipo'  => $tipo );
+            
+           
+            
+            
+           
             $consulta=self::ejecutaConsulta($sql, $parametros);
             while($resultado=$consulta->fetch()){
                 $usuario=new Usuario($resultado);
@@ -320,7 +303,7 @@ class DB extends Conexion{
             
             $conexion->query('INSERT INTO '.$this->getTipoTabla($tipo).' (idusuario,email,contrasena) VALUES ("'.$idusuario.'","'.$email.'","'.hash('sha512',$contrasena).'")');
             $conexion->commit();
-            $usuario=$this->getUsuario($email,$contrasena,$tipo);
+            $usuario=$this->getUsuario($email,$tipo,$contrasena);
             return $usuario;
         }catch(PDOException $e){
             $conexion->rollBack();
@@ -340,8 +323,9 @@ class DB extends Conexion{
      */
     public function getAdministrador($idusuario){
         try{
-            $sql = "SELECT * FROM administradores WHERE idusuario = :idusuario";
-            $parametros=array(':idusuario'   =>  $idusuario);
+            $sql = "SELECT * FROM administradores as t1 INNER JOIN usuarios as t2 
+                    WHERE t2.idusuario = :idusuario AND t2.tipousuario= 1";
+            $parametros=array(':idusuario'  =>  $idusuario);
             $consulta=self::ejecutaConsulta($sql, $parametros);
             while($resultado=$consulta->fetch()){
                 $administrador=new Administrador($resultado);
@@ -354,5 +338,59 @@ class DB extends Conexion{
             return false;
         }     
     }
+
+    /**
+     * getTitulado
+     * 
+     * devuelve los datos del titulado
+     *
+     * @param  mixed $idusuario
+     * @return void
+     */
+    public function getTitulado($idusuario){
+        try{
+            $sql = "SELECT * FROM titulados as t1 INNER JOIN usuarios as t2 
+                    WHERE t2.idusuario = :idusuario AND t2.tipousuario= 3";
+            $parametros=array(':idusuario'  =>  $idusuario);
+            $consulta=self::ejecutaConsulta($sql, $parametros);
+            while($resultado=$consulta->fetch()){
+                $titulado=new Titulado($resultado);
+            }
+            if(isset($titulado)){
+                return $titulado;
+            }
+            return false;
+        }catch(PDOException $e){
+            return false;
+        }     
+    }
+
+    /**
+     * getEmpresa
+     * 
+     * devuelve los datos del empresa
+     *
+     * @param  mixed $idusuario
+     * @return void
+     */
+    public function getEmpresa($idusuario){
+        try{
+            $sql = "SELECT * FROM empresas as t1 INNER JOIN usuarios as t2 
+                    WHERE t2.idusuario = :idusuario AND t2.tipousuario= 3";
+            $parametros=array(':idusuario'  =>  $idusuario);
+            $consulta=self::ejecutaConsulta($sql, $parametros);
+            while($resultado=$consulta->fetch()){
+                $empresa=new Empresa($resultado);
+            }
+            if(isset($empresa)){
+                return $empresa;
+            }
+            return false;
+        }catch(PDOException $e){
+            return false;
+        }     
+    }
+
+
 }
 ?>

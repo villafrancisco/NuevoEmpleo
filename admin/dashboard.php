@@ -26,31 +26,24 @@
         <table class="table">
             <thead>
                 <tr>
-                <th scope="col">#</th>
-                <th scope="col">First</th>
-                <th scope="col">Last</th>
-                <th scope="col">Handle</th>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Apellidos</th>
+                <th>Email</th>
+                <th>Contraseña</th>
+                <th>Guardar</th>
                 </tr>
             </thead>
             <tbody>
+                
                 <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
+                <th><?php echo $administrador->getIdadmin(); ?></th>
+                <td><input type="text" value="<?php echo $administrador->getNombre(); ?>"></td>
+                <td><input type="text" value="<?php echo $administrador->getApellidos(); ?>"></td>
+                <td><input type="text" value="<?php echo $administrador->getEmail(); ?>"></td>
+                <td><input type="password" value="password"></td>
                 </tr>
-                <tr>
-                <th scope="row">2</th>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>@fat</td>
-                </tr>
-                <tr>
-                <th scope="row">3</th>
-                <td>Larry</td>
-                <td>the Bird</td>
-                <td>@twitter</td>
-                </tr>
+                
             </tbody>
         </table>
         </main>

@@ -4,8 +4,9 @@ class Usuario{
     
     protected $idusuario;
     protected $tipousuario;
-    
+   
     function __construct($row) {
+       
         $this->idusuario = $row['idusuario'];
         $this->tipousuario = $row['tipousuario'];
      
