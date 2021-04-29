@@ -52,5 +52,38 @@
      changeThemeUser(user);
  });
 
+ //Permitir editar los datos de un usuario
+ let editar=document.querySelectorAll('.edit')
+ for (const edit of editar) {
+     edit.addEventListener('click',(e)=>{
+        e.preventDefault();
+        const id=e.target.parentElement.getAttribute('href');
+        const tableInputs=document.getElementById(id).getElementsByTagName('input');
+        
+        for (const input of tableInputs) {
+            input.removeAttribute('readonly');
+            input.classList.add('border-b');
+        }
+    
+     });
+ }
+
+ //Guardar los datos de un usuario
+ let save=document.querySelectorAll('.save')
+ for (const s of save) {
+     s.addEventListener('click',(e)=>{
+        e.preventDefault();
+        const id=e.target.parentElement.getAttribute('href');
+        const tableInputs=document.getElementById(id).getElementsByTagName('input');
+        
+        for (const input of tableInputs) {
+            input.setAttribute('readonly','true');
+            input.classList.remove('border-b');
+        }
+    
+     });
+ }
+
+
 
  

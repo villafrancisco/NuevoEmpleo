@@ -23,29 +23,32 @@
         </aside>
 
         <main class="main mh open-main">
-        <table class="table">
-            <thead>
-                <tr>
-                <th>ID</th>
-                <th>Nombre</th>
-                <th>Apellidos</th>
-                <th>Email</th>
-                <th>Contraseña</th>
-                <th>Guardar</th>
-                </tr>
-            </thead>
-            <tbody>
-                
-                <tr>
-                <th><?php echo $administrador->getIdadmin(); ?></th>
-                <td><input type="text" value="<?php echo $administrador->getNombre(); ?>"></td>
-                <td><input type="text" value="<?php echo $administrador->getApellidos(); ?>"></td>
-                <td><input type="text" value="<?php echo $administrador->getEmail(); ?>"></td>
-                <td><input type="password" value="password"></td>
-                </tr>
-                
-            </tbody>
-        </table>
+        <div class="table-responsive-lg">
+            <table class="table ">
+                <thead class="thead-light">
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Apellidos</th>
+                        <th scope="col">Email</th>
+                        
+                        <th scope="col">Editar/Guardar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                    <tr id="<?php echo $administrador->getIdadmin(); ?>">
+                    <th scope="row"><?php echo $administrador->getIdadmin(); ?></th>
+                    <td><input readonly type="text" value="<?php echo $administrador->getNombre(); ?>"></td>
+                    <td><input readonly type="text" value="<?php echo $administrador->getApellidos(); ?>"></td>
+                    <td><input  readonly type="text" value="<?php echo $administrador->getEmail(); ?>"></td>
+                    
+                    <td class="accion"><a href="<?php echo $administrador->getIdadmin(); ?>" class="edit" ><i class="fas fa-edit fa-2x"></i></a><a href="<?php echo $administrador->getIdadmin(); ?>" class="save"><i class="fas fa-save fa-2x"></i></a></td>
+                    </tr>
+                    
+                </tbody>
+            </table>
+        </div>
         </main>
         <footer class="footer open-main">footer</footer>
     </div>
