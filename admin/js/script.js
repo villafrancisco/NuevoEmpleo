@@ -1,3 +1,16 @@
+
+/*********
+ * DESACTIVAR AUTOCOMPLETAR
+ */
+var daf = new disableautofill({
+    'form': '.disable-autocomplete',
+});
+daf.init();
+/******
+ * 
+ */
+
+
 /************************
  * GUARDAR PREFERENCIAS DEL TEMA DEL USUARIO
  */
@@ -52,22 +65,6 @@
      changeThemeUser(user);
  });
 
- //Permitir editar los datos de un usuario
- let editar=document.querySelectorAll('.edit')
- for (const edit of editar) {
-     edit.addEventListener('click',(e)=>{
-        e.preventDefault();
-        const id=e.target.parentElement.getAttribute('href');
-        const tableInputs=document.getElementById(id).getElementsByTagName('input');
-        
-        for (const input of tableInputs) {
-            input.removeAttribute('readonly');
-            input.classList.add('border-b');
-        }
-    
-     });
- }
-
  //Guardar los datos de un usuario
  let save=document.querySelectorAll('.save')
  for (const s of save) {
@@ -75,10 +72,57 @@
         e.preventDefault();
         const id=e.target.parentElement.getAttribute('href');
         const tableInputs=document.getElementById(id).getElementsByTagName('input');
-        
-        for (const input of tableInputs) {
-            input.setAttribute('readonly','true');
-            input.classList.remove('border-b');
+        //Enviar los datos para guardarlos en la BBDD, comprobar que todos los datos estan correctos
+        var error=false;
+        var idadmin=tableInputs.idadmin.value;
+        var nombre=tableInputs.erbmon.value;
+        var apellidos=tableInputs.apellidos.value;
+        var email=tableInputs.email.value;
+        if(!validarEmail(email)){
+            error=true;
+            tableInputs.email.classList.add('errorform');
+        }else{
+            tableInputs.email.classList.remove('errorform');
+        }
+        if(!validarTexto(nombre)){
+            error=true;
+            tableInputs.erbmon.classList.add('errorform');
+        }else{
+            tableInputs.erbmon.classList.remove('errorform');
+        }
+        if(!validarTexto(apellidos)){
+            error=true;
+            tableInputs.apellidos.classList.add('errorform');
+        }else{
+            tableInputs.apellidos.classList.remove('errorform');
+        }
+        if(error==true){
+            //muestro mensaje de toast de error
+            toastr.error('Compruebe los campos');
+        }else{
+            //guardo los datos
+            //toastr.success('Datos guardados correctamente');
+            const data = new FormData();
+            data.append('idadmin',idadmin);
+            data.append('nombre',nombre);
+            data.append('apellidos',apellidos);
+            data.append('email',email);
+            fetch('../ajax/guardar_administrador.php',{
+                method: "POST",
+                body: data
+            }).then(res=> res.text())
+            .then(data=> {
+                console.log(data);
+                    // if(data==1){
+                    //     //login correcto
+                    //     //Ir al panel de administracion
+                    //     window.location.href="admin/dashboard.php";
+                    // }else{
+                    //     msjalert.innerText='Contraseña erronea'; 
+                    //     msjalert.classList.add('show');
+                    //     setTimeout(function(){ msjalert.classList.remove('show'); }, 3000);
+                    // }
+                });
         }
     
      });

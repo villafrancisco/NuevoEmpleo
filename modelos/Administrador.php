@@ -26,6 +26,7 @@ class Administrador extends Usuario{
 
     /**
      * Get the value of idadmin
+     * 
      */ 
     public function getIdadmin()
     {

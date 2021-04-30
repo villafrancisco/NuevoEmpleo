@@ -82,7 +82,7 @@ if(isset($_POST["email"]) && isset($_POST["contrasena"])){
  */
 function login($email,$contrasena,$tipo){
     $db=new DB();
-    $usuario=$db->getUsuario($email,$tipo,$contrasena);
+    $usuario=$db->getUsuario($email,$contrasena,$tipo);
     
     if($usuario){
         //existe el usuario y la contraseña, creo la session
@@ -97,9 +97,8 @@ function login($email,$contrasena,$tipo){
             }else{//No existe ni el email ni la contraseña
                  if($tipo!=1){//Solo para los que no sean administradores
                     //Creo el usuario y la sesion
-                    if($db->crearNuevoUsuario($email,$contrasena,$tipo)){
+                    if($_SESSION["usuario"]=$db->crearNuevoUsuario($email,$contrasena,$tipo)){
                         session_start();
-                        $_SESSION["usuario"]=$db->getUsuario($email,$tipo,$contrasena);
                         return true;
                     }else{
                         return false; //Error al crear el usuario

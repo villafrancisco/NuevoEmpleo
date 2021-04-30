@@ -51,6 +51,7 @@ if(isset($_GET["tipo"]) && ($_GET["tipo"]=="empresa" || $_GET["tipo"]=="titulado
     </div>
 
     <?php include 'inc/scripts.php' ?> 
+
 <script src="js/login.js"></script>
 </body>
 </html>

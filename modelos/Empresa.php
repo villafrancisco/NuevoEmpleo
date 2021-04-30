@@ -25,6 +25,7 @@ class Empresa extends Usuario{
 
     /**
      * Get the value of idempresa
+     * 
      */ 
     public function getIdempresa()
     {

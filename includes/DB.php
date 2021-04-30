@@ -22,8 +22,6 @@ class DB extends Conexion{
         }
     return $consulta;
     }
-   
-
       
     /**
      * getEmpresas
@@ -51,8 +49,7 @@ class DB extends Conexion{
         }
         
     }
-      
-    
+
     
     /**
      * getFamilias
@@ -79,6 +76,30 @@ class DB extends Conexion{
             return false;
         }
     }
+
+        /**
+     * getFamilia
+     * 
+     * devuelve la familia profesional
+     *
+     * @param  mixed $idfamilia
+     * @return mixed
+     */
+    public function getFamilia($idfamilia) {
+        try{
+            $sql = "SELECT * FROM familia WHERE idfamilia = :idfamilia";
+            $parametros=array(':idfamilia'   =>  $idfamilia);
+            $resultado = self::ejecutaConsulta($sql,$parametros);
+            if (isset($resultado)) {
+                $familia=new Familia($resultado->fetch());
+            }
+            return $familia;
+        }catch(PDOException $e){
+            return false;
+        }
+        
+    }
+
     
     /**
      * getAllEmpleos
@@ -106,28 +127,6 @@ class DB extends Conexion{
             $e->getMessage();
         }
     }    
-    /**
-     * getFamilia
-     * 
-     * devuelve la familia profesional
-     *
-     * @param  mixed $idfamilia
-     * @return mixed
-     */
-    public function getFamilia($idfamilia) {
-        try{
-            $sql = "SELECT * FROM familia WHERE idfamilia = :idfamilia";
-            $parametros=array(':idfamilia'   =>  $idfamilia);
-            $resultado = self::ejecutaConsulta($sql,$parametros);
-            if (isset($resultado)) {
-                $familia=new Familia($resultado->fetch());
-            }
-            return $familia;
-        }catch(PDOException $e){
-            return false;
-        }
-        
-    }
 
       
      /**
@@ -198,23 +197,12 @@ class DB extends Conexion{
      * @param  mixed $tipo
      * @return mixed
      */
-    public function getUsuario($email,$tipo,$contrasena=null){
+    public function getUsuario($email,$contrasena,$tipo){
         try{
-                 // $sql = "SELECT * FROM usuarios t1 INNER JOIN ".$this->getTipoTabla($tipo)." as t2 ON t1.idusuario=t2.idusuario WHERE t2.email=:email AND t2.contrasena= :contrasena AND t1.idtipo = :tipo";
-                $sql="SELECT t1.idusuario,t1.tipousuario  FROM usuarios AS t1 INNER JOIN (SELECT administradores.email AS email, administradores.idusuario AS idusuario, administradores.contrasena AS contrasena  FROM administradores 
-                        UNION 
-                    SELECT empresas.email AS email,  empresas.idusuario AS idusuario, empresas.contrasena AS contrasena  FROM empresas 
-                        UNION
-                    SELECT titulados.email AS email,  titulados.idusuario AS idusuario, titulados.contrasena AS contrasena FROM titulados) AS t2 ON t1.idusuario=t2.idusuario
-                    WHERE  email= :email AND contrasena=:contrasena AND tipousuario=:tipo";
+                $sql = "SELECT * FROM usuarios t1 INNER JOIN ".$this->getTipoTabla($tipo)." as t2 ON t1.idusuario=t2.idusuario WHERE t2.email=:email AND t2.contrasena= :contrasena AND t1.tipousuario = :tipousuario";
                 $parametros=array(':email'   =>  $email,
                                     ':contrasena'  => hash('sha512',$contrasena),
-                                    ':tipo'  => $tipo );
-            
-           
-            
-            
-           
+                                    ':tipousuario'  => $tipo );
             $consulta=self::ejecutaConsulta($sql, $parametros);
             while($resultado=$consulta->fetch()){
                 $usuario=new Usuario($resultado);
@@ -228,9 +216,6 @@ class DB extends Conexion{
             return false;
         }     
     }
-
-  
-
     
     /**
      * getEmailUsuario
@@ -242,19 +227,9 @@ class DB extends Conexion{
      */
     public function getEmailUsuario($email,$tipo){
         try{
-            // $sql = "SELECT administradores.email AS email FROM administradores WHERE administradores.email=:email
-            //         UNION 
-            //         SELECT empresas.email AS email FROM empresas WHERE empresas.email=:email
-            //         UNION
-            //         SELECT titulados.email AS email FROM titulados WHERE titulados.email=:email";
-            $sql="SELECT t1.idusuario,t1.tipousuario  FROM usuarios AS t1 INNER JOIN (SELECT administradores.email AS email, administradores.idusuario AS idusuario FROM administradores 
-                UNION 
-            SELECT empresas.email AS email,  empresas.idusuario AS idusuario FROM empresas 
-                UNION
-            SELECT titulados.email AS email,  titulados.idusuario AS idusuario FROM titulados) AS t2 ON t1.idusuario=t2.idusuario
-            WHERE  email= :email AND tipousuario=:tipo";
+            $sql = "SELECT * FROM usuarios t1 INNER JOIN ".$this->getTipoTabla($tipo)." as t2 ON t1.idusuario=t2.idusuario WHERE t2.email=:email  AND t1.tipousuario = :tipo";
             $parametros=array(':email'      =>  $email,
-                                ':tipo'     =>  $tipo);
+                                ':tipousuario'     =>  $tipo);
             $consulta=self::ejecutaConsulta($sql, $parametros);
             return $consulta->fetch();
         }catch(PDOException $e){
@@ -303,7 +278,7 @@ class DB extends Conexion{
             
             $conexion->query('INSERT INTO '.$this->getTipoTabla($tipo).' (idusuario,email,contrasena) VALUES ("'.$idusuario.'","'.$email.'","'.hash('sha512',$contrasena).'")');
             $conexion->commit();
-            $usuario=$this->getUsuario($email,$tipo,$contrasena);
+            $usuario=$this->getUsuario($email,$contrasena,$tipo);
             return $usuario;
         }catch(PDOException $e){
             $conexion->rollBack();
@@ -311,6 +286,32 @@ class DB extends Conexion{
             
         }
         
+    }
+    /**
+     * getAdministradores
+     * 
+     * devuelve todos los  administradores
+     *
+     
+     * @return void
+     */
+    public function getAdministradores(){
+        try{
+            $sql = "SELECT * FROM administradores as t1 INNER JOIN usuarios as t2 ON t1.idusuario=t2.idusuario 
+                    WHERE t2.tipousuario= 1";
+            $parametros=array('');
+            $consulta=self::ejecutaConsulta($sql, $parametros);
+            $listaadministradores=[];
+            while($resultado=$consulta->fetch()){
+                $listaadministradores[]=(new Administrador($resultado));
+            }
+            
+            return $listaadministradores;
+            
+            
+        }catch(PDOException $e){
+            return false;
+        }     
     }
     
     /**
@@ -323,7 +324,7 @@ class DB extends Conexion{
      */
     public function getAdministrador($idusuario){
         try{
-            $sql = "SELECT * FROM administradores as t1 INNER JOIN usuarios as t2 
+            $sql = "SELECT * FROM administradores as t1 INNER JOIN usuarios as t2 ON t1.idusuario=t2.idusuario
                     WHERE t2.idusuario = :idusuario AND t2.tipousuario= 1";
             $parametros=array(':idusuario'  =>  $idusuario);
             $consulta=self::ejecutaConsulta($sql, $parametros);
@@ -391,6 +392,15 @@ class DB extends Conexion{
         }     
     }
 
+    public function updateAdministrador($row){
+        $sql = "UPDATE administradores SET nombre= :nombre, apellidos= :apellidos, email= :email WHERE idadmin = :idadmin "; 
+        $parametros=array(":idadmin" =>  $row['idadmin'],
+                        ":nombre" =>  $row['nombre'],
+                        ":apellidos"=>$row['apellidos'],
+                        ":email" =>  $row['email']);
+        $resultado = self::ejecutaConsulta($sql, $parametros);
+        return $resultado;
+    }
 
 }
 ?>
