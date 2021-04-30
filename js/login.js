@@ -16,12 +16,17 @@ formLogin.addEventListener('submit',(e)=>{
             body: datosForm
         }).then(res=> res.text())
         .then(data=> {
+                console.log(data)
                 if(data==1){
                     //login correcto
                     //Ir al panel de administracion
                     window.location.href="admin/dashboard.php";
+                }else if(data==2){
+                    window.location.href="empresa.php";
+                }else if(data==3){
+                    window.location.href="titulado.php";
                 }else{
-                    msjalert.innerText='Contraseña erronea'; 
+                    msjalert.innerText='Login Incorrecto'; 
                     msjalert.classList.add('show');
                     setTimeout(function(){ msjalert.classList.remove('show'); }, 3000);
                 }

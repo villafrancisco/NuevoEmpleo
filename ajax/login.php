@@ -6,6 +6,7 @@ require_once '../includes/DB.php';
 require_once '../modelos/Usuario.php';
 require_once '../modelos/Administrador.php';
 require_once '../modelos/Empresa.php';
+require_once '../modelos/Titulado.php';
 require_once '../modelos/Familia.php';
 require_once '../modelos/Empleo.php';
 require_once '../modelos/Titulo.php';
@@ -60,11 +61,18 @@ if(isset($_POST["email"]) && isset($_POST["contrasena"])){
         }
         if(login($email,$contrasena,$tipo)){
             //Si el login es correcto
-          echo 1;
+          
+          if($tipo==1){
+            echo 1;
+          }else if($tipo==2){
+            echo 2;
+          }else{
+              echo 3;
+          }
         }else{
-            //Si el login es incorrecto
-           echo 0;
+          echo 0;
         }
+        
     }else{//La comprobacion de usuario y contraseña son incorrectas
         echo 0;
     }
@@ -91,7 +99,7 @@ function login($email,$contrasena,$tipo){
        return true;
     }else{
             //preguntar si existe el email introducido como usuario
-            if($db->getEmailUsuario($email,$tipo)){
+            if($db->existeEmail($email)){
                 //existe el email pero la contraseña no coincide
                 return false;
             }else{//No existe ni el email ni la contraseña
@@ -101,7 +109,7 @@ function login($email,$contrasena,$tipo){
                         session_start();
                         return true;
                     }else{
-                        return false; //Error al crear el usuario
+                        return false;
                     }
                  }
                  else{//Aqui entra si es administrador pero no existe usuario ni contraseña
@@ -112,5 +120,3 @@ function login($email,$contrasena,$tipo){
             }
     }
 }
-
-?>

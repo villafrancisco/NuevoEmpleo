@@ -74,7 +74,7 @@ daf.init();
         const tableInputs=document.getElementById(id).getElementsByTagName('input');
         //Enviar los datos para guardarlos en la BBDD, comprobar que todos los datos estan correctos
         var error=false;
-        var idadmin=tableInputs.idadmin.value;
+        var idusuario=tableInputs.idusuario.value;
         var nombre=tableInputs.erbmon.value;
         var apellidos=tableInputs.apellidos.value;
         var email=tableInputs.email.value;
@@ -103,7 +103,7 @@ daf.init();
             //guardo los datos
             //toastr.success('Datos guardados correctamente');
             const data = new FormData();
-            data.append('idadmin',idadmin);
+            data.append('idusuario',idusuario);
             data.append('nombre',nombre);
             data.append('apellidos',apellidos);
             data.append('email',email);
@@ -113,15 +113,14 @@ daf.init();
             }).then(res=> res.text())
             .then(data=> {
                 console.log(data);
-                    // if(data==1){
-                    //     //login correcto
-                    //     //Ir al panel de administracion
-                    //     window.location.href="admin/dashboard.php";
-                    // }else{
-                    //     msjalert.innerText='Contraseña erronea'; 
-                    //     msjalert.classList.add('show');
-                    //     setTimeout(function(){ msjalert.classList.remove('show'); }, 3000);
-                    // }
+                    if(data){
+                        //datos actualizados correctamente
+                        toastr.success('Datos Guardados');
+                    }else{
+                        //datos no actualizados
+                        toastr.error('Datos incorrectos');
+                        tableInputs.email.classList.add('errorform');
+                    }
                 });
         }
     
