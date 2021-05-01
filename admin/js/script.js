@@ -75,7 +75,7 @@ daf.init();
         //Enviar los datos para guardarlos en la BBDD, comprobar que todos los datos estan correctos
         var error=false;
         var idusuario=tableInputs.idusuario.value;
-        var nombre=tableInputs.erbmon.value;
+        var nombre=tableInputs.nombre.value;
         var apellidos=tableInputs.apellidos.value;
         var email=tableInputs.email.value;
         if(!validarEmail(email)){
@@ -86,9 +86,9 @@ daf.init();
         }
         if(!validarTexto(nombre)){
             error=true;
-            tableInputs.erbmon.classList.add('errorform');
+            tableInputs.nombre.classList.add('errorform');
         }else{
-            tableInputs.erbmon.classList.remove('errorform');
+            tableInputs.nombre.classList.remove('errorform');
         }
         if(!validarTexto(apellidos)){
             error=true;
