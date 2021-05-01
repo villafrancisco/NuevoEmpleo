@@ -89,6 +89,8 @@ class Administrador extends Usuario{
 
     /**
      * Get the value of email
+     * 
+     * @return mixed
      */ 
     public function getEmail()
     {
@@ -131,5 +133,3 @@ class Administrador extends Usuario{
 
     
 }
-
-?>

@@ -19,12 +19,12 @@
     box-shadow: inset 3px 3px 3px rgba(255,255,255,.7), inset -2px -2px 3px rgba(0,0,0,.1), 2px 2px 10px rgba(0,0,0,.1);
 	text-shadow: -1px -1px rgba(0,0,0,.2);  /* Sombra del texto */
 	border-radius: 5px;  /* Bordes redondos */
-    color:var(--second-color);    
+    color:var(--text-color);    
     
 }
 .index-section_item a:active /* Al presionarse el botón */ {
 	text-shadow: 1px 1px rgba(0,0,0,.3);  /* Sombra del texto */
 	background:var(--second-color);  /* Fondo más oscuro que el original */
 	box-shadow:inset 4px 4px 4px rgba(0,0,0,.3), inset -3px -3px 3px rgba(255,255,255,.2);
-    color:var(--main-color);
+    
 }

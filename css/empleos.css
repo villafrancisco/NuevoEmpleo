@@ -33,7 +33,7 @@
 	transform: scale(1.2);
 }
 .card a{
-    color:var(--main-color);
+    color:var(--text-color);
 }
 .card a .txt{
     padding: 5px;

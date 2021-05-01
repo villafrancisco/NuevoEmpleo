@@ -1,9 +1,11 @@
 :root {
 	--main-color: #258FE8;
 	--second-color: #E8C11A;
-	--third-color: #828282;
     --light-color: #FFF;
-    --dark-color:#000;
+    --dark-color:#828282;
+	--text-color:#000;
+
+	
 /* 
     --main-color: #E8C11A;
 	--second-color: #258FE8;
@@ -27,7 +29,7 @@ body a{
 	text-shadow: -1px -1px rgb(0 0 0 / 20%);
 }
 .container{
-    background-color: var(--third-color);
+    background-color: var(--dark-color);
 }
 
 .container header{

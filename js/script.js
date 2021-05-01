@@ -14,16 +14,16 @@ const changeThemeUser = (user) => {
        
         root.style.setProperty('--main-color', '#258FE8');
         root.style.setProperty('--second-color', '#E8C11A');
-        root.style.setProperty('--third-color', '#828282');
+       
         root.style.setProperty('--light-color', '#FFF');
-        root.style.setProperty('--dark-color', '#000');
+        root.style.setProperty('--dark-color', '#828282');
         logo.setAttribute('src','assets/images/logo.PNG');
     }else if(user.colorbg=='second-theme'){
         
         root.style.setProperty('--main-color', '#E8C11A');
         root.style.setProperty('--second-color', '#258FE8');
-        root.style.setProperty('--third-color', '#FFF');
-        root.style.setProperty('--light-color', '#000');
+        
+        root.style.setProperty('--light-color', '#828282');
         root.style.setProperty('--dark-color', '#FFF');
         logo.setAttribute('src','assets/images/logo-yellow.PNG');
         checkbox.checked = true;

@@ -14,6 +14,23 @@ class Titulado extends Usuario
     protected $foto;
     protected $fecha_registro;
 
+
+    function __construct($row)
+    {
+        $this->idtitulado = $row['idtitulado'];
+        $this->email = $row['email'];
+        $this->contrasena = $row['contrasena'];
+        $this->nombre = $row['nombre'];
+        $this->apellidos = $row['apellidos'];
+        $this->direccion = $row['direccion'];
+        $this->dni = $row['dni'];
+        $this->telefono = $row['telefono'];
+        $this->curriculum = $row['curriculum'];
+        $this->foto = $row['foto'];
+        $this->fecha_registro = $row['fecha_registro'];
+        parent::__construct($row);
+    }
+
     public function getIdtitulado()
     {
         return $this->idtitulado;

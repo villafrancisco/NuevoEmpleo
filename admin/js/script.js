@@ -27,16 +27,16 @@ daf.init();
         
          root.style.setProperty('--main-color', '#258FE8');
          root.style.setProperty('--second-color', '#E8C11A');
-         root.style.setProperty('--third-color', '#828282');
+        
          root.style.setProperty('--light-color', '#FFF');
-         root.style.setProperty('--dark-color', '#000');
+         root.style.setProperty('--dark-color', '#828282');
          logo.setAttribute('src','../assets/images/logo.PNG');
      }else if(user.colorbg=='second-theme'){
          
          root.style.setProperty('--main-color', '#E8C11A');
          root.style.setProperty('--second-color', '#258FE8');
-         root.style.setProperty('--third-color', '#FFF');
-         root.style.setProperty('--light-color', '#000');
+        
+         root.style.setProperty('--light-color', '#828282');
          root.style.setProperty('--dark-color', '#FFF');
          logo.setAttribute('src','../assets/images/logo-yellow.PNG');
          checkbox.checked = true;
@@ -65,7 +65,7 @@ daf.init();
      changeThemeUser(user);
  });
 
- //Guardar los datos de un usuario
+ //Guardar los datos de un administrador
  let save=document.querySelectorAll('.save')
  for (const s of save) {
      s.addEventListener('click',(e)=>{
@@ -75,7 +75,7 @@ daf.init();
         //Enviar los datos para guardarlos en la BBDD, comprobar que todos los datos estan correctos
         var error=false;
         var idusuario=tableInputs.idusuario.value;
-        var nombre=tableInputs.erbmon.value;
+        var nombre=tableInputs.nombre.value;
         var apellidos=tableInputs.apellidos.value;
         var email=tableInputs.email.value;
         if(!validarEmail(email)){
@@ -86,9 +86,9 @@ daf.init();
         }
         if(!validarTexto(nombre)){
             error=true;
-            tableInputs.erbmon.classList.add('errorform');
+            tableInputs.nombre.classList.add('errorform');
         }else{
-            tableInputs.erbmon.classList.remove('errorform');
+            tableInputs.nombre.classList.remove('errorform');
         }
         if(!validarTexto(apellidos)){
             error=true;
