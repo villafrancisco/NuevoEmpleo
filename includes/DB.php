@@ -35,25 +35,178 @@ class DB extends Conexion
     }
 
     /**
+     * getTipoTabla
+     *
+     * @param  mixed $tipo
+     * @return mixed
+     */
+    public function getTipoTabla($tipo)
+    {
+        switch ($tipo) {
+            case "administrador":
+                return "administradores";
+                break;
+            case "empresa":
+                return "empresas";
+                break;
+            case "titulado":
+                return "titulados";
+                break;
+            default:
+                break;
+        }
+    }
+
+    /**
+     * getNombreClase
+     *
+     * @param  mixed $tipousuario
+     * @return mixed
+     */
+    public function getNombreClase($tipousuario)
+    {
+        switch ($tipousuario) {
+            case "administrador":
+                return "Administrador";
+                break;
+            case "empresa":
+                return "Empresa";
+                break;
+            case "titulado":
+                return "Titulado";
+                break;
+            default:
+                break;
+        }
+    }
+
+    /**
+     * getUsuario
+     * 
+     * devuelve el usuario
+     *
+     * @param  mixed $idempresa
+     * @return mixed
+     */
+    public function getUsuario($idusuario)
+    {
+        try {
+            $sql = "SELECT * FROM usuarios as t1 INNER JOIN tipousuario as t2 ON t1.idtipo=t2.idtipo  WHERE t1.idusuario=:idusuario";
+            $parametros = array(':idusuario'   =>  $idusuario);
+            $resultado = self::ejecutaConsulta($sql, $parametros);
+            if (isset($resultado)) {
+                $row = $resultado->fetch();
+                $sql2 = "SELECT * FROM " . $this->getTipoTabla($row['tipousuario']) . " as t1 INNER JOIN usuarios as t2 ON t1.idusuario=t2.idusuario WHERE t1.idusuario = :idusuario AND t2.idtipo=:idtipo";
+                $parametros2 = array(
+                    ':idusuario' => $row['idusuario'],
+                    ':idtipo' => $row['idtipo']
+                );
+                $resultado2 = self::ejecutaConsulta($sql2, $parametros2);
+                if (isset($resultado2)) {
+                    $nombreClase = $this->getNombreClase($row['idtipo']);
+                    $usuario = new $nombreClase($resultado2->fetch());
+                }
+            }
+            return $usuario;
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
+
+    /**
+     * getAllUsuarios
+     * 
+     * devuelve todos los usuarios
+     *
+     * @return mixed
+     */
+    public function getAllUsuarios()
+    {
+        try {
+            $sql = "SELECT * FROM usuarios as t1 INNER JOIN tipousuario as t2 ON t1.idtipo=t2.idtipo";
+            $parametros = array();
+            $consulta = self::ejecutaConsulta($sql, $parametros);
+            $listausuarios = [];
+            while ($resultado = $consulta->fetch()) {
+                $sql2 = "SELECT * FROM " . $this->getTipoTabla($resultado['tipousuario']) . " as t1 INNER JOIN usuarios as t2 ON t1.idusuario=t2.idusuario WHERE t2.idtipo=:idtipo";
+                $parametros2 = array(':idtipo' => $resultado['idtipo']);
+                $consulta2 = self::ejecutaConsulta($sql2, $parametros2);
+                while ($resultado2 = $consulta2->fetch()) {
+                    $nombreClase = $this->getNombreClase($resultado['idtipo']);
+                    $listausuarios[] = new $nombreClase($resultado2);
+                }
+            }
+            return $listausuarios;
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
+
+
+
+
+    /**
+     * getEmailUsuario
+     * 
+     * devuelve si el email esta registrado
+     *
+     * @param  mixed $email
+     * @return miexed
+     */
+    public function existeEmail($email)
+    {
+        try {
+            $listaUsuarios = $this->getAllUsuarios();
+            foreach ($listaUsuarios as $usuario) {
+                if ($usuario->getEmail() == $email) {
+                    return true;
+                }
+            }
+            return false;
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
+
+    /**
+     * getEmpresa
+     * 
+     * devuelve la empresa
+     *
+     * @param  mixed $idempresa
+     * @return mixed
+     */
+    public function getEmpresa($idempresa)
+    {
+        try {
+            $sql = "SELECT * FROM empresas as t1 INNER JOIN usuarios as t2 ON t1.idusuario=t2.idusuario WHERE t1.idempresa = :idempresa";
+            $parametros = array(':idempresa'   =>  $idempresa);
+            $resultado = self::ejecutaConsulta($sql, $parametros);
+            if (isset($resultado)) {
+                $empresa = new Empresa($resultado->fetch());
+            }
+            return $empresa;
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
+
+    /**
      * getEmpresas
      * 
      * devuelve todas las empresas  
      *
      * @return mixed
      */
-    public function getEmpresas()
+    public function getAllEmpresas()
     {
         try {
-            $sql = "SELECT * FROM empresas";
+            $sql = "SELECT * FROM empresas as t1 INNER JOIN usuarios as t2 ON t1.idusuario=t2.idusuario";
             $parametros = array();
-            $resultado = self::ejecutaConsulta($sql, $parametros);
-            $empresas = array();
-            if ($resultado) {
-                $row = $resultado->fetch();
-                while ($row != null) {
-                    $empresas[] = new Empresa($row);
-                    $row = $resultado->fetch();
-                }
+            $consulta = self::ejecutaConsulta($sql, $parametros);
+            $empresas = [];
+            while ($resultado = $consulta->fetch()) {
+                $empresas[] = new Empresa($resultado);
             }
             return $empresas;
         } catch (PDOException $e) {
@@ -61,6 +214,28 @@ class DB extends Conexion
         }
     }
 
+    /**
+     * getFamilia
+     * 
+     * devuelve la familia profesional
+     *
+     * @param  mixed $idfamilia
+     * @return mixed
+     */
+    public function getFamilia($idfamilia)
+    {
+        try {
+            $sql = "SELECT * FROM familia WHERE idfamilia = :idfamilia";
+            $parametros = array(':idfamilia'   =>  $idfamilia);
+            $resultado = self::ejecutaConsulta($sql, $parametros);
+            if ($resultado->fetch()) {
+                $familia = new Familia($resultado);
+            }
+            return isset($familia) ? $familia : false;
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
 
     /**
      * getFamilias
@@ -69,21 +244,116 @@ class DB extends Conexion
      *
      * @return mixed
      */
-    public function getFamilias()
+    public function getAllFamilias()
     {
         try {
             $sql = "SELECT * FROM familia";
             $parametros = array();
-            $resultado = self::ejecutaConsulta($sql, $parametros);
-            $familias = array();
-            if ($resultado) {
-                $row = $resultado->fetch();
-                while ($row != null) {
-                    $familias[] = new Familia($row);
-                    $row = $resultado->fetch();
-                }
+            $consulta = self::ejecutaConsulta($sql, $parametros);
+            $familias = [];
+            while ($resultado = $consulta->fetch()) {
+                $familias[] = new Familia($resultado);
             }
             return $familias;
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
+
+
+    /**
+     * getEmpleo
+     * 
+     * devuelve un empleo
+     *
+     * @param  mixed $idempleo
+     * @return mixed
+     */
+    public function getEmpleo($idempleo)
+    {
+        try {
+            $sql = "SELECT * FROM empleo WHERE idempleo = :idempleo";
+            $parametros = array(':idempleo'   =>  $idempleo);
+            $resultado = self::ejecutaConsulta($sql, $parametros);
+            if (isset($resultado)) {
+                $empleo = new Empleo($resultado->fetch());
+            }
+            return $empleo;
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
+
+    /**
+     * getAllEmpleos
+     * 
+     * devuelve todos los empleos
+     *
+     * @return mixed
+     */
+    public function getAllEmpleos()
+    {
+        try {
+            $sql = "SELECT * FROM empleos";
+            $parametros = array();
+            $consulta = self::ejecutaConsulta($sql, $parametros);
+            $empleos = [];
+            while ($resultado = $consulta->fetch()) {
+                $empleos[] = new Empleo($resultado);
+            }
+            return $empleos;
+        } catch (PDOException $e) {
+            $e->getMessage();
+        }
+    }
+
+
+
+
+    /********************************************
+     * 
+     * CAMBIOS HASTA AQUI
+     * 
+     * 
+     * ********************************************
+     */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /**
+     * getEmpleosFamilia
+     *
+     *devuelve los empleos publicados de una familia de un ciclo    
+     *
+     * @param  mixed $idfamilia
+     * @return mixed
+     */
+    public function getEmpleosFamilia($idfamilia)
+    {
+        try {
+
+            $sql = "SELECT t1.* FROM empleos t1 INNER JOIN empleotitulo t2 ON t1.idempleo = t2.idempleo INNER JOIN titulos t3 ON t2.idtitulo = t3.idtitulo INNER JOIN familia t4 ON t3.idfamilia= t4.idfamilia WHERE t4.idfamilia= :idfamilia GROUP BY t1.idempleo";
+            $parametros = array(':idfamilia'   =>  $idfamilia);
+            $consulta = self::ejecutaConsulta($sql, $parametros);
+            $empleos = [];
+            while ($resultado = $consulta->fetch()) {
+                $empleos[] = new Empleo($resultado);
+            }
+            return $empleos;
         } catch (PDOException $e) {
             return false;
         }
@@ -111,85 +381,13 @@ class DB extends Conexion
         }
     }
 
-    /**
-     * getFamilia
-     * 
-     * devuelve la familia profesional
-     *
-     * @param  mixed $idfamilia
-     * @return mixed
-     */
-    public function getFamilia($idfamilia)
-    {
-        try {
-            $sql = "SELECT * FROM familia WHERE idfamilia = :idfamilia";
-            $parametros = array(':idfamilia'   =>  $idfamilia);
-            $resultado = self::ejecutaConsulta($sql, $parametros);
-            if (isset($resultado)) {
-                $familia = new Familia($resultado->fetch());
-            }
-            return $familia;
-        } catch (PDOException $e) {
-            return false;
-        }
-    }
 
 
-    /**
-     * getAllEmpleos
-     * 
-     * devuelve todos los empleos
-     *
-     * @return mixed
-     */
-    public function getAllEmpleos()
-    {
-        try {
-            $sql = "SELECT * FROM empleos";
-            $parametros = array();
-            $resultado = self::ejecutaConsulta($sql, $parametros);
-            $empleos = array();
-            if ($resultado) {
-                $row = $resultado->fetch();
-                while ($row != null) {
-                    $empleos[] = new Empleo($row);
-                    $row = $resultado->fetch();
-                }
-            }
-            return $empleos;
-        } catch (PDOException $e) {
-            $e->getMessage();
-        }
-    }
 
 
-    /**
-     * getEmpleosFamilia
-     *
-     *devuelve los empleos publicados de una familia de un ciclo    
-     *
-     * @param  mixed $idfamilia
-     * @return mixed
-     */
-    public function getEmpleosFamilia($idfamilia)
-    {
-        try {
-            $sql = "SELECT t1.* FROM empleos t1 INNER JOIN empleotitulo t2 ON t1.idempleo = t2.idempleo INNER JOIN titulos t3 ON t2.idtitulo = t3.idtitulo INNER JOIN familia t4 ON t3.idfamilia= t4.idfamilia WHERE t4.idfamilia= :idfamilia GROUP BY t1.idempleo";
-            $parametros = array(':idfamilia'   =>  $idfamilia);
-            $resultado = self::ejecutaConsulta($sql, $parametros);
-            $empleos = array();
-            if ($resultado) {
-                $row = $resultado->fetch();
-                while ($row != null) {
-                    $empleos[] = new Empleo($row);
-                    $row = $resultado->fetch();
-                }
-            }
-            return $empleos;
-        } catch (PDOException $e) {
-            return false;
-        }
-    }
+
+
+
 
     /**
      * getTitulosEmpleo
@@ -230,7 +428,7 @@ class DB extends Conexion
      * @param  mixed $tipo
      * @return mixed
      */
-    public function getUsuario($email, $contrasena, $tipo)
+    public function getUsuario2($email, $contrasena, $tipo)
     {
         try {
             $sql = "SELECT * FROM usuarios t1 INNER JOIN " . $this->getTipoTabla($tipo) . " as t2 ON t1.idusuario=t2.idusuario WHERE t2.email=:email AND t2.contrasena= :contrasena AND t1.tipousuario = :tipousuario";
@@ -253,96 +451,11 @@ class DB extends Conexion
         }
     }
 
-    /**
-     * getEmailUsuario
-     * 
-     * devuelve si el email esta registrado
-     *
-     * @param  mixed $email
-     * @return miexed
-     */
-    public function existeEmail($email)
-    {
-        try {
-
-            $sql = "SELECT administradores.email AS email FROM administradores 
-            WHERE  email= :email1
-            UNION 
-            SELECT empresas.email AS email FROM empresas 
-            WHERE  email= :email2
-            UNION
-            SELECT titulados.email AS email FROM titulados
-            WHERE  email= :email3";
-            $parametros = array(
-                ':email1'      =>  $email,
-                ':email2'      =>  $email,
-                ':email3'      =>  $email
-            );
-            $consulta = self::ejecutaConsulta($sql, $parametros);
-
-            while ($resultado = $consulta->fetch()) {
-                $emailbuscado = $resultado['email'];
-            }
-            //Si ha encontrado a un usuario devuelve el usuario
-            if (isset($emailbuscado)) {
-                return $emailbuscado;
-            }
-            return false;
-        } catch (PDOException $e) {
-            return false;
-        }
-    }
 
 
 
-    /**
-     * getTipoTabla
-     * 
-     * 
-     *
-     * @param  mixed $tipo
-     * @return mixed
-     */
-    public function getTipoTabla($tipo)
-    {
-        switch ($tipo) {
-            case "1":
-                return "administradores";
-                break;
-            case "2":
-                return "empresas";
-                break;
-            case "3":
-                return "titulados";
-                break;
-            default:
-                break;
-        }
-    }
-    /**
-     * getNombreClase
-     * 
-     * 
-     *
-     * @param  mixed $tipousuario
-     * @return mixed
-     */
-    public function getNombreClase($tipousuario)
-    {
-        switch ($tipousuario) {
-            case "1":
-                return "Administrador";
-                break;
-            case "2":
-                return "Empresa";
-                break;
-            case "3":
-                return "Titulado";
-                break;
-            default:
-                break;
-        }
-    }
+
+
 
     /**
      * crearNuevoUsuario
@@ -486,7 +599,7 @@ class DB extends Conexion
      * @param  mixed $idusuario
      * @return void
      */
-    public function getEmpresa($idusuario)
+    public function getEmpresaUsuario($idusuario)
     {
         try {
             $sql = "SELECT * FROM empresas as t1 INNER JOIN usuarios as t2 
