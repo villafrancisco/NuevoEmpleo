@@ -28,27 +28,43 @@ if (isset($_POST["email"]) && isset($_POST["nombre"]) && isset($_POST['apellidos
 
 
     if (!comprobarEmail($_POST['email'])) {
+        $data['status'] = 'error';
         return false;
     }
     if (!ctype_alpha($_POST['nombre'])) {
+        $data['status'] = 'error';
         return false;
     }
     if (!ctype_alpha($_POST['apellidos'])) {
+        $data['status'] = 'error';
         return false;
     }
     //Guardamos todos los datos
     //tenemos que comprobar que el email nuevo no se encuentra ocupado
     //updateAdministrador
     $db = new DB();
-    $usuario = $db->getAdministrador($_POST['idusuario']);
-    if ($usuario->getEmail() != $_POST['email']) {
-        //es distinto se comprueba que no exista 
-        if ($db->existeEmail($_POST['email'])) {
-            echo false;
+    $usuariologueado = $db->getUsuario($_POST['idusuario']);
+    $listaAdministradores = $db->getAllUsuariosTipo("administrador");
+    foreach ($listaAdministradores as $administrador) {
+        if ($usuariologueado->getEmail() == $_POST['email']) {
+            //acutalizo el usuario
+            $data['status'] = 'ok';
+            $usuariologueado->setNombre($_POST['nombre']);
+            $usuariologueado->setApellidos($_POST['apellidos']);
+            $db->updateUsuario($usuariologueado);
         } else {
-            echo $db->updateAdministrador($_POST);
+            //compruebo el nuevo email
+            if ($administrador->getEmail() == $usuariologueado->getEmail()) {
+                //el email ya existe en el sistema
+                $data['status'] = 'error';
+            } else {
+                $usuariologueado->setNombre($_POST['nombre']);
+                $usuariologueado->setApellidos($_POST['apellidos']);
+                $usuariologueado->setEmail($_POST['email']);
+                $data['status'] = 'ok';
+                $db->updateUsuario($usuariologueado);
+            }
         }
-    } else {
-        echo $db->updateAdministrador($_POST);
     }
+    echo json_encode($data);
 }

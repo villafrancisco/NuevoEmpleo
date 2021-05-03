@@ -37,10 +37,11 @@
 }
 .sidenav a:hover{
   background-color: var(--dark-color);
-  
+ 
 }
 .sidenav .active{
   background-color: var(--dark-color);
+ 
   
 }
 .header .options{

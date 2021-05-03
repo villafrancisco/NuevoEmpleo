@@ -1,14 +1,4 @@
 
-/*********
- * DESACTIVAR AUTOCOMPLETAR
- */
-var daf = new disableautofill({
-    'form': '.disable-autocomplete',
-});
-daf.init();
-/******
- * 
- */
 
 
 /************************
@@ -101,7 +91,7 @@ daf.init();
             toastr.error('Compruebe los campos');
         }else{
             //guardo los datos
-            //toastr.success('Datos guardados correctamente');
+            
             const data = new FormData();
             data.append('idusuario',idusuario);
             data.append('nombre',nombre);

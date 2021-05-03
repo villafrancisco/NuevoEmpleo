@@ -6,7 +6,7 @@
     <?php include 'inc/authorize.php' ?>
     <?php
     //Array con todos los administradores
-    $administradores = $db->getAdministradores();
+    $administradores = $db->getAllUsuariosTipo("administrador");
     ?>
 </head>
 
@@ -44,36 +44,36 @@
                     <?php
 
                     foreach ($administradores as $admin) {
+                        if ($admin->getIdadmin() == $administrador->getIdadmin()) {
                     ?>
-                        <form name="form<?php echo $admin->getIdadmin(); ?>" name="form<?php echo $admin->getIdadmin(); ?>" action="ajax/guardar_administrador" method="post" class="disable-autocomplete" autocomplete="off">
+                            <form name="form<?php echo $admin->getIdadmin(); ?>" name="form<?php echo $admin->getIdadmin(); ?>" action="ajax/guardar_administrador" method="post" class="disable-autocomplete" autocomplete="off">
+                                <tr id="<?php echo $admin->getIdadmin(); ?>">
+                                    <th scope="row"><?php echo $admin->getIdadmin(); ?></th>
+                                    <td><input type="text" name="nombre" value="<?php echo $admin->getNombre(); ?>"><input type="hidden" name="idusuario" value="<?php echo $admin->getIdusuario(); ?>"></td>
+                                    <td><input type="text" name="apellidos" value="<?php echo $admin->getApellidos(); ?>"></td>
+                                    <td><input type="text" name="email" value="<?php echo $admin->getEmail(); ?>"></td>
+
+                                    <td class="accion">
+                                        <a href="<?php echo $admin->getIdadmin(); ?>" class="save"><i class="fas fa-save fa-2x"></i></a>
+                                    </td>
+                                </tr>
+                            </form>
+                        <?php
+                        } else {
+                        ?>
                             <tr id="<?php echo $admin->getIdadmin(); ?>">
                                 <th scope="row"><?php echo $admin->getIdadmin(); ?></th>
-                                <td><input type="text" name="nombre" value="<?php echo $admin->getNombre(); ?>"><input type="hidden" name="idusuario" value="<?php echo $admin->getIdusuario(); ?>"></td>
-                                <td><input type="text" name="apellidos" value="<?php echo $admin->getApellidos(); ?>"></td>
-                                <td><input type="text" name="email" value="<?php echo $admin->getEmail(); ?>"></td>
-
-                                <td class="accion">
-                                    <?php
-                                    if ($admin->getIdadmin() == $administrador->getIdadmin()) {
-                                    ?>
-
-                                        <a href="<?php echo $admin->getIdadmin(); ?>" class="save"><i class="fas fa-save fa-2x"></i></a>
-                                    <?php
-                                    }
-                                    ?>
-
-                                </td>
+                                <td><?php echo $admin->getNombre(); ?></td>
+                                <td><?php echo $admin->getApellidos(); ?></td>
+                                <td><?php echo $admin->getEmail(); ?></td>
+                                <td class="accion"> </td>
                             </tr>
-                        </form>
                     <?php
+                        }
                     }
-
-
                     ?>
                 </tbody>
             </table>
-
-
         </main>
         <footer class="footer open-main">footer</footer>
     </div>
