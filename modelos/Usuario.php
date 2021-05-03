@@ -1,19 +1,25 @@
-<?php 
+<?php
 
-class Usuario{
-    
+class Usuario
+{
+
     protected $idusuario;
-    protected $tipousuario;
-   
-    function __construct($row) {
-       
+    protected $idtipo;
+    protected $email;
+    protected $contrasena;
+
+
+    function __construct($row)
+    {
+
         $this->idusuario = $row['idusuario'];
-        $this->tipousuario = $row['tipousuario'];
-     
+        $this->idtipo = $row['idtipo'];
+        $this->email = $row['email'];
+        $this->contrasena = $row['contrasena'];
     }
     /**
      * Get the value of idusuario
-     */ 
+     */
     public function getIdusuario()
     {
         return $this->idusuario;
@@ -23,37 +29,38 @@ class Usuario{
      * Set the value of idusuario
      *
      * @return  self
-     */ 
+     */
     public function setIdusuario($idusuario)
     {
         $this->idusuario = $idusuario;
 
         return $this;
     }
-    
+
     /**
      * Get the value of idtipo
-     */ 
+     */
     public function getIdtipo()
     {
-        return $this->tipousuario;
+        return $this->idtipo;
     }
 
     /**
      * Set the value of idtipo
      *
      * @return  self
-     */ 
-    public function setIdtipo($tipousuario)
+     */
+    public function setIdtipo($idtipo)
     {
-        $this->tipousuario = $tipousuario;
+        $this->idtipo = $idtipo;
 
         return $this;
     }
-    
 
-    public function getNameTipo(){
-        switch ($this->getIdtipo()){
+
+    public function getNameTipo()
+    {
+        switch ($this->getIdtipo()) {
             case 1:
                 return "administrador";
                 break;
@@ -66,9 +73,25 @@ class Usuario{
             default:
                 break;
         }
-        
     }
 
-}
+    public function getEmail()
+    {
+        return $this->email;
+    }
 
-?>
+    public function setEmail($email)
+    {
+        $this->email = $email;
+    }
+
+    public function getContrasena()
+    {
+        return $this->contrasena;
+    }
+
+    public function setContrasena($contrasena)
+    {
+        $this->contrasena = $contrasena;
+    }
+}

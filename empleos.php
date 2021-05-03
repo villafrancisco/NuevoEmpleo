@@ -7,7 +7,7 @@
 
 <?php
 $db = new DB();
-$array_familias = $db->getAllFamilias();
+$listaFamilias = $db->getAllFamilias();
 ?>
 
 <body>
@@ -19,7 +19,7 @@ $array_familias = $db->getAllFamilias();
 
 
 
-            <?php foreach ($array_familias as $familia) {
+            <?php foreach ($listaFamilias as $familia) {
                 echo '<div class="card">';
                 echo      '<a href="listado-empleos.php?familia=' . $familia->getIdfamilia() . '">';
                 echo          '<img src="assets/images/' . $familia->getNombre_imagen() . '"/>';

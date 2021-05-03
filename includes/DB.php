@@ -93,21 +93,21 @@ class DB extends Conexion
         try {
             $sql = "SELECT * FROM usuarios as t1 INNER JOIN tipousuario as t2 ON t1.idtipo=t2.idtipo  WHERE t1.idusuario=:idusuario";
             $parametros = array(':idusuario'   =>  $idusuario);
-            $resultado = self::ejecutaConsulta($sql, $parametros);
-            if (isset($resultado)) {
-                $row = $resultado->fetch();
-                $sql2 = "SELECT * FROM " . $this->getTipoTabla($row['tipousuario']) . " as t1 INNER JOIN usuarios as t2 ON t1.idusuario=t2.idusuario WHERE t1.idusuario = :idusuario AND t2.idtipo=:idtipo";
+            $consulta = self::ejecutaConsulta($sql, $parametros);
+            if ($resultado = $consulta->fetch()) {
+
+                $sql2 = "SELECT * FROM " . $this->getTipoTabla($resultado['tipousuario']) . " as t1 INNER JOIN usuarios as t2 ON t1.idusuario=t2.idusuario WHERE t1.idusuario = :idusuario AND t2.idtipo=:idtipo";
                 $parametros2 = array(
-                    ':idusuario' => $row['idusuario'],
-                    ':idtipo' => $row['idtipo']
+                    ':idusuario' => $resultado['idusuario'],
+                    ':idtipo' => $resultado['idtipo']
                 );
-                $resultado2 = self::ejecutaConsulta($sql2, $parametros2);
-                if (isset($resultado2)) {
-                    $nombreClase = $this->getNombreClase($row['idtipo']);
-                    $usuario = new $nombreClase($resultado2->fetch());
+                $consulta2 = self::ejecutaConsulta($sql2, $parametros2);
+                if ($resultado2 = $consulta2->fetch()) {
+                    $nombreClase = $this->getNombreClase($resultado['tipousuario']);
+                    $usuario = new $nombreClase($resultado2);
                 }
             }
-            return $usuario;
+            return isset($usuario) ? $usuario : false;
         } catch (PDOException $e) {
             return false;
         }
@@ -128,41 +128,19 @@ class DB extends Conexion
             $consulta = self::ejecutaConsulta($sql, $parametros);
             $listausuarios = [];
             while ($resultado = $consulta->fetch()) {
-                $sql2 = "SELECT * FROM " . $this->getTipoTabla($resultado['tipousuario']) . " as t1 INNER JOIN usuarios as t2 ON t1.idusuario=t2.idusuario WHERE t2.idtipo=:idtipo";
-                $parametros2 = array(':idtipo' => $resultado['idtipo']);
+                $sql2 = "SELECT * FROM " . $this->getTipoTabla($resultado['tipousuario']) . " as t1 INNER JOIN usuarios as t2 ON t1.idusuario=t2.idusuario INNER JOIN tipousuario as t3 ON t2.idtipo=t3.idtipo WHERE t1.idusuario= :idusuario AND t2.idtipo=:idtipo";
+                $parametros2 = array(
+                    ':idusuario' => $resultado['idusuario'],
+                    ':idtipo' => $resultado['idtipo']
+                );
                 $consulta2 = self::ejecutaConsulta($sql2, $parametros2);
-                while ($resultado2 = $consulta2->fetch()) {
-                    $nombreClase = $this->getNombreClase($resultado['idtipo']);
+                if ($resultado2 = $consulta2->fetch()) {
+                    $nombreClase = $this->getNombreClase($resultado['tipousuario']);
                     $listausuarios[] = new $nombreClase($resultado2);
                 }
             }
-            return $listausuarios;
-        } catch (PDOException $e) {
-            return false;
-        }
-    }
 
-
-
-
-    /**
-     * getEmailUsuario
-     * 
-     * devuelve si el email esta registrado
-     *
-     * @param  mixed $email
-     * @return miexed
-     */
-    public function existeEmail($email)
-    {
-        try {
-            $listaUsuarios = $this->getAllUsuarios();
-            foreach ($listaUsuarios as $usuario) {
-                if ($usuario->getEmail() == $email) {
-                    return true;
-                }
-            }
-            return false;
+            return !empty($listausuarios) ? $listausuarios : false;
         } catch (PDOException $e) {
             return false;
         }
@@ -181,11 +159,11 @@ class DB extends Conexion
         try {
             $sql = "SELECT * FROM empresas as t1 INNER JOIN usuarios as t2 ON t1.idusuario=t2.idusuario WHERE t1.idempresa = :idempresa";
             $parametros = array(':idempresa'   =>  $idempresa);
-            $resultado = self::ejecutaConsulta($sql, $parametros);
-            if (isset($resultado)) {
-                $empresa = new Empresa($resultado->fetch());
+            $consulta = self::ejecutaConsulta($sql, $parametros);
+            if ($resultado = $consulta->fetch()) {
+                $empresa = new Empresa($resultado);
             }
-            return $empresa;
+            return isset($empresa) ? $empresa : false;
         } catch (PDOException $e) {
             return false;
         }
@@ -208,7 +186,7 @@ class DB extends Conexion
             while ($resultado = $consulta->fetch()) {
                 $empresas[] = new Empresa($resultado);
             }
-            return $empresas;
+            return !empty($empresas) ? $empresas : false;
         } catch (PDOException $e) {
             return false;
         }
@@ -227,8 +205,8 @@ class DB extends Conexion
         try {
             $sql = "SELECT * FROM familia WHERE idfamilia = :idfamilia";
             $parametros = array(':idfamilia'   =>  $idfamilia);
-            $resultado = self::ejecutaConsulta($sql, $parametros);
-            if ($resultado->fetch()) {
+            $consulta = self::ejecutaConsulta($sql, $parametros);
+            if ($resultado = $consulta->fetch()) {
                 $familia = new Familia($resultado);
             }
             return isset($familia) ? $familia : false;
@@ -254,7 +232,7 @@ class DB extends Conexion
             while ($resultado = $consulta->fetch()) {
                 $familias[] = new Familia($resultado);
             }
-            return $familias;
+            return !empty($familias) ? $familias : false;
         } catch (PDOException $e) {
             return false;
         }
@@ -274,11 +252,11 @@ class DB extends Conexion
         try {
             $sql = "SELECT * FROM empleo WHERE idempleo = :idempleo";
             $parametros = array(':idempleo'   =>  $idempleo);
-            $resultado = self::ejecutaConsulta($sql, $parametros);
-            if (isset($resultado)) {
+            $consulta = self::ejecutaConsulta($sql, $parametros);
+            if ($resultado = $consulta->fetch()) {
                 $empleo = new Empleo($resultado->fetch());
             }
-            return $empleo;
+            return isset($empleo) ? $empleo : false;
         } catch (PDOException $e) {
             return false;
         }
@@ -301,11 +279,40 @@ class DB extends Conexion
             while ($resultado = $consulta->fetch()) {
                 $empleos[] = new Empleo($resultado);
             }
-            return $empleos;
+            return !empty($empleos) ? $empleos : false;
         } catch (PDOException $e) {
             $e->getMessage();
         }
     }
+    /**
+     * crearNuevoUsuario
+     *
+     * @param  mixed $email
+     * @param  mixed $contrasena
+     * @param  mixed $tipo
+     * @return mixed
+     */
+    public function crearNuevoUsuario($usuario)
+    {
+
+        try {
+            $conexion = parent::conectar();
+            $conexion->beginTransaction();
+            $conexion->query('INSERT INTO usuarios (idtipo) VALUES ("' . $usuario->getIdtipo() . '")');
+            $idusuario = $conexion->lastInsertId();
+
+            $conexion->query('INSERT INTO ' . $this->getTipoTabla($usuario->getNameTipo()) . ' (idusuario,email,contrasena) VALUES ("' . $idusuario . '","' . $usuario->getEmail() . '","' . password_hash($usuario->getContrasena(), PASSWORD_DEFAULT) . '")');
+            $conexion->commit();
+            $usuario = $this->getUsuario($idusuario);
+            return $usuario;
+        } catch (PDOException $e) {
+            $conexion->rollBack();
+            return false;
+        }
+    }
+
+
+
 
 
 
@@ -418,71 +425,11 @@ class DB extends Conexion
         }
     }
 
-    /**
-     * getUsuario
-     * 
-     * devuelve el usuario
-     *
-     * @param  mixed $email
-     * @param  mixed $contrasena
-     * @param  mixed $tipo
-     * @return mixed
-     */
-    public function getUsuario2($email, $contrasena, $tipo)
-    {
-        try {
-            $sql = "SELECT * FROM usuarios t1 INNER JOIN " . $this->getTipoTabla($tipo) . " as t2 ON t1.idusuario=t2.idusuario WHERE t2.email=:email AND t2.contrasena= :contrasena AND t1.tipousuario = :tipousuario";
-            $parametros = array(
-                ':email'   =>  $email,
-                ':contrasena'  => hash('sha512', $contrasena),
-                ':tipousuario'  => $tipo
-            );
-            $consulta = self::ejecutaConsulta($sql, $parametros);
-            while ($resultado = $consulta->fetch()) {
-                $usuario = new Usuario($resultado);
-            }
-            //Si ha encontrado a un usuario devuelve el usuario
-            if (isset($usuario)) {
-                return $usuario;
-            }
-            return false;
-        } catch (PDOException $e) {
-            return false;
-        }
-    }
 
 
 
 
 
-
-
-    /**
-     * crearNuevoUsuario
-     *
-     * @param  mixed $email
-     * @param  mixed $contrasena
-     * @param  mixed $tipo
-     * @return mixed
-     */
-    public function crearNuevoUsuario($email, $contrasena, $tipo)
-    {
-
-        try {
-            $conexion = parent::conectar();
-            $conexion->beginTransaction();
-            $conexion->query('INSERT INTO usuarios (tipousuario) VALUES ("' . $tipo . '")');
-            $idusuario = $conexion->lastInsertId();
-
-            $conexion->query('INSERT INTO ' . $this->getTipoTabla($tipo) . ' (idusuario,email,contrasena) VALUES ("' . $idusuario . '","' . $email . '","' . hash('sha512', $contrasena) . '")');
-            $conexion->commit();
-            $usuario = $this->getUsuario($email, $contrasena, $tipo);
-            return $usuario;
-        } catch (PDOException $e) {
-            $conexion->rollBack();
-            return false;
-        }
-    }
 
     /**
      * getUsuariosTipo
