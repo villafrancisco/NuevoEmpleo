@@ -60,7 +60,7 @@ if (isset($_POST["email"]) && isset($_POST["contrasena"])) {
         if (login($email, $contrasena, $tipo)) {
             //Si el login es correcto
             $data['status'] = 'ok';
-            $data['result'] = $tipo;
+            $data['tipousuario'] = $tipo;
         } else {
             $data['status'] = 'error';
         }
@@ -85,6 +85,8 @@ function login($email, $contrasena, $tipo)
     $db = new DB();
     $listaUsuarios = $db->getAllUsuarios();
     foreach ($listaUsuarios as $usuario) {
+
+        //TODO comprobar email y contrasena
         if (password_verify($contrasena, $usuario->getContrasena())) {
             //Contraseña correcta
             $usuariologueado = $usuario;
@@ -105,21 +107,22 @@ function login($email, $contrasena, $tipo)
             } else { //No existe ni el email ni la contraseña
                 if ($tipo == "administrador") { //Solo para los sean administradores
                     //Metodo para insertar en la base de datos que solo debe estar en desarrollo
-                    $usuario = new Usuario([
+                    $usuario = new Administrador([
                         'email'           => $email,
                         'contrasena'    =>  $contrasena,
                         'idtipo'        =>  '1'
                     ]);
                     $_SESSION["usuario"] = $db->crearNuevoUsuario($usuario);
+                    //return false;
                 } else if ($tipo == 'empresa') {
-                    $usuario = new Usuario([
+                    $usuario = new Empresa([
                         'email'           => $email,
                         'contrasena'    =>  $contrasena,
                         'idtipo'        =>  '2'
                     ]);
                     $_SESSION["usuario"] = $db->crearNuevoUsuario($usuario);
                 } else if ($tipo == 'titulado') {
-                    $usuario = new Usuario([
+                    $usuario = new Titulado([
                         'email'           => $email,
                         'contrasena'    =>  $contrasena,
                         'idtipo'        =>  '3'

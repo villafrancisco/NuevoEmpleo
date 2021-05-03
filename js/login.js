@@ -10,33 +10,42 @@ formLogin.addEventListener('submit',(e)=>{
     //Validamos el usuario y la contraseña
     if(validarEmail(datosForm.get('email'))==true && validarContrasena(datosForm.get('contrasena'))==true){
         msjalert.classList.remove('show');
-        //Hacemos las peticion ajax
-        fetch('ajax/login.php',{
-            method: "POST",
-            body: datosForm
-        }).then(res=> res.text())
-        .then(data=> {
-                console.log(data)
-                if(data==1){
-                    //login correcto
-                    //Ir al panel de administracion
-                    window.location.href="admin/dashboard.php";
-                }else if(data==2){
-                    window.location.href="empresa.php";
-                }else if(data==3){
-                    window.location.href="titulado.php";
-                }else{
-                    msjalert.innerText='Login Incorrecto'; 
-                    msjalert.classList.add('show');
-                    setTimeout(function(){ msjalert.classList.remove('show'); }, 3000);
-                }
-            });
+        loginAjax(datosForm);
     }else{
         msjalert.innerText=msjerror;
         msjalert.classList.add('show');
         setTimeout(function(){ msjalert.classList.remove('show'); }, 3000);
     }
 })
+
+function loginAjax($datos){
+    //Hacemos las peticion ajax
+    fetch('ajax/login.php',{
+        method: "POST",
+        body: $datos
+    }).then(response => response.json())
+    .then(data => {
+       
+            if(data.status=='ok'){
+                if(data.tipousuario=='administrador'){
+                    window.location.href="admin/dashboard.php";
+                }else if(data=="empresa"){
+                    window.location.href="empresa.php";
+                }else if(data=='titulado'){
+                    window.location.href="titulado.php";
+                }
+            }else{
+                msjalert.innerText='Login Incorrecto'; 
+                msjalert.classList.add('show');
+                setTimeout(function(){ msjalert.classList.remove('show'); }, 3000);
+            }
+        })
+        .catch(function(error){
+            msjalert.innerText='No se pudo procesar la solicitud'; 
+            msjalert.classList.add('show');
+            setTimeout(function(){ msjalert.classList.remove('show'); }, 3000);
+    });
+}
 
   
  

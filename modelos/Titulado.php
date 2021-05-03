@@ -3,31 +3,27 @@
 class Titulado extends Usuario
 {
     protected $idtitulado;
-    protected $email;
-    protected $contrasena;
-    protected $nombre;
-    protected $apellidos;
     protected $direccion;
     protected $dni;
     protected $telefono;
     protected $curriculum;
     protected $foto;
     protected $fecha_registro;
+    protected $lista_titulos;
+    protected $lista_ofertas_inscrito;
 
 
     function __construct($row)
     {
-        $this->idtitulado = $row['idtitulado'];
-        $this->email = $row['email'];
-        $this->contrasena = $row['contrasena'];
-        $this->nombre = $row['nombre'];
-        $this->apellidos = $row['apellidos'];
-        $this->direccion = $row['direccion'];
-        $this->dni = $row['dni'];
-        $this->telefono = $row['telefono'];
-        $this->curriculum = $row['curriculum'];
-        $this->foto = $row['foto'];
-        $this->fecha_registro = $row['fecha_registro'];
+        $this->idtitulado = isset($row['idusuario']) ? $row['idusuario'] : false;
+        $this->direccion = isset($row['direccion']) ? $row['direccion'] : false;
+        $this->dni = isset($row['dni']) ? $row['dni'] : false;
+        $this->telefono = isset($row['telefono']) ? $row['telefono'] : false;
+        $this->curriculum = $row['curriculum'] ? $row['curriculum'] : false;
+        $this->foto = isset($row['foto']) ? $row['foto'] : false;
+        $this->fecha_registro = isset($row['fecha_registro']) ? $row['fecha_registro'] : false;
+        $this->lista_titulos = isset($row['lista_titulos']) ? $row['lista_titulos'] : false;
+        $this->lista_ofertas_inscrito = isset($row['lista_ofertas_inscrito']) ? $row['lista_ofertas_inscrito'] : false;
         parent::__construct($row);
     }
 
@@ -41,45 +37,6 @@ class Titulado extends Usuario
         $this->idtitulado = $idtitulado;
     }
 
-    public function getEmail()
-    {
-        return $this->email;
-    }
-
-    public function setEmail($email)
-    {
-        $this->email = $email;
-    }
-
-    public function getContrasena()
-    {
-        return $this->contrasena;
-    }
-
-    public function setContrasena($contrasena)
-    {
-        $this->contrasena = $contrasena;
-    }
-
-    public function getNombre()
-    {
-        return $this->nombre;
-    }
-
-    public function setNombre($nombre)
-    {
-        $this->nombre = $nombre;
-    }
-
-    public function getApellidos()
-    {
-        return $this->apellidos;
-    }
-
-    public function setApellidos($apellidos)
-    {
-        $this->apellidos = $apellidos;
-    }
 
     public function getDireccion()
     {
@@ -139,5 +96,25 @@ class Titulado extends Usuario
     public function setFecha_registro($fecha_registro)
     {
         $this->fecha_registro = $fecha_registro;
+    }
+
+    public function getListaTitulos()
+    {
+        return $this->lista_titulos;
+    }
+
+    public function setListaTitulos($lista_titulos)
+    {
+        $this->lista_titulos = $lista_titulos;
+    }
+
+    public function getOfertasInscrito()
+    {
+        return $this->lista_ofertas_inscrito;
+    }
+
+    public function setOfertasInscrito($lista_ofertas_inscrito)
+    {
+        $this->lista_ofertas_inscrito = $lista_ofertas_inscrito;
     }
 }

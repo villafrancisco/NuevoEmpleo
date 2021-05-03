@@ -21,6 +21,7 @@ if (isset($_GET["familia"]) && !empty($_GET['familia'])) {
             <?php include 'inc/header.php' ?>
         </header>
         <section class="mh listado-empleos">
+            <a href="familias.php">Buscar por familia profesional</a>
             <div class="row">
                 <?php if (isset($familia) && $familia != false) {
                     $listaEmpleos = $db->getEmpleosFamilia($familia->getIdfamilia());

@@ -1,21 +1,22 @@
 <?php
 
-class Usuario
+abstract class Usuario
 {
-
     protected $idusuario;
     protected $idtipo;
     protected $email;
     protected $contrasena;
-
+    protected $nombre;
+    protected $apellidos;
 
     function __construct($row)
     {
-
-        $this->idusuario = $row['idusuario'];
-        $this->idtipo = $row['idtipo'];
-        $this->email = $row['email'];
-        $this->contrasena = $row['contrasena'];
+        $this->idusuario = isset($row['idusuario']) ? $row['idusuario'] : false;
+        $this->idtipo = isset($row['idtipo']) ? $row['idtipo'] : false;
+        $this->email = isset($row['email']) ? $row['email'] : false;
+        $this->contrasena = isset($row['contrasena']) ? $row['contrasena'] : false;
+        $this->nombre = isset($row['nombre']) ? $row['nombre'] : false;
+        $this->apellidos = isset($row['apellidos']) ? $row['apellidos'] : false;
     }
     /**
      * Get the value of idusuario
@@ -93,5 +94,25 @@ class Usuario
     public function setContrasena($contrasena)
     {
         $this->contrasena = $contrasena;
+    }
+
+    public function getNombre()
+    {
+        return $this->nombre;
+    }
+
+    public function setNombre($nombre)
+    {
+        $this->nombre = $nombre;
+    }
+
+    public function getApellidos()
+    {
+        return $this->apellidos;
+    }
+
+    public function setApellidos($apellidos)
+    {
+        $this->apellidos = $apellidos;
     }
 }
