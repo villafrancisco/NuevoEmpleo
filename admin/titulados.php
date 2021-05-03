@@ -6,9 +6,9 @@
     <?php include 'inc/authorize.php' ?>
     <?php
     //Array con todos los titulados
-    $titulados = $db->getUsuariosTipo(3);
+    $titulados = $db->getAllUsuariosTipo('titulado');
     if (isset($_GET['id'])) {
-        $titulado = $db->getTitulado($_GET['id']);
+        $titulado = $db->getUsuario($_GET['id']);
         if ($titulado) {
             $titulostitulado = $db->getTitulacionUsuario($titulado->getIdusuario());
             $titulos = $db->getAllTitulos();

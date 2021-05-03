@@ -58,6 +58,7 @@
                                         <a href="<?php echo $admin->getIdadmin(); ?>" class="save"><i class="fas fa-save fa-2x"></i></a>
                                     </td>
                                 </tr>
+
                             </form>
                         <?php
                         } else {
@@ -75,6 +76,9 @@
                     ?>
                 </tbody>
             </table>
+            <button class="btn" type="submit"><i class="fas fa-key"></i>Cambiar Contraseña</button>
+
+
         </main>
         <footer class="footer open-main">footer</footer>
     </div>
