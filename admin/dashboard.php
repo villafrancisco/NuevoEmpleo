@@ -29,6 +29,7 @@
         </aside>
 
         <main class="main mh open-main">
+<<<<<<< HEAD
 
             <table class="table table-striped table-hover">
                 <thead class="thead-light">
@@ -74,6 +75,53 @@
                 </tbody>
             </table>
 
+=======
+            <div class="table-responsive-lg">
+                <table class="table ">
+                    <thead class="thead-light">
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Apellidos</th>
+                            <th scope="col">Email</th>
+
+                            <th scope="col">Guardar</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+
+                        foreach ($administradores as $admin) {
+                        ?>
+                            <form name="form<?php echo $admin->getIdadmin(); ?>" name="form<?php echo $admin->getIdadmin(); ?>" action="ajax/guardar_administrador" method="post" class="disable-autocomplete" autocomplete="off">
+                                <tr id="<?php echo $admin->getIdadmin(); ?>">
+                                    <th scope="row"><?php echo $admin->getIdadmin(); ?></th>
+                                    <td><input type="text" name="nombre" value="<?php echo $admin->getNombre(); ?>"><input type="hidden" name="idusuario" value="<?php echo $admin->getIdusuario(); ?>"></td>
+                                    <td><input type="text" name="apellidos" value="<?php echo $admin->getApellidos(); ?>"></td>
+                                    <td><input type="text" name="email" value="<?php echo $admin->getEmail(); ?>"></td>
+
+                                    <td class="accion">
+                                        <?php
+                                        if ($admin->getIdadmin() == $administrador->getIdadmin()) {
+                                        ?>
+
+                                            <a href="<?php echo $admin->getIdadmin(); ?>" class="save"><i class="fas fa-save fa-2x"></i></a>
+                                        <?php
+                                        }
+                                        ?>
+
+                                    </td>
+                                </tr>
+                            </form>
+                        <?php
+                        }
+
+
+                        ?>
+                    </tbody>
+                </table>
+            </div>
+>>>>>>> desactivar_autocompletar
         </main>
         <footer class="footer open-main">footer</footer>
     </div>
