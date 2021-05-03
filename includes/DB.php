@@ -188,22 +188,38 @@ class DB extends Conexion
         }
     }
 
-    // public function updateAdministrador($usuario){
-    //     try{
-    //         $sql = "UPDATE administradores SET nombre= :nombre, apellidos= :apellidos, email= :email, contrasena=: contrasena WHERE idadmin = :idadmin "; 
-    //         $parametros=array(":idadmin"    =>  $usuario->getIdadmin(),
-    //                     ":nombre"       =>  $usuario->getNombre(),
-    //                     ":apellidos"    =>  $usuario->getApellidos(),
-    //                     ":email"        =>  $usuario->getEmail(),
-    //                     ":contrasena    =>  $usuario->getContrasena()");
-    //     $resultado = self::ejecutaConsulta($sql, $parametros);
-    //     return $resultado;
-
-    //     }catch(PDOException e){
-    //         return false;
-    //     }
-
-    // }
+    public function updateUsuario($usuario)
+    {
+        try {
+            switch ($usuario->getNametipo()) {
+                case 'administrador':
+                    $sql = "UPDATE administradores SET 
+                        nombre= :nombre,
+                        apellidos= :apellidos,
+                        email= :email, 
+                        contrasena= :contrasena 
+                    WHERE idadmin = :idadmin ";
+                    $parametros = array(
+                        ":idadmin"    =>  $usuario->getIdadmin(),
+                        ":nombre"       =>  $usuario->getNombre(),
+                        ":apellidos"    =>  $usuario->getApellidos(),
+                        ":email"        =>  $usuario->getEmail(),
+                        ":contrasena"    =>  $usuario->getContrasena()
+                    );
+                    break;
+                case 'empresa':
+                    break;
+                case 'titulado':
+                    break;
+                default:
+                    break;
+            }
+            $resultado = self::ejecutaConsulta($sql, $parametros);
+            return $resultado;
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
 
 
     /**

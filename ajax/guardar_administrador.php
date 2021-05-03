@@ -6,6 +6,7 @@ require_once '../includes/DB.php';
 require_once '../modelos/Usuario.php';
 require_once '../modelos/Administrador.php';
 require_once '../modelos/Titulado.php';
+require_once '../modelos/Empresa.php';
 
 /**
  * comprobarEmail
@@ -53,17 +54,20 @@ if (isset($_POST["email"]) && isset($_POST["nombre"]) && isset($_POST['apellidos
             $usuariologueado->setApellidos($_POST['apellidos']);
             $db->updateUsuario($usuariologueado);
         } else {
-            //compruebo el nuevo email
-            if ($administrador->getEmail() == $usuariologueado->getEmail()) {
-                //el email ya existe en el sistema
-                $data['status'] = 'error';
-            } else {
-                $usuariologueado->setNombre($_POST['nombre']);
-                $usuariologueado->setApellidos($_POST['apellidos']);
-                $usuariologueado->setEmail($_POST['email']);
-                $data['status'] = 'ok';
-                $db->updateUsuario($usuariologueado);
+            //compruebo el nuevo email no exista en ningun usuario
+            $listaUsuarios = $db->getAllUsuarios();
+            foreach ($listaUsuarios as $usuario) {
+                if ($usuario->getEmail() == $_POST['email']) {
+                    //el email ya existe en el sistema
+                    $data['status'] = 'error';
+                    return false;
+                }
             }
+            $usuariologueado->setNombre($_POST['nombre']);
+            $usuariologueado->setApellidos($_POST['apellidos']);
+            $usuariologueado->setEmail($_POST['email']);
+            $data['status'] = 'ok';
+            $db->updateUsuario($usuariologueado);
         }
     }
     echo json_encode($data);
