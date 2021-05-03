@@ -25,13 +25,13 @@ function loginAjax($datos){
         body: $datos
     }).then(response => response.json())
     .then(data => {
-       
+            console.log(data);
             if(data.status=='ok'){
                 if(data.tipousuario=='administrador'){
                     window.location.href="admin/dashboard.php";
-                }else if(data=="empresa"){
+                }else if(data.tipousuario=="empresa"){
                     window.location.href="empresa.php";
-                }else if(data=='titulado'){
+                }else if(data.tipousuario=='titulado'){
                     window.location.href="titulado.php";
                 }
             }else{

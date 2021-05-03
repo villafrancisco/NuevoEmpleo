@@ -19,7 +19,7 @@ class Titulado extends Usuario
         $this->direccion = isset($row['direccion']) ? $row['direccion'] : false;
         $this->dni = isset($row['dni']) ? $row['dni'] : false;
         $this->telefono = isset($row['telefono']) ? $row['telefono'] : false;
-        $this->curriculum = $row['curriculum'] ? $row['curriculum'] : false;
+        $this->curriculum = isset($row['curriculum']) ? $row['curriculum'] : false;
         $this->foto = isset($row['foto']) ? $row['foto'] : false;
         $this->fecha_registro = isset($row['fecha_registro']) ? $row['fecha_registro'] : false;
         $this->lista_titulos = isset($row['lista_titulos']) ? $row['lista_titulos'] : false;

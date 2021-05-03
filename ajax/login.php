@@ -86,55 +86,78 @@ function login($email, $contrasena, $tipo)
     $listaUsuarios = $db->getAllUsuarios();
     foreach ($listaUsuarios as $usuario) {
 
-        //TODO comprobar email y contrasena
-        if (password_verify($contrasena, $usuario->getContrasena())) {
+
+        if (password_verify($contrasena, $usuario->getContrasena()) && $usuario->getEmail() == $email && $usuario->getNameTipo() == "administrador" && $tipo == 'administrador') {
             //Contraseña correcta
-            $usuariologueado = $usuario;
+            //Loguear como administrador
+            $usuarioadministrador = $usuario;
+        } else if (password_verify($contrasena, $usuario->getContrasena()) && $usuario->getEmail() == $email && $usuario->getNameTipo() == "empresa" && $tipo == 'empresa') {
+            //contraseña correcta
+            //Loguear como titulado o empresa
+            $usuarioempresa = $usuario;
+        } else if (password_verify($contrasena, $usuario->getContrasena()) && $usuario->getEmail() == $email && $usuario->getNameTipo() == "titulado" && $tipo == 'titulado') {
+            //contraseña correcta
+            //Loguear como titulado o empresa
+            $usuariotitulado = $usuario;
         }
     }
-
-    if (isset($usuariologueado)) {
-        //existe el usuario y la contraseña, creo la session
+    //TODO una funcion para administradores y otra para el resto
+    if (isset($usuarioadministrador)) {
         session_start();
-        $_SESSION["usuario"] = $usuario;
+        $_SESSION["usuario"] = $usuarioadministrador;
+        return true;
+    } else if (isset($usuarioempresa)) {
+        session_start();
+        $_SESSION["usuario"] = $usuarioempresa;
+        return true;
+    } else if (isset($usuariotitulado)) {
+        session_start();
+        $_SESSION["usuario"] = $usuariotitulado;
         return true;
     } else {
         //preguntar si existe el email introducido como usuario
+        $emailexiste = false;
         foreach ($listaUsuarios as $usuario) {
             if ($usuario->getEmail() == $email) {
-                //existe el email pero la contraseña no coincide
+                $emailexiste = true; //existe el email 
                 return false;
-            } else { //No existe ni el email ni la contraseña
-                if ($tipo == "administrador") { //Solo para los sean administradores
-                    //Metodo para insertar en la base de datos que solo debe estar en desarrollo
-                    $usuario = new Administrador([
-                        'email'           => $email,
-                        'contrasena'    =>  $contrasena,
-                        'idtipo'        =>  '1'
-                    ]);
-                    $_SESSION["usuario"] = $db->crearNuevoUsuario($usuario);
-                    //return false;
-                } else if ($tipo == 'empresa') {
-                    $usuario = new Empresa([
-                        'email'           => $email,
-                        'contrasena'    =>  $contrasena,
-                        'idtipo'        =>  '2'
-                    ]);
-                    $_SESSION["usuario"] = $db->crearNuevoUsuario($usuario);
-                } else if ($tipo == 'titulado') {
-                    $usuario = new Titulado([
-                        'email'           => $email,
-                        'contrasena'    =>  $contrasena,
-                        'idtipo'        =>  '3'
-                    ]);
-                    $_SESSION["usuario"] = $db->crearNuevoUsuario($usuario);
-                }
-                if (isset($_SESSION['usuario'])) {
-                    session_start();
-                    return true;
-                } else {
-                    return false;
-                }
+            }
+        }
+        if (!$emailexiste) {
+
+            //No existe ni el email ni la contraseña
+            if ($tipo == "administrador") { //Solo para los sean administradores
+                //Metodo para insertar en la base de datos que solo debe estar en desarrollo
+
+                //Cambiar para poder insertar administradores
+                // $usuario = new Administrador([
+                //     'email'           => $email,
+                //     'contrasena'    =>  $contrasena,
+                //     'idtipo'        =>  '1'
+                // ]);
+                // $nuevousuario = $db->crearNuevoUsuario($usuario);
+                return false;
+            } else if ($tipo == 'empresa') {
+                $usuario = new Empresa([
+                    'email'           => $email,
+                    'contrasena'    =>  $contrasena,
+                    'idtipo'        =>  '2'
+                ]);
+                $nuevousuario = $db->crearNuevoUsuario($usuario);
+            } else if ($tipo == 'titulado') {
+                $usuario = new Titulado([
+                    'email'           => $email,
+                    'contrasena'    =>  $contrasena,
+                    'idtipo'        =>  '3'
+                ]);
+                $nuevousuario = $db->crearNuevoUsuario($usuario);
+            }
+            if (isset($nuevousuario)) {
+                session_start();
+                $_SESSION['usuario'] = $nuevousuario;
+                return true;
+            } else {
+                return false;
             }
         }
     }

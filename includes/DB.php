@@ -156,8 +156,7 @@ class DB extends Conexion
                 $nombreClase = $this->getNombreClase($tipousuario);
                 $listaUsuarios[] = new $nombreClase($resultado);
             }
-
-            return $listaUsuarios;
+            return !empty($listaUsuarios) ? $listaUsuarios : false;
         } catch (PDOException $e) {
             return false;
         }
@@ -173,7 +172,6 @@ class DB extends Conexion
      */
     public function crearNuevoUsuario($usuario)
     {
-
         try {
             $conexion = parent::conectar();
             $conexion->beginTransaction();
@@ -190,23 +188,23 @@ class DB extends Conexion
         }
     }
 
-    public function updateUsuario($usuario)
-    {
-        try {
-            $sql = "";
-            $parametros = array(':tipousuario' => $tipousuario);
-            $consulta = self::ejecutaConsulta($sql, $parametros);
-            $listaUsuarios = [];
-            while ($resultado = $consulta->fetch()) {
-                $nombreClase = $this->getNombreClase($tipousuario);
-                $listaUsuarios[] = new $nombreClase($resultado);
-            }
+    // public function updateAdministrador($usuario){
+    //     try{
+    //         $sql = "UPDATE administradores SET nombre= :nombre, apellidos= :apellidos, email= :email, contrasena=: contrasena WHERE idadmin = :idadmin "; 
+    //         $parametros=array(":idadmin"    =>  $usuario->getIdadmin(),
+    //                     ":nombre"       =>  $usuario->getNombre(),
+    //                     ":apellidos"    =>  $usuario->getApellidos(),
+    //                     ":email"        =>  $usuario->getEmail(),
+    //                     ":contrasena    =>  $usuario->getContrasena()");
+    //     $resultado = self::ejecutaConsulta($sql, $parametros);
+    //     return $resultado;
 
-            return $listaUsuarios;
-        } catch (PDOException $e) {
-            return false;
-        }
-    }
+    //     }catch(PDOException e){
+    //         return false;
+    //     }
+
+    // }
+
 
     /**
      * getEmpresa

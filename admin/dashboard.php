@@ -5,6 +5,7 @@
     <?php include 'inc/head.php' ?>
     <?php include 'inc/authorize.php' ?>
     <?php
+
     //Array con todos los administradores
     $administradores = $db->getAllUsuariosTipo("administrador");
     ?>

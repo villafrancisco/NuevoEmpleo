@@ -1,5 +1,5 @@
 <?php
-
+$db = new DB();
 session_start();
 
 if (isset($_SESSION["usuario"]) && $_SESSION["usuario"]->getIdTipo() == 1) {
