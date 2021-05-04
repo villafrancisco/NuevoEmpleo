@@ -15,7 +15,7 @@ class Titulado extends Usuario
 
     function __construct($row)
     {
-        $this->idtitulado = isset($row['idusuario']) ? $row['idusuario'] : false;
+        $this->idtitulado = isset($row['idtitulado']) ? $row['idtitulado'] : false;
         $this->direccion = isset($row['direccion']) ? $row['direccion'] : false;
         $this->dni = isset($row['dni']) ? $row['dni'] : false;
         $this->telefono = isset($row['telefono']) ? $row['telefono'] : false;
@@ -104,6 +104,7 @@ class Titulado extends Usuario
     }
 
     public function setListaTitulos($lista_titulos)
+
     {
         $this->lista_titulos = $lista_titulos;
     }

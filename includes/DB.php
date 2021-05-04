@@ -103,6 +103,7 @@ class DB extends Conexion
             return false;
         }
     }
+    
 
     /**
      * getAllUsuarios
@@ -361,6 +362,33 @@ class DB extends Conexion
         }
     }
 
+     /**
+     * getTitulacionUsuario
+     * 
+     * devuelve la titulacion de un usuario
+     *
+     * @param  mixed $idusuario
+     * @return void
+     */
+    public function getTitulacionUsuario($usuario)
+    {
+        try {
+            $sql = "SELECT t4.* FROM usuarios as t1 INNER JOIN titulados as t2 ON t1.idusuario=t2.idusuario INNER JOIN tituladostitulacion as t3 ON t2.idtitulado=t3.idtitulado 
+            INNER JOIN titulos as t4 ON t3.idtitulacion=t4.idtitulo
+            WHERE t1.idusuario=:idusuario";
+            $parametros = array(':idusuario'  =>  $usuario->getIdusuario());
+            $consulta = self::ejecutaConsulta($sql, $parametros);
+            $listatitulos = [];
+            while ($resultado = $consulta->fetch()) {
+                $listatitulos[] = new Titulo($resultado);
+            }
+
+            return $listatitulos;
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
+
 
 
 
@@ -454,32 +482,7 @@ class DB extends Conexion
         }
     }
 
-    /**
-     * getTitulacionUsuario
-     * 
-     * devuelve la titulacion de un usuario
-     *
-     * @param  mixed $idusuario
-     * @return void
-     */
-    public function getTitulacionUsuario($idusuario)
-    {
-        try {
-            $sql = "SELECT t4.* FROM usuarios as t1 INNER JOIN titulados as t2 ON t1.idusuario=t2.idusuario INNER JOIN tituladostitulacion as t3 ON t2.idtitulado=t3.idtitulado 
-            INNER JOIN titulos as t4 ON t3.idtitulacion=t4.idtitulo
-            WHERE t1.idusuario=:idusuario";
-            $parametros = array(':idusuario'  =>  $idusuario);
-            $consulta = self::ejecutaConsulta($sql, $parametros);
-            $listatitulos = [];
-            while ($resultado = $consulta->fetch()) {
-                $listatitulos[] = new Titulo($resultado);
-            }
-
-            return $listatitulos;
-        } catch (PDOException $e) {
-            return false;
-        }
-    }
+   
 
     public function getAlltitulos()
     {

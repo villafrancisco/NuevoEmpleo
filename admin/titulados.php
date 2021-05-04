@@ -10,7 +10,7 @@
     if (isset($_GET['id'])) {
         $titulado = $db->getUsuario($_GET['id']);
         if ($titulado) {
-            $titulostitulado = $db->getTitulacionUsuario($titulado->getIdusuario());
+            $titulado->setListaTitulos($titulado);
             $titulos = $db->getAllTitulos();
         }
     }
@@ -58,7 +58,15 @@
                         <?php
 
                         foreach ($titulados as $titulado) {
+                            $titulado->setListaTitulos($db->getTitulacionUsuario($titulado));
+                            foreach($titulado->getListaTitulos() as $titulo){
+                                echo $titulo->getNombre();
+                            };
+                            exit();
+                            
+                           
                         ?>
+                            
                             <form name="form<?php echo $titulado->getIdtitulado(); ?>" name="form<?php echo $titulado->getIdtitulado(); ?>" action="ajax/guardar_titulado" method="post" class="disable-autocomplete" autocomplete="off">
                                 <tr id="<?php echo $titulado->getIdtitulado(); ?>">
                                     <th scope="row"><?php echo $titulado->getIdtitulado(); ?></th>
@@ -70,13 +78,8 @@
                                     <td><?php echo $titulado->getTelefono(); ?></td>
                                     <td>
                                         <?php
-                                        $titulacionestitulado = $db->getTitulacionUsuario($titulado->getIdusuario());
-                                        $familiastitulado;
-                                        foreach ($titulacionestitulado as $titulaciontitulado) {
-                                            $familiatitulado = $db->getFamiliasTitulo($titulaciontitulado->getIdtitulo());
-                                            echo $familiatitulado->getFamilia();
-                                        }
-
+                                        // var_dump($titulo=$titulado->getListaTitulos()[0]->getNombre());
+                                        // echo $titulo->getNombre();
                                         ?>
                                     </td>
 
@@ -104,6 +107,10 @@
 
                 <form id="detalle-titulado" class="table" action="#" method="POST">
                     <div class="detalle-titulado">
+                    <div class="detalle-titulado__item">
+                            <label>Id:</label>
+                            <p><?php echo $titulado->getIdTitulado(); ?></p>
+                        </div>
                         <div class="detalle-titulado__item">
                             <label for="nombre">Nombre:</label>
                             <input type="text" name="nombre" value="<?php echo $titulado->getNombre(); ?>">
