@@ -10,7 +10,7 @@
     if (isset($_GET['id'])) {
         $titulado = $db->getUsuario($_GET['id']);
         if ($titulado) {
-            $titulado->setListaTitulos($titulado);
+            $titulado->setListaTitulos($db->getTitulacionUsuario($titulado));
             $titulos = $db->getAllTitulos();
         }
     }
@@ -58,15 +58,8 @@
                         <?php
 
                         foreach ($titulados as $titulado) {
-                            $titulado->setListaTitulos($db->getTitulacionUsuario($titulado));
-                            foreach($titulado->getListaTitulos() as $titulo){
-                                echo $titulo->getNombre();
-                            };
-                            exit();
-                            
-                           
+
                         ?>
-                            
                             <form name="form<?php echo $titulado->getIdtitulado(); ?>" name="form<?php echo $titulado->getIdtitulado(); ?>" action="ajax/guardar_titulado" method="post" class="disable-autocomplete" autocomplete="off">
                                 <tr id="<?php echo $titulado->getIdtitulado(); ?>">
                                     <th scope="row"><?php echo $titulado->getIdtitulado(); ?></th>
@@ -78,12 +71,13 @@
                                     <td><?php echo $titulado->getTelefono(); ?></td>
                                     <td>
                                         <?php
-                                        // var_dump($titulo=$titulado->getListaTitulos()[0]->getNombre());
-                                        // echo $titulo->getNombre();
+                                        foreach ($titulado->getFamiliasTitulado() as $idfamilia) {
+                                            echo '<p>' . $db->getFamilia($idfamilia)->getFamilia() . '</p>';
+                                        }
+
                                         ?>
+
                                     </td>
-
-
                                     <td><?php echo $titulado->getFecha_registro(); ?></td>
                                     <td class="accion">
                                         <a href="titulados.php?id=<?php echo $titulado->getIdusuario(); ?>" class="ver"><i class="fas fa-eye fa-2x"></i></i></a>
@@ -107,7 +101,7 @@
 
                 <form id="detalle-titulado" class="table" action="#" method="POST">
                     <div class="detalle-titulado">
-                    <div class="detalle-titulado__item">
+                        <div class="detalle-titulado__item">
                             <label>Id:</label>
                             <p><?php echo $titulado->getIdTitulado(); ?></p>
                         </div>
@@ -151,23 +145,29 @@
                             <input type="text" name="fecha_registro" value="<?php echo $titulado->getFecha_registro(); ?>">
                         </div>
 
-                        <?php foreach ($titulostitulado as $titulotitulado) {
-                        ?>
-                            <div class="detalle-titulado__item">
-                                <label for="titulacion">Titulacion: </label>
-                                <select name="titulacion">
-                                    <?php
-                                    foreach ($titulos as $titulo) {
-                                    ?>
-                                        <option value="<?php echo $titulo->getIdtitulo(); ?>" selected="<?php $titulo->getIdtitulo == $titulotitulado->getIdtitulo ? true : false ?>"><?php echo $titulo->getNombre(); ?></option>
-                                    <?php
-                                    }
-                                    ?>
-
-                                </select>
-                            </div>
                         <?php
-                        }
+
+                        if (is_array($titulado->getListaTitulos()) || is_object($titulado->getListaTitulos())) {
+
+                            foreach ($titulado->getListaTitulos() as $titulo) {
+
+                        ?>
+                                <div class="detalle-titulado__item">
+                                    <label for="titulacion">Titulacion: </label>
+                                    <select name="titulacion">
+                                        <?php
+                                        foreach ($titulos as $t) {
+
+                                        ?>
+                                            <option value="<?php echo $t->getIdtitulo(); ?>" <?php echo ($titulo->getIdtitulo() == $t->getIdtitulo()) ? 'selected' : 'false' ?>><?php echo $t->getNombre(); ?></option>
+                                        <?php
+                                        } //fin del foreach
+                                        ?>
+                                    </select>
+                                </div>
+                        <?php
+                            } //fin del for each
+                        } //fin del if
                         ?>
                     </div>
 

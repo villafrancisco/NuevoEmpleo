@@ -102,6 +102,16 @@ class Titulado extends Usuario
     {
         return $this->lista_titulos;
     }
+    public function getFamiliasTitulado()
+    {
+        $familias = [];
+        if ($this->lista_titulos) {
+            foreach ($this->lista_titulos as $titulo) {
+                $familias[] = $titulo->getIdFamilia();
+            }
+        }
+        return array_unique($familias);
+    }
 
     public function setListaTitulos($lista_titulos)
 

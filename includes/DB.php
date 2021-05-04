@@ -79,7 +79,7 @@ class DB extends Conexion
      * @param  mixed $idempresa
      * @return mixed
      */
-    public function getUsuario($idusuario)
+    public function getUsuario_($idusuario)
     {
         try {
             $sql = "SELECT * FROM usuarios as t1 INNER JOIN tipousuario as t2 ON t1.idtipo=t2.idtipo  WHERE t1.idusuario=:idusuario";
@@ -103,7 +103,46 @@ class DB extends Conexion
             return false;
         }
     }
-    
+
+    /**
+     * getUsuario
+     * 
+     * devuelve el usuario
+     *
+     * @param  mixed $idempresa
+     * @return mixed
+     */
+    public function getUsuario($idusuario)
+    {
+        try {
+            $sql = "SELECT * FROM usuarios as t1 INNER JOIN tipousuario as t2 ON t1.idtipo=t2.idtipo  WHERE t1.idusuario=:idusuario";
+            $parametros = array(':idusuario'   =>  $idusuario);
+            $consulta = self::ejecutaConsulta($sql, $parametros);
+            if ($resultado = $consulta->fetch()) {
+
+                $sql2 = "SELECT * FROM " . $this->getTipoTabla($resultado['tipousuario']) . " as t1 INNER JOIN usuarios as t2 ON t1.idusuario=t2.idusuario WHERE t1.idusuario = :idusuario AND t2.idtipo=:idtipo";
+                $parametros2 = array(
+                    ':idusuario' => $resultado['idusuario'],
+                    ':idtipo' => $resultado['idtipo']
+                );
+                $consulta2 = self::ejecutaConsulta($sql2, $parametros2);
+                if ($resultado2 = $consulta2->fetch()) {
+                    $nombreClase = $this->getNombreClase($resultado['tipousuario']);
+                    $usuario = new $nombreClase($resultado2);
+                }
+                if (isset($usuario)) {
+                    if ($usuario instanceof Titulado) {
+                        $usuario->setListaTitulos($this->getTitulacionUsuario($usuario));
+                    }
+                }
+            }
+            return isset($usuario) ? $usuario : false;
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
+
+
 
     /**
      * getAllUsuarios
@@ -128,7 +167,11 @@ class DB extends Conexion
                 $consulta2 = self::ejecutaConsulta($sql2, $parametros2);
                 if ($resultado2 = $consulta2->fetch()) {
                     $nombreClase = $this->getNombreClase($resultado['tipousuario']);
-                    $listausuarios[] = new $nombreClase($resultado2);
+                    $usuario = new $nombreClase($resultado2);
+                    if ($usuario instanceof Titulado) {
+                        $usuario->setListaTitulos($this->getTitulacionUsuario($usuario));
+                    }
+                    $listausuarios[] = $usuario;
                 }
             }
 
@@ -137,6 +180,9 @@ class DB extends Conexion
             return false;
         }
     }
+
+
+
 
     /**
      * getUsuariosTipo
@@ -155,7 +201,11 @@ class DB extends Conexion
             $listaUsuarios = [];
             while ($resultado = $consulta->fetch()) {
                 $nombreClase = $this->getNombreClase($tipousuario);
-                $listaUsuarios[] = new $nombreClase($resultado);
+                $usuario = new $nombreClase($resultado);
+                if ($usuario instanceof Titulado) {
+                    $usuario->setListaTitulos($this->getTitulacionUsuario($usuario));
+                }
+                $listaUsuarios[] = $usuario;
             }
             return !empty($listaUsuarios) ? $listaUsuarios : false;
         } catch (PDOException $e) {
@@ -362,7 +412,7 @@ class DB extends Conexion
         }
     }
 
-     /**
+    /**
      * getTitulacionUsuario
      * 
      * devuelve la titulacion de un usuario
@@ -382,10 +432,49 @@ class DB extends Conexion
             while ($resultado = $consulta->fetch()) {
                 $listatitulos[] = new Titulo($resultado);
             }
-
-            return $listatitulos;
+            return !empty($listatitulos) ? $listatitulos : false;
         } catch (PDOException $e) {
             return false;
+        }
+    }
+
+    /**
+     * getFamiliasTitulo
+     * 
+     * //devuelve la familia profesional de un titulo  
+     *
+     * @return mixed
+     */
+    public function getFamiliaTitulo($titulo)
+    {
+        try {
+            $sql = "SELECT * FROM familia as t1 INNER JOIN titulos as t2 ON t1.idfamilia=t2.idfamilia WHERE t2.idtitulo=:idtitulo";
+            $parametros = array(':idtitulo' =>  $titulo->getIdtitulo());
+            $resultado = self::ejecutaConsulta($sql, $parametros);
+            if (isset($resultado)) {
+                $familia = new Familia($resultado->fetch());
+            }
+            return isset($familia) ? $familia : false;
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
+
+
+
+    public function getAlltitulos()
+    {
+        try {
+            $sql = "SELECT * FROM titulos";
+            $parametros = array();
+            $consulta = self::ejecutaConsulta($sql, $parametros);
+            $listatitulos = [];
+            while ($resultado = $consulta->fetch()) {
+                $listatitulos[] = new Titulo($resultado);
+            }
+            return !empty($listatitulos) ? $listatitulos : false;
+        } catch (PDOException $e) {
+            $e->getMessage();
         }
     }
 
@@ -430,27 +519,7 @@ class DB extends Conexion
         }
     }
 
-    /**
-     * getFamiliasTitulo
-     * 
-     * //devuelve la familia profesional de un titulo  
-     *
-     * @return mixed
-     */
-    public function getFamiliasTitulo($idtitulo)
-    {
-        try {
-            $sql = "SELECT * FROM familia as t1 INNER JOIN titulos as t2 ON t1.idfamilia=t2.idfamilia WHERE t2.idtitulo=:idtitulo";
-            $parametros = array(':idtitulo' =>  $idtitulo);
-            $resultado = self::ejecutaConsulta($sql, $parametros);
-            if (isset($resultado)) {
-                $familia = new Familia($resultado->fetch());
-            }
-            return $familia;
-        } catch (PDOException $e) {
-            return false;
-        }
-    }
+
 
 
     /**
@@ -479,24 +548,6 @@ class DB extends Conexion
             return $titulos;
         } catch (PDOException $e) {
             return false;
-        }
-    }
-
-   
-
-    public function getAlltitulos()
-    {
-        try {
-            $sql = "SELECT * FROM titulos";
-            $parametros = array();
-            $consulta = self::ejecutaConsulta($sql, $parametros);
-            $listatitulos = [];
-            while ($resultado = $consulta->fetch()) {
-                $listatitulos[] = new Titulo($resultado);
-            }
-            return $listatitulos;
-        } catch (PDOException $e) {
-            $e->getMessage();
         }
     }
 }
