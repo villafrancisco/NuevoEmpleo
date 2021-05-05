@@ -10,7 +10,7 @@ class Titulado extends Usuario
     protected $foto;
     protected $fecha_registro;
     protected $lista_titulos;
-    protected $lista_ofertas_inscrito;
+    protected $lista_empleos_inscrito;
 
 
     function __construct($row)
@@ -23,7 +23,7 @@ class Titulado extends Usuario
         $this->foto = isset($row['foto']) ? $row['foto'] : false;
         $this->fecha_registro = isset($row['fecha_registro']) ? $row['fecha_registro'] : false;
         $this->lista_titulos = isset($row['lista_titulos']) ? $row['lista_titulos'] : false;
-        $this->lista_ofertas_inscrito = isset($row['lista_ofertas_inscrito']) ? $row['lista_ofertas_inscrito'] : false;
+        $this->lista_empleos_inscrito = isset($row['lista_empleos_inscrito']) ? $row['lista_empleos_inscrito'] : false;
         parent::__construct($row);
     }
 
@@ -119,13 +119,13 @@ class Titulado extends Usuario
         $this->lista_titulos = $lista_titulos;
     }
 
-    public function getOfertasInscrito()
+    public function getLista_empleos_inscrito()
     {
-        return $this->lista_ofertas_inscrito;
+        return $this->lista_empleos_inscrito;
     }
 
-    public function setOfertasInscrito($lista_ofertas_inscrito)
+    public function setLista_empleos_inscrito($lista_empleos_inscrito)
     {
-        $this->lista_ofertas_inscrito = $lista_ofertas_inscrito;
+        $this->lista_empleos_inscrito = $lista_empleos_inscrito;
     }
 }

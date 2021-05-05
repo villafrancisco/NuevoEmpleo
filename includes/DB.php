@@ -79,7 +79,7 @@ class DB extends Conexion
      * @param  mixed $idempresa
      * @return mixed
      */
-    public function getUsuario_($idusuario)
+    public function getUsuario____($idusuario)
     {
         try {
             $sql = "SELECT * FROM usuarios as t1 INNER JOIN tipousuario as t2 ON t1.idtipo=t2.idtipo  WHERE t1.idusuario=:idusuario";
@@ -133,6 +133,7 @@ class DB extends Conexion
                 if (isset($usuario)) {
                     if ($usuario instanceof Titulado) {
                         $usuario->setListaTitulos($this->getTitulacionUsuario($usuario));
+                        $usuario->setLista_empleos_inscrito($this->getEmpleosInscritos($usuario));
                     }
                 }
             }
@@ -170,6 +171,7 @@ class DB extends Conexion
                     $usuario = new $nombreClase($resultado2);
                     if ($usuario instanceof Titulado) {
                         $usuario->setListaTitulos($this->getTitulacionUsuario($usuario));
+                        $usuario->setLista_empleos_inscrito($this->getEmpleosInscritos($usuario));
                     }
                     $listausuarios[] = $usuario;
                 }
@@ -190,7 +192,7 @@ class DB extends Conexion
      * devuelve todos los usuarios de un tipousuario
      *
      
-     * @return void
+     * @return object
      */
     public function getAllUsuariosTipo($tipousuario)
     {
@@ -204,6 +206,7 @@ class DB extends Conexion
                 $usuario = new $nombreClase($resultado);
                 if ($usuario instanceof Titulado) {
                     $usuario->setListaTitulos($this->getTitulacionUsuario($usuario));
+                    $usuario->setLista_empleos_inscrito($this->getEmpleosInscritos($usuario));
                 }
                 $listaUsuarios[] = $usuario;
             }
@@ -465,7 +468,7 @@ class DB extends Conexion
     public function getAlltitulos()
     {
         try {
-            $sql = "SELECT * FROM titulos";
+            $sql = "SELECT * FROM titulos ORDER BY grado,nombre";
             $parametros = array();
             $consulta = self::ejecutaConsulta($sql, $parametros);
             $listatitulos = [];
@@ -475,6 +478,26 @@ class DB extends Conexion
             return !empty($listatitulos) ? $listatitulos : false;
         } catch (PDOException $e) {
             $e->getMessage();
+        }
+    }
+
+    public function getEmpleosInscritos($titulado)
+    {
+        try {
+            $sql = "SELECT * FROM inscripciones as t1
+                INNER JOIN empleos as t2 ON t1.idempleo=t2.idempleo
+                INNER JOIN titulados as t3 ON t1.idtitulado=t3.idtitulado
+                INNER JOIN empresas as t4 ON t2.idempresa=t4.idempresa
+            WHERE t1.idtitulado = :idtitulado";
+            $parametros = array(':idtitulado'   => $titulado->getIdtitulado());
+            $consulta = self::ejecutaConsulta($sql, $parametros);
+            $listaempleosinscrito = [];
+            while ($resultado = $consulta->fetch()) {
+                $listaempleosinscrito[] = new Empleo($resultado);
+            }
+            return !empty($listaempleosinscrito) ? $listaempleosinscrito : $listaempleosinscrito;
+        } catch (PDOException $e) {
+            return false;
         }
     }
 

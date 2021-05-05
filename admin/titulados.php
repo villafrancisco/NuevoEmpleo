@@ -10,7 +10,8 @@
     if (isset($_GET['id'])) {
         $titulado = $db->getUsuario($_GET['id']);
         if ($titulado) {
-            $titulado->setListaTitulos($db->getTitulacionUsuario($titulado));
+
+
             $titulos = $db->getAllTitulos();
         }
     }
@@ -176,46 +177,24 @@
                     <h2>Listado de inscripciones en Ofertas de Empleo</h2>
                     <thead class="thead-light">
                         <tr>
-                            <th scope="col">ID</th>
-                            <th scope="col">Nombre</th>
-                            <th scope="col">Apellidos</th>
-                            <th scope="col">Email</th>
-
-                            <th scope="col">DNI</th>
-                            <th scope="col">Teléfono</th>
-
-
-                            <th scope="col">Fecha Registro</th>
-                            <th scope="col">Ver/Guardar</th>
+                            <th scope="col">Empresa</th>
+                            <th scope="col">Descripción</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php
-
-                        foreach ($titulados as $titulado) {
+                        foreach ($titulado->getLista_empleos_inscrito() as $empleo) {
                         ?>
                             <form name="form<?php echo $titulado->getIdtitulado(); ?>" name="form<?php echo $titulado->getIdtitulado(); ?>" action="ajax/guardar_titulado" method="post" class="disable-autocomplete" autocomplete="off">
-                                <tr id="<?php echo $titulado->getIdtitulado(); ?>">
-                                    <th scope="row"><?php echo $titulado->getIdtitulado(); ?></th>
-                                    <td><input type="text" name="nombre" value="<?php echo $titulado->getNombre(); ?>"><input type="hidden" name="idusuario" value="<?php echo $titulado->getIdusuario(); ?>"></td>
-                                    <td><input type="text" name="apellidos" value="<?php echo $titulado->getApellidos(); ?>"></td>
-                                    <td><input type="text" name="email" value="<?php echo $titulado->getEmail(); ?>"></td>
+                                <tr id="<?php echo $empleo->getIdEmpleo(); ?>">
 
-                                    <td><input type="text" name="dni" value="<?php echo $titulado->getDni(); ?>"></td>
-                                    <td><input type="text" name="telefono" value="<?php echo $titulado->getTelefono(); ?>"></td>
+                                    <td><?php echo $empleo->getIdEmpleo(); ?></td>
+                                    <td><?php echo $empleo->getDescripcion(); ?></td>
 
-
-                                    <td><input type="text" name="fecha_registro" value="<?php echo $titulado->getFecha_registro(); ?>"></td>
-                                    <td class="accion">
-                                        <a href="titulados.php?id=<?php echo $titulado->getIdusuario(); ?>" class="ver"><i class="fas fa-eye fa-2x"></i></i></a>
-                                        <a href="<?php echo $titulado->getIdtitulado(); ?>" class="save"><i class="fas fa-save fa-2x"></i></a>
-                                    </td>
                                 </tr>
                             </form>
                         <?php
                         }
-
-
                         ?>
                     </tbody>
                 </table>
