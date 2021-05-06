@@ -21,20 +21,21 @@ if (isset($_GET["familia"]) && !empty($_GET['familia'])) {
             <?php include 'inc/header.php' ?>
         </header>
         <section class="mh listado-empleos">
-            <a href="familias.php">Buscar por familia profesional</a>
-            <div class="row">
+            <div class="listado-empleos__item">
                 <?php if (isset($familia) && $familia != false) {
-                    $listaEmpleos = $db->getEmpleosFamilia($familia->getIdfamilia());
+                    $listaEmpleos = $db->getEmpleosFamilia($familia);
                 ?>
                     <h4 class="text-center text-light col-sm-12">Ofertas de empleo de <?php echo $familia->getFamilia() ?></h4>
                     <?php
                     if (!$listaEmpleos) {
-                        echo 'vacio';
+                        echo '<p>No existe ninguna oferta de empleo en esta categoría</p>';
+                    } else {
+                        echo '<div class="card">';
+                        foreach ($listaEmpleos as $empleo) {
+                            echo '<img src="' . $empleo->getIdempresa() . '">';
+                            echo '<p>' . $empleo->getDescripcion() . '</p>';
+                        }
                     }
-                    foreach ($listaEmpleos as $empleo) {
-                        echo '<p>' . $empleo->getDescripcion() . '</p>';
-                    }
-
                     ?>
 
 
@@ -42,11 +43,14 @@ if (isset($_GET["familia"]) && !empty($_GET['familia'])) {
                 } else {
                 ?>
                     <h4 class="text-center text-light col-sm-12">Listado de todas las ofertas de empleo</h4>
-                    <?php 
-                    foreach($listaEmpleos as $empleo){
+                    <?php
+                    foreach ($listaEmpleos as $empleo) {
                         echo $empleo->getDescripcion();
+                        echo $empleo->getIdempresa();
+                        echo $empleo->getFecha_publicacion();
+                        echo $empleo->getIdempleo();
                     }
-                    
+
                     ?>
                 <?php
                 }

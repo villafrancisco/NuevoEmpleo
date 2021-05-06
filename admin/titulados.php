@@ -1,4 +1,4 @@
-<?php session_start();?>
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html lang="es">
 
@@ -11,8 +11,6 @@
     if (isset($_GET['id'])) {
         $titulado = $db->getUsuario($_GET['id']);
         if ($titulado) {
-
-
             $titulos = $db->getAllTitulos();
         }
     }
@@ -99,83 +97,79 @@
         <?php
         } else {
         ?>
-            <main class="main mh open-main detalle">
+            <main class="main mh open-main" id="detalle-titulado">
 
-                <form id="detalle-titulado" class="table" action="#" method="POST">
+                <form class="" action="#" method="POST">
                     <div class="detalle-titulado">
-                        <div class="detalle-titulado__item">
-                            <label>Id:</label>
-                            <p><?php echo $titulado->getIdTitulado(); ?></p>
-                        </div>
-                        <div class="detalle-titulado__item">
-                            <label for="nombre">Nombre:</label>
-                            <input type="text" name="nombre" value="<?php echo $titulado->getNombre(); ?>">
-                        </div>
-                        <div class="detalle-titulado__item">
-                            <label for="apellidos">Apellidos:</label>
-                            <input type="text" name="apellidos" value="<?php echo $titulado->getApellidos(); ?>">
-                        </div>
-                        <div class="detalle-titulado__item">
-                            <label for="email">Email: </label>
-                            <input type="text" name="email" value="<?php echo $titulado->getEmail(); ?>"></input>
-                        </div>
-                        <div class="detalle-titulado__item">
-                            <label for="direccion">Dirección: </label>
-                            <input type="text" name="direccion" value="<?php echo $titulado->getDireccion(); ?>">
-                        </div>
-                        <div class="detalle-titulado__item">
-                            <label for="dni">DNI:</label>
-                            <input type="text" name="dni" value="<?php echo $titulado->getDni(); ?>">
-                        </div>
-                        <div class="detalle-titulado__item">
-                            <label for="telefono">Telefono:</label>
-                            <input type="text" name="telefono" value="<?php echo $titulado->getTelefono(); ?>">
-                        </div>
-
+                        <label for="nombre">Nombre:</label>
+                        <input type="text" name="nombre" value="<?php echo $titulado->getNombre(); ?>">
                     </div>
                     <div class="detalle-titulado">
-                        <div class="detalle-titulado__item">
-                            <label for="curriculum">Curriculum:</label>
-                            <input type="text" name="curriculum" value="<?php echo $titulado->getCurriculum(); ?>">
-                        </div>
-                        <div class="detalle-titulado__item">
-                            <label for="foto">Foto: </label>
-                            <input type="text" name="foto" value="<?php echo $titulado->getFoto(); ?>">
-                        </div>
-                        <div class="detalle-titulado__item">
-                            <label for="fecha_registro">Fecha registro:</label>
-                            <input type="text" name="fecha_registro" value="<?php echo $titulado->getFecha_registro(); ?>">
-                        </div>
+                        <label for="apellidos">Apellidos:</label>
+                        <input type="text" name="apellidos" value="<?php echo $titulado->getApellidos(); ?>">
+                    </div>
+                    <div class="detalle-titulado">
+                        <label for="email">Email: </label>
+                        <input type="text" name="email" value="<?php echo $titulado->getEmail(); ?>"></input>
+                    </div>
+                    <div class="detalle-titulado">
+                        <label for="direccion">Dirección: </label>
+                        <input type="text" name="direccion" value="<?php echo $titulado->getDireccion(); ?>">
+                    </div>
+                    <div class="detalle-titulado">
+                        <label for="dni">DNI:</label>
+                        <input type="text" name="dni" value="<?php echo $titulado->getDni(); ?>">
+                    </div>
+                    <div class="detalle-titulado">
+                        <label for="telefono">Telefono:</label>
+                        <input type="text" name="telefono" value="<?php echo $titulado->getTelefono(); ?>">
+                    </div>
+                    <div class="detalle-titulado">
+                        <label for="curriculum">Curriculum:</label>
+                        <input type="text" name="curriculum" value="<?php echo $titulado->getCurriculum(); ?>">
+                    </div>
+                    <div class="detalle-titulado">
+                        <label for="foto">Foto: </label>
+                        <input type="text" name="foto" value="<?php echo $titulado->getFoto(); ?>">
+                    </div>
+                    <div class="detalle-titulado">
+                        <label for="fecha_registro">Fecha registro:</label>
+                        <input type="text" name="fecha_registro" value="<?php echo $titulado->getFecha_registro(); ?>">
+                    </div>
 
-                        <?php
+                    <?php
 
-                        if (is_array($titulado->getListaTitulos()) || is_object($titulado->getListaTitulos())) {
+                    if (is_array($titulado->getListaTitulos()) || is_object($titulado->getListaTitulos())) {
 
-                            foreach ($titulado->getListaTitulos() as $titulo) {
+                        foreach ($titulado->getListaTitulos() as $titulo) {
 
-                        ?>
-                                <div class="detalle-titulado__item">
-                                    <label for="titulacion">Titulacion: </label>
-                                    <select name="titulacion">
-                                        <?php
-                                        foreach ($titulos as $t) {
+                    ?>
+                            <div class="detalle-titulado">
+                                <label for="titulacion">Titulacion: </label>
+                                <select name="titulacion">
+                                    <?php
+                                    foreach ($titulos as $t) {
 
-                                        ?>
-                                            <option value="<?php echo $t->getIdtitulo(); ?>" <?php echo ($titulo->getIdtitulo() == $t->getIdtitulo()) ? 'selected' : 'false' ?>><?php echo $t->getNombre(); ?></option>
-                                        <?php
-                                        } //fin del foreach
-                                        ?>
-                                    </select>
-                                </div>
-                        <?php
-                            } //fin del for each
-                        } //fin del if
-                        ?>
+                                    ?>
+                                        <option value="<?php echo $t->getIdtitulo(); ?>" <?php echo ($titulo->getIdtitulo() == $t->getIdtitulo()) ? 'selected' : 'false' ?>><?php echo $t->getNombre(); ?></option>
+                                    <?php
+                                    } //fin del foreach
+                                    ?>
+                                </select>
+                            </div>
+                    <?php
+                        } //fin del for each
+                    } //fin del if
+                    ?>
+
+
+                    <div class="detalle-titulado">
+                        <input type="submit" name="guardar" value="Guardar">
                     </div>
 
                 </form>
                 <table class="table">
-                    <h2>Listado de inscripciones en Ofertas de Empleo</h2>
+
                     <thead class="thead-light">
                         <tr>
                             <th scope="col">Empresa</th>
@@ -199,8 +193,6 @@
                         ?>
                     </tbody>
                 </table>
-
-
             </main>
         <?php
         }

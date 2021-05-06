@@ -177,7 +177,7 @@ class DB extends Conexion
                 }
             }
 
-            return !empty($listausuarios) ? $listausuarios : false;
+            return $listausuarios;
         } catch (PDOException $e) {
             return false;
         }
@@ -210,7 +210,7 @@ class DB extends Conexion
                 }
                 $listaUsuarios[] = $usuario;
             }
-            return !empty($listaUsuarios) ? $listaUsuarios : false;
+            return $listaUsuarios;
         } catch (PDOException $e) {
             return false;
         }
@@ -316,7 +316,7 @@ class DB extends Conexion
             while ($resultado = $consulta->fetch()) {
                 $empresas[] = new Empresa($resultado);
             }
-            return !empty($empresas) ? $empresas : false;
+            return $empresas;
         } catch (PDOException $e) {
             return false;
         }
@@ -362,7 +362,7 @@ class DB extends Conexion
             while ($resultado = $consulta->fetch()) {
                 $familias[] = new Familia($resultado);
             }
-            return !empty($familias) ? $familias : false;
+            return $familias;
         } catch (PDOException $e) {
             return false;
         }
@@ -402,14 +402,14 @@ class DB extends Conexion
     public function getAllEmpleos()
     {
         try {
-            $sql = "SELECT * FROM empleos";
+            $sql = "SELECT * FROM empleos as t1 INNER JOIN empresas as t2 ON t1.idempresa=t2.idempresa";
             $parametros = array();
             $consulta = self::ejecutaConsulta($sql, $parametros);
             $empleos = [];
             while ($resultado = $consulta->fetch()) {
                 $empleos[] = new Empleo($resultado);
             }
-            return !empty($empleos) ? $empleos : false;
+            return $empleos;
         } catch (PDOException $e) {
             $e->getMessage();
         }
@@ -435,7 +435,7 @@ class DB extends Conexion
             while ($resultado = $consulta->fetch()) {
                 $listatitulos[] = new Titulo($resultado);
             }
-            return !empty($listatitulos) ? $listatitulos : false;
+            return $listatitulos;
         } catch (PDOException $e) {
             return false;
         }
@@ -475,7 +475,7 @@ class DB extends Conexion
             while ($resultado = $consulta->fetch()) {
                 $listatitulos[] = new Titulo($resultado);
             }
-            return !empty($listatitulos) ? $listatitulos : false;
+            return $listatitulos;
         } catch (PDOException $e) {
             $e->getMessage();
         }
@@ -495,11 +495,37 @@ class DB extends Conexion
             while ($resultado = $consulta->fetch()) {
                 $listaempleosinscrito[] = new Empleo($resultado);
             }
-            return !empty($listaempleosinscrito) ? $listaempleosinscrito : $listaempleosinscrito;
+            return $listaempleosinscrito;
         } catch (PDOException $e) {
             return false;
         }
     }
+
+    /**
+     * getEmpleosFamilia
+     *
+     *devuelve los empleos publicados de una familia de un ciclo    
+     *
+     * @param  mixed $idfamilia
+     * @return mixed
+     */
+    public function getEmpleosFamilia($familia)
+    {
+        try {
+
+            $sql = "SELECT * FROM empleos t1 INNER JOIN empleotitulo t2 ON t1.idempleo = t2.idempleo INNER JOIN titulos t3 ON t2.idtitulo = t3.idtitulo INNER JOIN familia t4 ON t3.idfamilia= t4.idfamilia WHERE t4.idfamilia= :idfamilia GROUP BY t1.idempleo";
+            $parametros = array(':idfamilia'   =>  $familia->getIdfamilia());
+            $consulta = self::ejecutaConsulta($sql, $parametros);
+            $empleos = [];
+            while ($resultado = $consulta->fetch()) {
+                $empleos[] = new Empleo($resultado);
+            }
+            return $empleos;
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
+
 
 
 
@@ -517,30 +543,6 @@ class DB extends Conexion
 
 
 
-    /**
-     * getEmpleosFamilia
-     *
-     *devuelve los empleos publicados de una familia de un ciclo    
-     *
-     * @param  mixed $idfamilia
-     * @return mixed
-     */
-    public function getEmpleosFamilia($idfamilia)
-    {
-        try {
-
-            $sql = "SELECT t1.* FROM empleos t1 INNER JOIN empleotitulo t2 ON t1.idempleo = t2.idempleo INNER JOIN titulos t3 ON t2.idtitulo = t3.idtitulo INNER JOIN familia t4 ON t3.idfamilia= t4.idfamilia WHERE t4.idfamilia= :idfamilia GROUP BY t1.idempleo";
-            $parametros = array(':idfamilia'   =>  $idfamilia);
-            $consulta = self::ejecutaConsulta($sql, $parametros);
-            $empleos = [];
-            while ($resultado = $consulta->fetch()) {
-                $empleos[] = new Empleo($resultado);
-            }
-            return $empleos;
-        } catch (PDOException $e) {
-            return false;
-        }
-    }
 
 
 

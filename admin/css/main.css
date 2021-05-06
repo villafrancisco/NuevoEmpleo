@@ -139,12 +139,8 @@ tbody th{
 input.errorform{
 	border: 3px solid #CA2C0A;
 }
- main.detalle{
-	 display: flex;
-	 flex-direction: column;
-	 justify-content: center;
-	 align-items: center;
- }
+ 
+ 
  main.main{
 	display: flex;
     flex-direction: column;
@@ -152,20 +148,37 @@ input.errorform{
     justify-content: space-evenly;
  }
  #detalle-titulado{
-	display: flex;
-	flex-wrap: wrap;
-	 justify-content: space-evenly;
+	 display: flex;
+	 flex-direction: row;
+	 justify-content: space-between;
+	 align-items: start;
+	 flex-wrap: wrap;
  }
- 
-.detalle-titulado__item{
+ #detalle-titulado form{
+	 width: 500px;
+ }
+ #detalle-titulado table{
+	width: 600px;
+}
+ #detalle-titulado input, #detalle-titulado select{
+	border-color: var(--dark-color);
+	color:var(--text-color);
+    border-radius: 5px;
+	width: 260px;
+	font-size: 14px;
+	padding: 5px;
+	margin: 5px;
+}
+.detalle-titulado{
 	display: flex;
-	justify-content: space-evenly;
+	justify-content: center;
 	align-items: center;
-	margin: 10px;
 }
-.detalle-titulado__item label{
-	width: 140px;
+#detalle-titulado label{
+	width: 110px;
 }
+ 
+ 
 .btn{
 	border:none;
 	display: block;

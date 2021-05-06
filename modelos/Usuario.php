@@ -7,7 +7,7 @@ abstract class Usuario
     protected $email;
     protected $contrasena;
     protected $nombre;
-    protected $apellidos;
+
 
     function __construct($row)
     {
@@ -16,7 +16,6 @@ abstract class Usuario
         $this->email = isset($row['email']) ? $row['email'] : false;
         $this->contrasena = isset($row['contrasena']) ? $row['contrasena'] : false;
         $this->nombre = isset($row['nombre']) ? $row['nombre'] : false;
-        $this->apellidos = isset($row['apellidos']) ? $row['apellidos'] : false;
     }
     /**
      * Get the value of idusuario
@@ -104,15 +103,5 @@ abstract class Usuario
     public function setNombre($nombre)
     {
         $this->nombre = $nombre;
-    }
-
-    public function getApellidos()
-    {
-        return $this->apellidos;
-    }
-
-    public function setApellidos($apellidos)
-    {
-        $this->apellidos = $apellidos;
     }
 }

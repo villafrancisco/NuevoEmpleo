@@ -6,6 +6,7 @@
 class Administrador extends Usuario
 {
     protected $idadmin;
+    protected $apellidos;
     /**
      * __construct
      *
@@ -14,6 +15,7 @@ class Administrador extends Usuario
      */
     function __construct($row)
     {
+        $this->apellidos = isset($row['apellidos']) ? $row['apellidos'] : false;
         $this->idadmin =  isset($row['idadmin']) ? $row['idadmin'] : false;
         parent::__construct($row);
     }
@@ -37,5 +39,14 @@ class Administrador extends Usuario
         $this->idadmin = $idadmin;
 
         return $this;
+    }
+    public function getApellidos()
+    {
+        return $this->apellidos;
+    }
+
+    public function setApellidos($apellidos)
+    {
+        $this->apellidos = $apellidos;
     }
 }

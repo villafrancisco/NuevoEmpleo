@@ -3,6 +3,7 @@
 class Titulado extends Usuario
 {
     protected $idtitulado;
+    protected $apellidos;
     protected $direccion;
     protected $dni;
     protected $telefono;
@@ -24,6 +25,7 @@ class Titulado extends Usuario
         $this->fecha_registro = isset($row['fecha_registro']) ? $row['fecha_registro'] : false;
         $this->lista_titulos = isset($row['lista_titulos']) ? $row['lista_titulos'] : false;
         $this->lista_empleos_inscrito = isset($row['lista_empleos_inscrito']) ? $row['lista_empleos_inscrito'] : false;
+        $this->apellidos = isset($row['apellidos']) ? $row['apellidos'] : false;
         parent::__construct($row);
     }
 
@@ -127,5 +129,14 @@ class Titulado extends Usuario
     public function setLista_empleos_inscrito($lista_empleos_inscrito)
     {
         $this->lista_empleos_inscrito = $lista_empleos_inscrito;
+    }
+    public function getApellidos()
+    {
+        return $this->apellidos;
+    }
+
+    public function setApellidos($apellidos)
+    {
+        $this->apellidos = $apellidos;
     }
 }

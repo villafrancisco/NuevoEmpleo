@@ -26,7 +26,7 @@ function loginAjax($datos){
         body: $datos
     }).then(response => response.json())
     .then(data => {
-            console.log(data);
+        document.getElementById('loader').classList.toggle('hide');
             if(data.status=='ok'){
                 if(data.tipousuario=='administrador'){
                     window.location.href="admin/dashboard.php";
