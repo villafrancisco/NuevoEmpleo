@@ -23,6 +23,7 @@ if(isset($_GET["tipo"]) && ($_GET["tipo"]=="empresa" || $_GET["tipo"]=="titulado
                         <form id="formLogin" action="ajax/login.php" method="POST">
                         <div class="form-login_item ">
                             <div id="alert" class="msj-alert"></div>
+                            <div id="loader" class="loader hide"></div>
                         </div>
                             <div class="form-login_item">
                                     <i class="fas fa-user fa-lg"></i>

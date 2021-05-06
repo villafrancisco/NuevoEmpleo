@@ -104,15 +104,15 @@ function login($email, $contrasena, $tipo)
     //TODO una funcion para administradores y otra para el resto
     if (isset($usuarioadministrador)) {
         session_start();
-        $_SESSION["usuario"] = $usuarioadministrador;
+        $_SESSION["usuario"] =serialize($usuarioadministrador);
         return true;
     } else if (isset($usuarioempresa)) {
         session_start();
-        $_SESSION["usuario"] = $usuarioempresa;
+        $_SESSION["usuario"] = serialize($usuarioempresa);
         return true;
     } else if (isset($usuariotitulado)) {
         session_start();
-        $_SESSION["usuario"] = $usuariotitulado;
+        $_SESSION["usuario"] = serialize($usuariotitulado);
         return true;
     } else {
         //preguntar si existe el email introducido como usuario

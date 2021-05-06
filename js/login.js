@@ -20,6 +20,7 @@ formLogin.addEventListener('submit',(e)=>{
 
 function loginAjax($datos){
     //Hacemos las peticion ajax
+    document.getElementById('loader').classList.toggle('hide');
     fetch('ajax/login.php',{
         method: "POST",
         body: $datos

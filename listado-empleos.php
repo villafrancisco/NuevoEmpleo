@@ -42,6 +42,12 @@ if (isset($_GET["familia"]) && !empty($_GET['familia'])) {
                 } else {
                 ?>
                     <h4 class="text-center text-light col-sm-12">Listado de todas las ofertas de empleo</h4>
+                    <?php 
+                    foreach($listaEmpleos as $empleo){
+                        echo $empleo->getDescripcion();
+                    }
+                    
+                    ?>
                 <?php
                 }
                 ?>

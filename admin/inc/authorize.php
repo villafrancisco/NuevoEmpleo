@@ -1,11 +1,15 @@
 <?php
 $db = new DB();
-session_start();
-
-if (isset($_SESSION["usuario"]) && $_SESSION["usuario"]->getIdTipo() == 1) {
-    $db = new DB();
-
-    $administrador = $db->getUsuario($_SESSION["usuario"]->getIdusuario());
+if (isset($_SESSION["usuario"])){
+    $usuariologueado=unserialize($_SESSION["usuario"]);
+    if($usuariologueado->getIdtipo()=='1'){
+        $administrador = $db->getUsuario($usuariologueado->getIdusuario());
+    }
 } else {
     header('Location:../index.php');
 }
+
+ 
+
+    
+
