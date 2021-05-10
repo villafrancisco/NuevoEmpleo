@@ -1,5 +1,6 @@
 <?php
-//Archivo para login con ajax
+session_start();
+
 require_once "../config/app.php";
 require_once '../includes/conexion.php';
 require_once '../includes/DB.php';
@@ -44,31 +45,25 @@ if (isset($_POST["email"]) && isset($_POST["nombre"]) && isset($_POST['apellidos
     //tenemos que comprobar que el email nuevo no se encuentra ocupado
     //updateAdministrador
     $db = new DB();
-    $usuariologueado = $db->getUsuario($_POST['idusuario']);
-    $listaAdministradores = $db->getAllUsuariosTipo("administrador");
-    foreach ($listaAdministradores as $administrador) {
-        if ($usuariologueado->getEmail() == $_POST['email']) {
-            //acutalizo el usuario
-            $data['status'] = 'ok';
-            $usuariologueado->setNombre($_POST['nombre']);
-            $usuariologueado->setApellidos($_POST['apellidos']);
-            $db->updateUsuario($usuariologueado);
+    $usuarioactualizar = $db->getUsuario($_POST['idusuario']);
+    $usuarioactualizar->setNombre($_POST["nombre"]);
+    $usuarioactualizar->setApellidos($_POST["apellidos"]);
+    if ($db->existeEmail($_POST["email"])) {
+        if ($_POST["email"] == $usuarioactualizar->getEmail()) {
+            $usuarioactualizar->setEmail($_POST["email"]);
         } else {
-            //compruebo el nuevo email no exista en ningun usuario
-            $listaUsuarios = $db->getAllUsuarios();
-            foreach ($listaUsuarios as $usuario) {
-                if ($usuario->getEmail() == $_POST['email']) {
-                    //el email ya existe en el sistema
-                    $data['status'] = 'error';
-                    return false;
-                }
-            }
-            $usuariologueado->setNombre($_POST['nombre']);
-            $usuariologueado->setApellidos($_POST['apellidos']);
-            $usuariologueado->setEmail($_POST['email']);
-            $data['status'] = 'ok';
-            $db->updateUsuario($usuariologueado);
+            $data['status'] = 'error';
+            return false;
         }
+    } else {
+        $usuarioactualizar->setEmail($_POST["email"]);
     }
+
+    if ($db->updateUsuario($usuarioactualizar)) {
+        $data['status'] = 'ok';
+    } else {
+        $data['status'] = 'error';
+    };
+
     echo json_encode($data);
 }

@@ -1,15 +1,19 @@
-<?php session_start(); ?>
 <!DOCTYPE html>
 <html lang="es">
 
 <head>
     <?php include 'inc/head.php';
+    session_start();
     $db = new DB();
-    if (isset($_SESSION["usuario"])) {
-        $usuariologueado = unserialize($_SESSION["usuario"]);
-        if ($usuariologueado->getIdtipo() != '3') {
-            header('Location:../index.php');
+    if (isset($_SESSION["idusuario"])) {
+        $usuariologueado = $db->getUsuario($_SESSION["idusuario"]);
+        if ($usuariologueado->getNameTipo() == 'titulado') {
+            $titulado = $db->getUsuario($usuariologueado->getIdusuario());
+        } else {
+            header('Location:index.php');
         }
+    } else {
+        header('Location:index.php');
     }
     ?>
 </head>
@@ -25,46 +29,43 @@
             <form class="" action="#" method="POST">
                 <div class="detalle-titulado">
                     <label for="nombre">Nombre:</label>
-                    <input type="text" name="nombre" value="<?php echo $usuariologueado->getNombre(); ?>">
+                    <input type="text" name="nombre" value="<?php echo $titulado->getNombre(); ?>">
                 </div>
                 <div class="detalle-titulado">
                     <label for="apellidos">Apellidos:</label>
-                    <input type="text" name="apellidos" value="<?php echo $usuariologueado->getApellidos(); ?>">
+                    <input type="text" name="apellidos" value="<?php echo $titulado->getApellidos(); ?>">
                 </div>
                 <div class="detalle-titulado">
                     <label for="email">Email: </label>
-                    <input type="text" name="email" value="<?php echo $usuariologueado->getEmail(); ?>"></input>
+                    <input type="text" name="email" value="<?php echo $titulado->getEmail(); ?>"></input>
                 </div>
                 <div class="detalle-titulado">
                     <label for="direccion">Dirección: </label>
-                    <input type="text" name="direccion" value="<?php echo $usuariologueado->getDireccion(); ?>">
+                    <input type="text" name="direccion" value="<?php echo $titulado->getDireccion(); ?>">
                 </div>
                 <div class="detalle-titulado">
                     <label for="dni">DNI:</label>
-                    <input type="text" name="dni" value="<?php echo $usuariologueado->getDni(); ?>">
+                    <input type="text" name="dni" value="<?php echo $titulado->getDni(); ?>">
                 </div>
                 <div class="detalle-titulado">
                     <label for="telefono">Telefono:</label>
-                    <input type="text" name="telefono" value="<?php echo $usuariologueado->getTelefono(); ?>">
+                    <input type="text" name="telefono" value="<?php echo $titulado->getTelefono(); ?>">
                 </div>
                 <div class="detalle-titulado">
                     <label for="curriculum">Curriculum:</label>
-                    <input type="text" name="curriculum" value="<?php echo $usuariologueado->getCurriculum(); ?>">
+                    <input type="text" name="curriculum" value="<?php echo $titulado->getCurriculum(); ?>">
                 </div>
                 <div class="detalle-titulado">
                     <label for="foto">Foto: </label>
-                    <input type="text" name="foto" value="<?php echo $usuariologueado->getFoto(); ?>">
+                    <input type="text" name="foto" value="<?php echo $titulado->getFoto(); ?>">
                 </div>
-                <div class="detalle-titulado">
-                    <label for="fecha_registro">Fecha registro:</label>
-                    <input type="text" name="fecha_registro" value="<?php echo $usuariologueado->getFecha_registro(); ?>">
-                </div>
+
 
                 <?php
 
-                if (is_array($usuariologueado->getListaTitulos()) || is_object($usuariologueado->getListaTitulos())) {
+                if (is_array($titulado->getListaTitulos()) || is_object($titulado->getListaTitulos())) {
 
-                    foreach ($usuariologueado->getListaTitulos() as $titulo) {
+                    foreach ($titulado->getListaTitulos() as $titulo) {
 
                 ?>
                         <div class="detalle-titulado">
@@ -101,9 +102,9 @@
                 </thead>
                 <tbody>
                     <?php
-                    foreach ($usuariologueado->getLista_empleos_inscrito() as $empleo) {
+                    foreach ($titulado->getLista_empleos_inscrito() as $empleo) {
                     ?>
-                        <form name="form<?php echo $usuariologueado->getIdtitulado(); ?>" name="form<?php echo $usuariologueado->getIdtitulado(); ?>" action="ajax/guardar_titulado" method="post" class="disable-autocomplete" autocomplete="off">
+                        <form name="form<?php echo $titulado->getIdtitulado(); ?>" name="form<?php echo $titulado->getIdtitulado(); ?>" action="ajax/guardar_titulado" method="post" class="disable-autocomplete" autocomplete="off">
                             <tr id="<?php echo $empleo->getIdEmpleo(); ?>">
 
                                 <td><?php echo $empleo->getIdEmpleo(); ?></td>

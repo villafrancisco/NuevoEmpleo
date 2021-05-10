@@ -10,6 +10,7 @@
     require_once 'includes/conexion.php';
     require_once 'includes/DB.php';
     require_once 'modelos/Usuario.php';
+    require_once 'modelos/Administrador.php';
     require_once 'modelos/Empresa.php';
     require_once 'modelos/Titulado.php';
     require_once 'modelos/Familia.php';

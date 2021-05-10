@@ -182,6 +182,48 @@ class DB extends Conexion
             return false;
         }
     }
+    public function login($email, $contrasena, $tipo)
+    {
+        try {
+            $sql = "SELECT t1.contrasena,t1.idusuario FROM " . $this->getTipoTabla($tipo) . " as t1 INNER JOIN usuarios as t2 ON t1.idusuario=t2.idusuario INNER JOIN tipousuario as t3 ON t2.idtipo=t3.idtipo WHERE t1.email=:email AND t3.tipousuario = :tipousuario";
+            $parametros = array(
+                ':email'   => $email,
+                ':tipousuario' =>   $tipo
+            );
+            $consulta = self::ejecutaConsulta($sql, $parametros);
+            if ($resultado = $consulta->fetch()) {
+                if (password_verify($contrasena, $resultado["contrasena"])) {
+                    return $resultado["idusuario"];
+                }
+            }
+            return false;
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
+    public function existeEmail($email)
+    {
+        try {
+            $sql = "SELECT * FROM usuarios as t1 INNER JOIN tipousuario as t2 ON t1.idtipo=t2.idtipo";
+            $parametros = array();
+            $consulta = self::ejecutaConsulta($sql, $parametros);
+            $emailencontrado = false;
+            while ($resultado = $consulta->fetch()) {
+                $sql2 = "SELECT t1.email FROM " . $this->getTipoTabla($resultado['tipousuario']) . " as t1 INNER JOIN usuarios as t2 ON t1.idusuario=t2.idusuario WHERE t1.email= :email";
+                $parametros2 = array(
+                    ':email' => $email
+                );
+                $consulta2 = self::ejecutaConsulta($sql2, $parametros2);
+                if ($resultado2 = $consulta2->fetch()) {
+                    $emailencontrado = true;
+                }
+            }
+
+            return $emailencontrado;
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
 
 
 

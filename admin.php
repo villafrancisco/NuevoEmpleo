@@ -3,6 +3,16 @@
 
 <head>
     <?php include 'inc/head.php' ?>
+    <?php
+    session_start();
+    $db = new DB();
+    if (isset($_SESSION["idusuario"])) {
+        $usuariologueado = $db->getUsuario($_SESSION["idusuario"]);
+        if ($usuariologueado->getIdtipo() == '1') {
+            header('Location:admin/dashboard.php');
+        }
+    }
+    ?>
 </head>
 
 <body>
