@@ -51,3 +51,73 @@ checkbox.addEventListener('change', (e) => {
     localStorage.setItem('user',JSON.stringify(user))
     changeThemeUser(user);
 });
+
+let guardar_titulado=document.getElementById("guardar_titulado");
+guardar_titulado.addEventListener('click',(e)=>{
+    e.preventDefault();
+    //comprobar datos
+    let nombre=document.getElementById('nombre');
+    let apellidos=document.getElementById('apellidos');
+    let email=document.getElementById('email');
+    let direccion=document.getElementById('direccion');
+    let dni=document.getElementById('dni');
+    let telefono=document.getElementById('telefono');
+    let curriculum=document.getElementById('curriculum');
+    let foto=document.getElementById('foto');
+    let titulaciones=document.getElementsByClassName("select-titulado");
+    error=false;
+    if(!validarEmail(email.value)){
+        error=true;
+        email.classList.add('errorform');
+    }else{
+       email.classList.remove('errorform');
+    }
+    if(!validarTexto(nombre.value)){
+        error=true;
+        nombre.classList.add('errorform');
+    }else{
+        nombre.classList.remove('errorform');
+    }
+    if(!validarTexto(apellidos.value)){
+        error=true;
+        apellidos.classList.add('errorform');
+    }else{
+        apellidos.classList.remove('errorform');
+    }
+    if(error==true){
+        //muestro mensaje de toast de error
+        toastr.error('Compruebe los campos');
+    }
+});
+
+
+
+function loginAjax($datos){
+    //Hacemos las peticion ajax
+    document.getElementById('loader').classList.toggle('hide');
+    fetch('ajax/login.php',{
+        method: "POST",
+        body: $datos
+    }).then(response => response.json())
+    .then(data => {
+        document.getElementById('loader').classList.toggle('hide');
+            if(data.status=='ok'){
+                if(data.tipousuario=='administrador'){
+                    window.location.href="admin/dashboard.php";
+                }else if(data.tipousuario=="empresa"){
+                    window.location.href="empresa.php";
+                }else if(data.tipousuario=='titulado'){
+                    window.location.href="titulado.php";
+                }
+            }else{
+                msjalert.innerText='Login Incorrecto'; 
+                msjalert.classList.add('show');
+                setTimeout(function(){ msjalert.classList.remove('show'); }, 3000);
+            }
+        })
+        .catch(function(error){
+            msjalert.innerText='No se pudo procesar la solicitud'; 
+            msjalert.classList.add('show');
+            setTimeout(function(){ msjalert.classList.remove('show'); }, 3000);
+    });
+}

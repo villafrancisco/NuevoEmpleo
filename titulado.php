@@ -1,25 +1,25 @@
 <?php include 'inc/includes.php'; ?>
 <?php
 session_start();
-    $db = new DB();
-    if (isset($_SESSION["idusuario"])) {
-        $usuariologueado = $db->getUsuario($_SESSION["idusuario"]);
-        if ($usuariologueado->getNameTipo() == 'titulado') {
-            $titulado = $db->getUsuario($usuariologueado->getIdusuario());
-            $titulos =$db->getAlltitulos();
-        } else {
-            header('Location:index.php');
-        }
+$db = new DB();
+if (isset($_SESSION["idusuario"])) {
+    $usuariologueado = $db->getUsuario($_SESSION["idusuario"]);
+    if ($usuariologueado->getNameTipo() == 'titulado') {
+        $titulado = $db->getUsuario($usuariologueado->getIdusuario());
+        $titulos = $db->getAlltitulos();
     } else {
         header('Location:index.php');
     }
+} else {
+    header('Location:index.php');
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
 
 <head>
-    <?php include 'inc/head.php';?>
-    
+    <?php include 'inc/head.php'; ?>
+
 </head>
 
 
@@ -32,67 +32,78 @@ session_start();
 
             <form class="" action="#" method="POST">
                 <div class="detalle-titulado">
-                    <label for="nombre">Nombre:</label>
-                    <input type="text" name="nombre" value="<?php echo $titulado->getNombre(); ?>">
+                    <label for="nombre">Nombre: <span class="required">*</span></label>
+                    <input type="text" name="nombre" id="nombre" value="<?php echo $titulado->getNombre(); ?>">
                 </div>
                 <div class="detalle-titulado">
-                    <label for="apellidos">Apellidos:</label>
-                    <input type="text" name="apellidos" value="<?php echo $titulado->getApellidos(); ?>">
+                    <label for="apellidos">Apellidos: <span class="required">*</span></label>
+                    <input type="text" name="apellidos" id="apellidos" value="<?php echo $titulado->getApellidos(); ?>">
                 </div>
                 <div class="detalle-titulado">
-                    <label for="email">Email: </label>
-                    <input type="text" name="email" value="<?php echo $titulado->getEmail(); ?>"></input>
+                    <label for="email">Email: <span class="required">*</span></label>
+                    <input type="text" name="email" id="email" value="<?php echo $titulado->getEmail(); ?>"></input>
                 </div>
                 <div class="detalle-titulado">
                     <label for="direccion">Dirección: </label>
-                    <input type="text" name="direccion" value="<?php echo $titulado->getDireccion(); ?>">
+                    <input type="text" name="direccion" id="direccion" value="<?php echo $titulado->getDireccion(); ?>">
                 </div>
                 <div class="detalle-titulado">
-                    <label for="dni">DNI:</label>
-                    <input type="text" name="dni" value="<?php echo $titulado->getDni(); ?>">
+                    <label for="dni">DNI: </label>
+                    <input type="text" name="dni" id="dni" value="<?php echo $titulado->getDni(); ?>">
                 </div>
                 <div class="detalle-titulado">
-                    <label for="telefono">Telefono:</label>
-                    <input type="text" name="telefono" value="<?php echo $titulado->getTelefono(); ?>">
+                    <label for="telefono">Telefono: </label>
+                    <input type="text" name="telefono" id="telefono" value="<?php echo $titulado->getTelefono(); ?>">
                 </div>
                 <div class="detalle-titulado">
-                    <label for="curriculum">Curriculum:</label>
-                    <input type="text" name="curriculum" value="<?php echo $titulado->getCurriculum(); ?>">
+                    <label for="curriculum">Curriculum: <span class="required">*</span></label>
+                    <input type="text" name="curriculum" id="curriculum" value="<?php echo $titulado->getCurriculum(); ?>">
                 </div>
                 <div class="detalle-titulado">
                     <label for="foto">Foto: </label>
-                    <input type="text" name="foto" value="<?php echo $titulado->getFoto(); ?>">
+                    <input type="text" name="foto" id="foto" value="<?php echo $titulado->getFoto(); ?>">
                 </div>
 
 
-                <?php
+                <div class="detalle-titulado select">
+                    <label>Titulacion: <span class="required">*</span></label>
+                    <?php
 
-                if (is_array($titulado->getListaTitulos()) || is_object($titulado->getListaTitulos())) {
 
-                    foreach ($titulado->getListaTitulos() as $titulo) {
-
-                ?>
-                        <div class="detalle-titulado select">
-                            <label for="titulacion">Titulacion: </label>
-                            <select name="titulacion">
+                    if (count($titulado->getListaTitulos()) == 0) {
+                    ?>
+                        <select class="select-titulacion" name="titulacion">
+                            <option value="0" selected>Elige una titulación</option>
+                            <?php
+                            foreach ($titulos as $t) {
+                            ?>
+                                <option value="<?php echo $t->getIdtitulo(); ?>"> <?php echo $t->getNombre(); ?></option>
+                            <?php
+                            } //fin del foreach
+                            ?>
+                        </select>
+                        <?php
+                    } else {
+                        for ($i = 0; $i < count($titulado->getListaTitulos()); $i++) {
+                        ?>
+                            <select class="select-titulacion" name="titulacion<?php echo $i + 1; ?>">
                                 <?php
                                 foreach ($titulos as $t) {
-
                                 ?>
-                                    <option value="<?php echo $t->getIdtitulo(); ?>" <?php echo ($titulo->getIdtitulo() == $t->getIdtitulo()) ? 'selected' : 'false' ?>><?php echo $t->getNombre(); ?></option>
+                                    <option value="<?php echo $t->getIdtitulo(); ?>" <?php echo ($titulado->getListaTitulos()[$i]->getIdtitulo() == $t->getIdtitulo()) ? 'selected' : 'false' ?>><?php echo $t->getNombre(); ?></option>
                                 <?php
                                 } //fin del foreach
                                 ?>
                             </select>
-                        </div>
-                <?php
-                    } //fin del for each
-                } //fin del if
-                ?>
+                    <?php
+                        }
+                    }
+                    ?>
 
+                </div>
 
                 <div class="detalle-titulado">
-                    <input type="submit" name="guardar" value="Guardar">
+                    <button id="guardar_titulado" type="submit" class="btn"><i class="fas fa-save fa-2x"></i></button>
                 </div>
 
             </form>
