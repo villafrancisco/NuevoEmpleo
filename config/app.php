@@ -8,4 +8,6 @@
     const USER="root";
     const PASS="";
     const SGDB="mysql:host=".SERVER.";dbname=".DB;
+
+    error_reporting(E_ERROR | E_PARSE);
 ?>

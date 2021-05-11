@@ -7,7 +7,10 @@ if (isset($_SESSION["idusuario"])) {
         $administrador = $db->getUsuario($usuariologueado->getIdusuario());
     } else {
         header('Location:../index.php');
+        
     }
 } else {
     header('Location:../index.php');
+    
 }
+?>

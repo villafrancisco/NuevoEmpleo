@@ -1,9 +1,12 @@
+<?php 
+include 'inc/includes.php';
+?>
 <!DOCTYPE html>
 <html lang="es">
 
 <head>
     <?php include 'inc/head.php' ?>
-    <?php include 'inc/authorize.php' ?>
+    
     <?php
     //Array con todos los titulados
     $titulados = $db->getAllUsuariosTipo('titulado');

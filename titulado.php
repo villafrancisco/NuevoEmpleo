@@ -1,9 +1,6 @@
-<!DOCTYPE html>
-<html lang="es">
-
-<head>
-    <?php include 'inc/head.php';
-    session_start();
+<?php include 'inc/includes.php'; ?>
+<?php
+session_start();
     $db = new DB();
     if (isset($_SESSION["idusuario"])) {
         $usuariologueado = $db->getUsuario($_SESSION["idusuario"]);
@@ -15,7 +12,13 @@
     } else {
         header('Location:index.php');
     }
-    ?>
+?>
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <?php include 'inc/head.php';?>
+    
 </head>
 
 

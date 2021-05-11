@@ -1,18 +1,20 @@
+<?php include 'inc/includes.php'; ?>
+<?php
+    session_start();
+    $db = new DB();
+    if (isset($_SESSION["idusuario"])) {
+        $usuariologueado = $db->getUsuario($_SESSION["idusuario"]);
+        if ($usuariologueado->getNameTipo() == 'administrador') {
+            header('Location:admin/dashboard.php');
+        }
+    }
+    ?>
 <!DOCTYPE html>
 <html lang="es">
 
 <head>
     <?php include 'inc/head.php' ?>
-    <?php
-    session_start();
-    $db = new DB();
-    if (isset($_SESSION["idusuario"])) {
-        $usuariologueado = $db->getUsuario($_SESSION["idusuario"]);
-        if ($usuariologueado->getIdtipo() == '1') {
-            header('Location:admin/dashboard.php');
-        }
-    }
-    ?>
+    
 </head>
 
 <body>

@@ -1,3 +1,6 @@
+<?php include 'inc/includes.php';
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="es">
 

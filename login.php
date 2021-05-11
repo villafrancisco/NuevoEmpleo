@@ -1,3 +1,16 @@
+<?php include 'inc/includes.php'; ?>
+<?php
+    session_start();
+    $db = new DB();
+    if (isset($_SESSION["idusuario"])) {
+        $usuariologueado = $db->getUsuario($_SESSION["idusuario"]);
+        if ($usuariologueado->getNametipo() == 'titulado') {
+            header('Location:titulado.php');
+        }else if($usuariologueado->getNametipo() == 'empresa'){
+            header('Location:empresa.php');
+        }
+    }
+    ?>
 <!DOCTYPE html>
 <html lang="es">
 
