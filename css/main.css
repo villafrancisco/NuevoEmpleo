@@ -136,4 +136,36 @@ input:checked + .slider:before {
 	100% { transform: rotate(360deg); }
   }
 
+  #titulado main{
+	  display: flex;
+	  flex-direction: column;
+  }
+
+  #titulado main form{
+	  display: flex;
+	  flex-wrap: wrap;
+
+  }
+  #titulado main form .detalle-titulado{
+	  display: flex;
+	  justify-content: center;
+	  align-items: center;
+	  width: 300px;
+	  margin: 30px;
+  }
+  #titulado main form .detalle-titulado label{
+	  width: 120px;
+  }
+  #titulado main form .detalle-titulado input, #titulado main form .detalle-titulado select{
+	/* border-color: var(--dark-color); */
+	color: var(--text-color);
+	border-radius: 5px;
+	width: 100%;
+	font-size: 14px;
+	padding: 5px;
+  }
+  #titulado main form .select{
+	  flex-grow: 2;
+  }
   
+ 

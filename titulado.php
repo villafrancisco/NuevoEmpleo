@@ -6,6 +6,7 @@ session_start();
         $usuariologueado = $db->getUsuario($_SESSION["idusuario"]);
         if ($usuariologueado->getNameTipo() == 'titulado') {
             $titulado = $db->getUsuario($usuariologueado->getIdusuario());
+            $titulos =$db->getAlltitulos();
         } else {
             header('Location:index.php');
         }
@@ -23,7 +24,7 @@ session_start();
 
 
 <body>
-    <div id="empleos" class="container">
+    <div id="titulado" class="container">
         <header class="index-header">
             <?php include 'inc/header.php' ?>
         </header>
@@ -71,7 +72,7 @@ session_start();
                     foreach ($titulado->getListaTitulos() as $titulo) {
 
                 ?>
-                        <div class="detalle-titulado">
+                        <div class="detalle-titulado select">
                             <label for="titulacion">Titulacion: </label>
                             <select name="titulacion">
                                 <?php
