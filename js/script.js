@@ -64,7 +64,7 @@ guardar_titulado.addEventListener('click',(e)=>{
     let telefono=document.getElementById('telefono');
     let curriculum=document.getElementById('curriculum');
     let foto=document.getElementById('foto');
-    let titulaciones=document.getElementsByClassName("select-titulado");
+    let titulaciones=document.getElementsByClassName("select-titulacion");
     error=false;
     if(!validarEmail(email.value)){
         error=true;
@@ -84,10 +84,28 @@ guardar_titulado.addEventListener('click',(e)=>{
     }else{
         apellidos.classList.remove('errorform');
     }
+    if(!validarNumero(telefono.value) && telefono.value!=""){
+        error=true;
+        telefono.classList.add('errorform');
+    }else{
+        telefono.classList.remove('errorform');
+    }
+    if(!validarDNI(dni.value) && dni.value!=""){
+        error=true;
+        dni.classList.add('errorform');
+    }else{
+        dni.classList.remove('errorform');
+    }
+    //validar titulaciones
+    if(validarTitulaciones(titulaciones)){
+
+    }
+
     if(error==true){
         //muestro mensaje de toast de error
         toastr.error('Compruebe los campos');
     }
+    
 });
 
 

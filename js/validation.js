@@ -18,6 +18,16 @@ function validarEmail(email) {
     }
   }
 
+function validarDNI(dni){
+    var regex=/[0-9]{8}[A-Za-z]{1}/;
+    if(!regex.test(dni)){
+        return false;
+    }else{
+        return true;
+    }
+
+}
+
 function validarContrasena(contrasena){
     if(contrasena!=''){
         if(contrasena.length>5){
@@ -39,4 +49,21 @@ function validarTexto(txt){
         return false;
     }
     return true;
+}
+
+function validarNumero(numero) {
+    
+    let num = parseInt(numero);
+    if (!Number.isInteger(num)) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+function validarTitulaciones(listaTitulaciones){
+    listaTitulaciones.forEach(titulacion => {
+        console.log(titulacion.selectedIndex);
+    });
+    
 }
