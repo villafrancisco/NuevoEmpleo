@@ -61,9 +61,19 @@ function validarNumero(numero) {
     }
   }
 
-function validarTitulaciones(listaTitulaciones){
-    listaTitulaciones.forEach(titulacion => {
-        console.log(titulacion.selectedIndex);
-    });
+function validarTitulaciones(titulaciones){
+    let errores=[];
+    for(titulacion of titulaciones){
+        if(titulacion.selectedIndex==0){
+            errores.push(titulacion);
+            
+        }
+    }
+    
+    if(errores.length==0){
+        return true;
+    }else{
+        return errores;
+    }
     
 }

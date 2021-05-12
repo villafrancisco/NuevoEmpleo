@@ -173,6 +173,14 @@ input:checked + .slider:before {
   }
   #titulado main form .select select{
 	  margin-top: 5px;
+	  margin-left: 5px;
+  }
+  #titulado main form .select div{
+	  display: flex;
+	  align-items: center;
+  }
+  #titulado main form .select div i:hover{
+	  cursor:pointer;
   }
   .btn{
 	border: none;

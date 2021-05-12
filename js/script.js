@@ -97,45 +97,57 @@ guardar_titulado.addEventListener('click',(e)=>{
         dni.classList.remove('errorform');
     }
     //validar titulaciones
-    if(validarTitulaciones(titulaciones)){
-
+    if(validarTitulaciones(titulaciones)!=true){
+        error=true;
+        for(errorselect of validarTitulaciones(titulaciones)){
+            errorselect.classList.add('errorform');
+            // errorselect.id.classList.add('errorform');
+        }
+    }else{
+       
+        for(titulacion of titulaciones){
+            titulacion.classList.remove('errorform');
+        }
     }
 
     if(error==true){
         //muestro mensaje de toast de error
         toastr.error('Compruebe los campos');
     }
-    
 });
 
-
-
-function loginAjax($datos){
-    //Hacemos las peticion ajax
-    document.getElementById('loader').classList.toggle('hide');
-    fetch('ajax/login.php',{
-        method: "POST",
-        body: $datos
-    }).then(response => response.json())
-    .then(data => {
-        document.getElementById('loader').classList.toggle('hide');
-            if(data.status=='ok'){
-                if(data.tipousuario=='administrador'){
-                    window.location.href="admin/dashboard.php";
-                }else if(data.tipousuario=="empresa"){
-                    window.location.href="empresa.php";
-                }else if(data.tipousuario=='titulado'){
-                    window.location.href="titulado.php";
-                }
-            }else{
-                msjalert.innerText='Login Incorrecto'; 
-                msjalert.classList.add('show');
-                setTimeout(function(){ msjalert.classList.remove('show'); }, 3000);
-            }
-        })
-        .catch(function(error){
-            msjalert.innerText='No se pudo procesar la solicitud'; 
-            msjalert.classList.add('show');
-            setTimeout(function(){ msjalert.classList.remove('show'); }, 3000);
+let eliminarTitulaciones=document.querySelectorAll('.detalle-titulado div i');
+for(eliminarTitulacion of eliminarTitulaciones){
+    eliminarTitulacion.addEventListener('click',(e)=>{
+        e.preventDefault();
+        const data = new FormData();
+        data.append('idtitulacion',e.target.nextElementSibling.value);
+        
+        e.target.parentElement.remove();
+        //borrar titulacion del usuario
+             
+        
+        fetch('ajax/eliminar_titulacion.php',{
+            method: "POST",
+            body: data
+        }).then(response => response.json())
     });
 }
+
+
+
+let btn_agregar_titulacion=document.getElementById('agregar_titulacion').addEventListener('click',(e)=>{
+    e.preventDefault();
+    const data = new FormData();
+    data.append('i',1);
+    fetch('ajax/agregar_titulacion.php',{
+        method: "POST",
+        body: data
+    }).then(response => response.json())
+    .then(data => {
+        var div=document.createElement(div);
+        div.innerHTML=data;
+        e.target.parentElement.insertBefore(div,document.getElementById('agregar_titulacion'));
+    });
+
+});

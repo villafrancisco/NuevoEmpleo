@@ -8,6 +8,7 @@ require_once '../modelos/Usuario.php';
 require_once '../modelos/Administrador.php';
 require_once '../modelos/Titulado.php';
 require_once '../modelos/Empresa.php';
+require_once '../modelos/Titulo.php';
 
 /**
  * comprobarEmail

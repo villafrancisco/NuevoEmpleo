@@ -482,6 +482,21 @@ class DB extends Conexion
             return false;
         }
     }
+    public function deleteTitulacionUsuario($usuario, $idtitulacion)
+    {
+        try {
+            $sql = "DELETE FROM tituladostitulacion WHERE idtitulacion =:idtitulacion AND idtitulado IN(SELECT idtitulado FROM titulados WHERE idusuario=:idusuario)";
+            $parametros = array(
+                ':idtitulacion'   =>  $idtitulacion,
+                ':idusuario'    =>  $usuario->getIdusuario()
+            );
+            $consulta = self::ejecutaConsulta($sql, $parametros);
+            $resultado = $consulta->fetch();
+            return $resultado;
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
 
     /**
      * getFamiliasTitulo

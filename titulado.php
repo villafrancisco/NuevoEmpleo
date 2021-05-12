@@ -72,34 +72,40 @@ if (isset($_SESSION["idusuario"])) {
 
                     if (count($titulado->getListaTitulos()) == 0) {
                     ?>
-                        <select class="select-titulacion" name="titulacion">
-                            <option value="0" selected>Elige una titulación</option>
-                            <?php
-                            foreach ($titulos as $t) {
-                            ?>
-                                <option value="<?php echo $t->getIdtitulo(); ?>"> <?php echo $t->getNombre(); ?></option>
-                            <?php
-                            } //fin del foreach
-                            ?>
-                        </select>
-                        <?php
-                    } else {
-                        for ($i = 0; $i < count($titulado->getListaTitulos()); $i++) {
-                        ?>
-                            <select class="select-titulacion" name="titulacion<?php echo $i + 1; ?>">
+                        <div>
+                            <i class="fas fa-trash-alt"></i><select class="select-titulacion" id="select0" name="titulacion">
+                                <option value="0" selected>Elige una titulación</option>
                                 <?php
                                 foreach ($titulos as $t) {
                                 ?>
-                                    <option value="<?php echo $t->getIdtitulo(); ?>" <?php echo ($titulado->getListaTitulos()[$i]->getIdtitulo() == $t->getIdtitulo()) ? 'selected' : 'false' ?>><?php echo $t->getNombre(); ?></option>
+                                    <option value="<?php echo $t->getIdtitulo(); ?>"> <?php echo $t->getNombre(); ?></option>
                                 <?php
                                 } //fin del foreach
                                 ?>
                             </select>
+                        </div>
+                        <?php
+                    } else {
+                        for ($i = 0; $i < count($titulado->getListaTitulos()); $i++) {
+                        ?>
+                            <div>
+                                <i class="fas fa-trash-alt"></i><select class="select-titulacion" id="select<?php echo $i ?>" name="titulacion<?php echo $i + 1; ?>">
+                                    <option value="0" selected>Elige una titulación</option>
+                                    <?php
+                                    foreach ($titulos as $t) {
+                                    ?>
+                                        <option value="<?php echo $t->getIdtitulo(); ?>" <?php echo ($titulado->getListaTitulos()[$i]->getIdtitulo() == $t->getIdtitulo()) ? 'selected' : 'false' ?>><?php echo $t->getNombre(); ?></option>
+                                    <?php
+                                    } //fin del foreach
+                                    ?>
+                                </select>
+                            </div>
                     <?php
                         }
                     }
-                    ?>
 
+                    ?>
+                    <button id="agregar_titulacion" class="btn">Añadir titulación</button>
                 </div>
 
                 <div class="detalle-titulado">
