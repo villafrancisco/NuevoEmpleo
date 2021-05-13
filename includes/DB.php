@@ -302,17 +302,57 @@ class DB extends Conexion
                         ":email"        =>  $usuario->getEmail(),
                         ":contrasena"    =>  $usuario->getContrasena()
                     );
+                    $resultado = self::ejecutaConsulta($sql, $parametros);
+                    return $resultado;
                     break;
                 case 'empresa':
                     break;
                 case 'titulado':
+                    try{
+                            $conexion = parent::conectar();
+                            $conexion->beginTransaction();
+
+                            $sql1 = "UPDATE titulados SET 
+                            nombre= :nombre,
+                            apellidos= :apellidos,
+                            email= :email, 
+                            direccion= :direccion, 
+                            dni= :dni, 
+                            telefono= :telefono, 
+                            curriculum= :curriculum, 
+                            foto= :foto 
+                        WHERE idtitulado = :idtitulado ";
+                        $parametros1 = array(
+                            ":idadmin"    =>  $usuario->getIdTitulado(),
+                            ":nombre"       =>  $usuario->getNombre(),
+                            ":apellidos"    =>  $usuario->getApellidos(),
+                            ":email"        =>  $usuario->getEmail(),
+                            ":direccion"    =>  $usuario->getDireccion(),
+                            ":dni"          =>  $usuario->getDNI(),
+                            ":telefono"     =>  $usuario->getTelefono(),
+                            ":curriculum"   =>  $usuario->getCurriculum(),
+                            ":foto"         =>  $usuario->getFoto(),
+                            ":contrasena"    =>  $usuario->getContrasena()
+                        );
+                        $sql2="UPDATE tituladostitulacion SET
+                            idtitulado=:idtitulado,
+                            idtitulacion=:idtitulacion
+                        WHERE idtitulado=:idtitulado AND idtitulacion=:idtitulacion";
+                        $PDOstmt=$conexion->prepare($sql1);
+                        $PDOstmt->execute($parametros1);
+                        $PDOstmt=$conexion->prepare($sql2);
+                        $PDOstmt->execute($parametros1);
+                        $conexion->commit();
+                    }catch(PDOException $e){
+                        $conexion->rollBack();
+                        return false;
+                    }
+
                     break;
                 default:
-                    break;
+                break;
             }
-            $resultado = self::ejecutaConsulta($sql, $parametros);
-            return $resultado;
-        } catch (PDOException $e) {
+        }catch(PDOException $e){
             return false;
         }
     }

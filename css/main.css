@@ -202,5 +202,8 @@ input:checked + .slider:before {
 .errorform{
 	border: 3px solid #CA2C0A;
 }
+.detalle-titulado .select div{
+	display: flex;
+}
   
  

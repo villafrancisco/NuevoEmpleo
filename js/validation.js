@@ -66,7 +66,6 @@ function validarTitulaciones(titulaciones){
     for(titulacion of titulaciones){
         if(titulacion.selectedIndex==0){
             errores.push(titulacion);
-            
         }
     }
     

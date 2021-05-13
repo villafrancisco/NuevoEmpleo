@@ -34,6 +34,7 @@ if (isset($_SESSION["idusuario"])) {
                 <div class="detalle-titulado">
                     <label for="nombre">Nombre: <span class="required">*</span></label>
                     <input type="text" name="nombre" id="nombre" value="<?php echo $titulado->getNombre(); ?>">
+                    <input type="hidden" name="idusuario" id="idusuario" value="<?php echo $titulado->getIdusuario(); ?>">
                 </div>
                 <div class="detalle-titulado">
                     <label for="apellidos">Apellidos: <span class="required">*</span></label>
@@ -67,44 +68,7 @@ if (isset($_SESSION["idusuario"])) {
 
                 <div class="detalle-titulado select">
                     <label>Titulacion: <span class="required">*</span></label>
-                    <?php
-
-
-                    if (count($titulado->getListaTitulos()) == 0) {
-                    ?>
-                        <div>
-                            <i class="fas fa-trash-alt"></i><select class="select-titulacion" id="select0" name="titulacion">
-                                <option value="0" selected>Elige una titulación</option>
-                                <?php
-                                foreach ($titulos as $t) {
-                                ?>
-                                    <option value="<?php echo $t->getIdtitulo(); ?>"> <?php echo $t->getNombre(); ?></option>
-                                <?php
-                                } //fin del foreach
-                                ?>
-                            </select>
-                        </div>
-                        <?php
-                    } else {
-                        for ($i = 0; $i < count($titulado->getListaTitulos()); $i++) {
-                        ?>
-                            <div>
-                                <i class="fas fa-trash-alt"></i><select class="select-titulacion" id="select<?php echo $i ?>" name="titulacion<?php echo $i + 1; ?>">
-                                    <option value="0" selected>Elige una titulación</option>
-                                    <?php
-                                    foreach ($titulos as $t) {
-                                    ?>
-                                        <option value="<?php echo $t->getIdtitulo(); ?>" <?php echo ($titulado->getListaTitulos()[$i]->getIdtitulo() == $t->getIdtitulo()) ? 'selected' : 'false' ?>><?php echo $t->getNombre(); ?></option>
-                                    <?php
-                                    } //fin del foreach
-                                    ?>
-                                </select>
-                            </div>
-                    <?php
-                        }
-                    }
-
-                    ?>
+                    
                     <button id="agregar_titulacion" class="btn">Añadir titulación</button>
                 </div>
 

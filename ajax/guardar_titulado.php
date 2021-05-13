@@ -1,11 +1,16 @@
 <?php
-//Archivo para login con ajax
+session_start();
+
 require_once "../config/app.php";
 require_once '../includes/conexion.php';
 require_once '../includes/DB.php';
 require_once '../modelos/Usuario.php';
 require_once '../modelos/Administrador.php';
 require_once '../modelos/Titulado.php';
+require_once '../modelos/Empresa.php';
+require_once '../modelos/Titulo.php';
+require_once '../modelos/Empleo.php';
+
 
 /**
  * comprobarEmail
@@ -25,8 +30,6 @@ function comprobarEmail($email)
 
 //Comprobamos que existan los campos para de email el nombre y los apellidos
 if (isset($_POST["email"]) && isset($_POST["nombre"]) && isset($_POST['apellidos'])) {
-
-
     if (!comprobarEmail($_POST['email'])) {
         return false;
     }
@@ -36,19 +39,36 @@ if (isset($_POST["email"]) && isset($_POST["nombre"]) && isset($_POST['apellidos
     if (!ctype_alpha($_POST['apellidos'])) {
         return false;
     }
-    //Guardamos todos los datos
-    //tenemos que comprobar que el email nuevo no se encuentra ocupado
-    //updateAdministrador
+    $tit=$_POST['titulaciones'];
+    
     $db = new DB();
-    $usuario = $db->getAdministrador($_POST['idusuario']);
-    if ($usuario->getEmail() != $_POST['email']) {
-        //es distinto se comprueba que no exista 
-        if ($db->existeEmail($_POST['email'])) {
-            echo false;
+    $usuarioactualizar = $db->getUsuario($_POST['idusuario']);
+    $usuarioactualizar->setNombre($_POST["nombre"]);
+    $usuarioactualizar->setApellidos($_POST["apellidos"]);
+    $usuarioactualizar->setEmail($_POST["email"]);
+    $usuarioactualizar->setDireccion($_POST["direccion"]);
+    $usuarioactualizar->setDNI($_POST["dni"]);
+    $usuarioactualizar->setTelefono($_POST["telefono"]);
+    $usuarioactualizar->setCurriculum($_POST["curriculum"]);
+    $usuarioactualizar->setFoto($_POST["foto"]);
+    $usuarioactualizar->setListaTitulos($_POST["titulaciones"]);//pasar un array de titulos
+    if ($db->existeEmail($_POST["email"])) {
+        if ($_POST["email"] == $usuarioactualizar->getEmail()) {
+            $usuarioactualizar->setEmail($_POST["email"]);
         } else {
-            echo $db->updateAdministrador($_POST);
+            $data['status'] = 'error';
+            return false;
         }
     } else {
-        echo $db->updateAdministrador($_POST);
+        $usuarioactualizar->setEmail($_POST["email"]);
     }
+
+    if ($db->updateUsuario($usuarioactualizar)) {
+        $data['status'] = 'ok';
+    } else {
+        $data['status'] = 'error';
+    };
+
+    echo json_encode($data);
 }
+
