@@ -3,16 +3,15 @@
 session_start();
 $db = new DB();
 if (isset($_SESSION["idusuario"])) {
-    $usuariologueado = $db->getUsuario($_SESSION["idusuario"]);
-    if ($usuariologueado->getNameTipo() == 'titulado') {
-        $titulado = $db->getUsuario($usuariologueado->getIdusuario());
-        $titulos = $db->getAlltitulos();
-    } else {
+    $titulado = $db->getUsuario($_SESSION["idusuario"]);
+    $titulaciones = $db->getAlltitulos();
+    if (!$titulado->getTipousuario() == 'titulado') {
         header('Location:index.php');
     }
 } else {
     header('Location:index.php');
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -24,90 +23,153 @@ if (isset($_SESSION["idusuario"])) {
 
 
 <body>
-    <div id="titulado" class="container">
-        <header class="index-header">
-            <?php include 'inc/header.php' ?>
-        </header>
-        <main class="main mh open-main" id="detalle-titulado">
-
-            <form class="" action="#" method="POST">
-                <div class="detalle-titulado">
+    <?php include 'inc/header.php' ?>
+    <main class="container">
+        <form enctype="multipart/form-data" action="ajax/guardar_titulado">
+            <div class="form-row">
+                <div class="form-group col-md-6">
                     <label for="nombre">Nombre: <span class="required">*</span></label>
-                    <input type="text" name="nombre" id="nombre" value="<?php echo $titulado->getNombre(); ?>">
+                    <input type="text" name="nombre" class="form-control" id="nombre" value="<?php echo $titulado->getNombre(); ?>">
                     <input type="hidden" name="idusuario" id="idusuario" value="<?php echo $titulado->getIdusuario(); ?>">
+
+
                 </div>
-                <div class="detalle-titulado">
+                <div class="form-group col-md-6">
                     <label for="apellidos">Apellidos: <span class="required">*</span></label>
-                    <input type="text" name="apellidos" id="apellidos" value="<?php echo $titulado->getApellidos(); ?>">
+                    <input type="text" class="form-control" name="apellidos" id="apellidos" value="<?php echo $titulado->getApellidos(); ?>">
+
                 </div>
-                <div class="detalle-titulado">
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
                     <label for="email">Email: <span class="required">*</span></label>
-                    <input type="text" name="email" id="email" value="<?php echo $titulado->getEmail(); ?>"></input>
+                    <input type="text" class="form-control" name="email" id="email" value="<?php echo $titulado->getEmail(); ?>"></input>
+
                 </div>
-                <div class="detalle-titulado">
-                    <label for="direccion">Dirección: </label>
-                    <input type="text" name="direccion" id="direccion" value="<?php echo $titulado->getDireccion(); ?>">
+                <div class="form-group col-md-6">
+                    <label for="telefono">Telefono: <span class="required">*</span></label>
+                    <input type="text" class="form-control" name="telefono" id="telefono" value="<?php echo $titulado->getTelefono(); ?>">
+
                 </div>
-                <div class="detalle-titulado">
-                    <label for="dni">DNI: </label>
-                    <input type="text" name="dni" id="dni" value="<?php echo $titulado->getDni(); ?>">
+            </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="direccion">Dirección: <span class="required">*</span></label>
+                    <input type="text" class="form-control" name="direccion" id="direccion" value="<?php echo $titulado->getDireccion(); ?>">
+
                 </div>
-                <div class="detalle-titulado">
-                    <label for="telefono">Telefono: </label>
-                    <input type="text" name="telefono" id="telefono" value="<?php echo $titulado->getTelefono(); ?>">
+                <div class="form-group col-md-6">
+                    <label for="dni">DNI: <span class="required">*</span></label>
+                    <input type="text" class="form-control" name="dni" id="dni" value="<?php echo $titulado->getDni(); ?>">
+
                 </div>
-                <div class="detalle-titulado">
-                    <label for="curriculum">Curriculum: <span class="required">*</span></label>
-                    <input type="text" name="curriculum" id="curriculum" value="<?php echo $titulado->getCurriculum(); ?>">
-                </div>
-                <div class="detalle-titulado">
-                    <label for="foto">Foto: </label>
-                    <input type="text" name="foto" id="foto" value="<?php echo $titulado->getFoto(); ?>">
-                </div>
+            </div>
+            <div class="form-row">
+
+                <div class="form-group col-md-6">
+                    <label for="titulacion">Titulación <span class="required">*</span></label>
+                    <select id="titulacion" class="form-control">
+                        <option value="0" selected>Elige una titulación</option>
+                        <?php
+                        foreach ($titulaciones as $titulacion) {
+                            if ($titulacion->getIdtitulo() == $titulado->getIdtitulo()) {
+                                echo '<option value="' . $titulacion->getIdtitulo() . '" selected >' . $titulacion->getNombre() . '</option>';
+                            } else {
+                                echo '<option value="' . $titulacion->getIdtitulo() . '" >' . $titulacion->getNombre() . '</option>';
+                            }
+                        }
+                        ?>
 
 
-                <div class="detalle-titulado select">
-                    <label>Titulacion: <span class="required">*</span></label>
-                    
-                    <button id="agregar_titulacion" class="btn">Añadir titulación</button>
+                    </select>
+
+
+
+
+
                 </div>
 
-                <div class="detalle-titulado">
-                    <button id="guardar_titulado" type="submit" class="btn"><i class="fas fa-save fa-2x"></i></button>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="fotoinput" aria-describedby="inputGroupFileAddon01" name="foto" accept="image/*" fotocargada="<?php echo ($titulado->getFoto() != "") ? "true" :  "false" ?>">
+                        <label class="custom-file-label" for="foto">Elige una foto <span class="required">* Solo archivos de imagen</span></label>
+                    </div>
                 </div>
+                <div class="form-group col-md-6">
+                    <div id="drop-zone-foto" class="drop-zone">
+                        <i class="fas fa-file-upload"></i>
+                        <p class="drop-zone__text">Arrastra el archivo o click para subir la foto, solo archivos de imágen
+                        <div class="imagen-foto" id="imagen-foto">
+                            <?php if ($titulado->getFoto() != "") {
+                                echo '<img class="img-fluid" src="archivos_subidos/' . $titulado->getFoto() . '" />';
+                            }
+                            ?>
 
-            </form>
-            <table class="table">
+                        </div>
+                        </p>
+                    </div>
 
-                <thead class="thead-light">
-                    <tr>
-                        <th scope="col">Empresa</th>
-                        <th scope="col">Descripción</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                    foreach ($titulado->getLista_empleos_inscrito() as $empleo) {
-                    ?>
-                        <form name="form<?php echo $titulado->getIdtitulado(); ?>" name="form<?php echo $titulado->getIdtitulado(); ?>" action="ajax/guardar_titulado" method="post" class="disable-autocomplete" autocomplete="off">
-                            <tr id="<?php echo $empleo->getIdEmpleo(); ?>">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="curriculuminput" accept=".pdf" aria-describedby="inputGroupFileAddon01" fotocargada="<?php echo ($titulado->getCurriculum() != "") ? "true" :  "false" ?>">
+                        <label class="custom-file-label" for="curriculum">Elige curriculum <span class="required">* (Solo PDF)</span></label>
+                    </div>
 
-                                <td><?php echo $empleo->getIdEmpleo(); ?></td>
-                                <td><?php echo $empleo->getDescripcion(); ?></td>
+                </div>
+                <div class="form-group col-md-6">
+                    <div class="imagen-foto" id="imagen-cv">
+                        <?php if ($titulado->getCurriculum() != "") {
+                            echo '<a href="archivos_subidos/' . $titulado->getCurriculum() . '">';
+                            echo '<img class="img-fluid  img-icon-pdf" src="assets/images/iconopdf.png" />';
+                            echo '</a>';
+                            echo '<p>' . explode("/", $titulado->getCurriculum())[2] . '</p>';
+                        }
+                        ?>
+                    </div>
 
-                            </tr>
-                        </form>
-                    <?php
-                    }
-                    ?>
-                </tbody>
-            </table>
-        </main>
-        <footer>
-            <small>Página realizada por Fr@ncisc@ Vill@</small>
+                </div>
+            </div>
+            <button id="guardar_titulado" name="guardar_titulado" type="submit" class="btn btn-primary">Guardar</button>
+        </form>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">First</th>
+                    <th scope="col">Last</th>
+                    <th scope="col">Handle</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row">1</th>
+                    <td>Mark</td>
+                    <td>Otto</td>
+                    <td>@mdo</td>
+                </tr>
+                <tr>
+                    <th scope="row">2</th>
+                    <td>Jacob</td>
+                    <td>Thornton</td>
+                    <td>@fat</td>
+                </tr>
+                <tr>
+                    <th scope="row">3</th>
+                    <td colspan="2">Larry the Bird</td>
+                    <td>@twitter</td>
+                </tr>
+            </tbody>
+        </table>
 
-        </footer>
-    </div>
+    </main>
+
+    <?php include "inc/footer.php" ?>
     <?php include 'inc/scripts.php' ?>
 
 </body>

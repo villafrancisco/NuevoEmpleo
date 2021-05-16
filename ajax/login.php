@@ -3,6 +3,7 @@
 require_once "../config/app.php";
 require_once '../includes/conexion.php';
 require_once '../includes/DB.php';
+require_once '../modelos/Tipousuario.php';
 require_once '../modelos/Usuario.php';
 require_once '../modelos/Administrador.php';
 require_once '../modelos/Empresa.php';
@@ -106,14 +107,16 @@ function login($email, $contrasena, $tipo)
             $usuario = new Empresa([
                 'email'           => $email,
                 'contrasena'    =>  $contrasena,
-                'idtipo'        =>  '2'
+                'idtipo'        =>  '2',
+                'tipousuario'   => 'empresa'
             ]);
             $nuevousuario = $db->crearNuevoUsuario($usuario);
         } else if ($tipo == 'titulado') {
             $usuario = new Titulado([
                 'email'           => $email,
                 'contrasena'    =>  $contrasena,
-                'idtipo'        =>  '3'
+                'idtipo'        =>  '3',
+                'tipousuario'   => 'titulado'
             ]);
             $nuevousuario = $db->crearNuevoUsuario($usuario);
         }
@@ -124,5 +127,7 @@ function login($email, $contrasena, $tipo)
         } else {
             return false;
         }
+    } else {
+        return false;
     }
 }

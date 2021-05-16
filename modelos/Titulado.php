@@ -10,22 +10,23 @@ class Titulado extends Usuario
     protected $curriculum;
     protected $foto;
     protected $fecha_registro;
-    protected $lista_titulos;
+    protected $idtitulo;
     protected $lista_empleos_inscrito;
 
 
     function __construct($row)
     {
         $this->idtitulado = isset($row['idtitulado']) ? $row['idtitulado'] : false;
+        $this->apellidos = isset($row['apellidos']) ? $row['apellidos'] : false;
         $this->direccion = isset($row['direccion']) ? $row['direccion'] : false;
         $this->dni = isset($row['dni']) ? $row['dni'] : false;
         $this->telefono = isset($row['telefono']) ? $row['telefono'] : false;
         $this->curriculum = isset($row['curriculum']) ? $row['curriculum'] : false;
         $this->foto = isset($row['foto']) ? $row['foto'] : false;
         $this->fecha_registro = isset($row['fecha_registro']) ? $row['fecha_registro'] : false;
-        $this->lista_titulos = isset($row['lista_titulos']) ? $row['lista_titulos'] : false;
+        $this->idtitulo = isset($row['idtitulo']) ? $row['idtitulo'] : false;
         $this->lista_empleos_inscrito = isset($row['lista_empleos_inscrito']) ? $row['lista_empleos_inscrito'] : false;
-        $this->apellidos = isset($row['apellidos']) ? $row['apellidos'] : false;
+
         parent::__construct($row);
     }
 
@@ -100,25 +101,16 @@ class Titulado extends Usuario
         $this->fecha_registro = $fecha_registro;
     }
 
-    public function getListaTitulos()
+    public function getIdtitulo()
     {
-        return $this->lista_titulos;
-    }
-    public function getFamiliasTitulado()
-    {
-        $familias = [];
-        if ($this->lista_titulos) {
-            foreach ($this->lista_titulos as $titulo) {
-                $familias[] = $titulo->getIdFamilia();
-            }
-        }
-        return array_unique($familias);
+        return $this->idtitulo;
     }
 
-    public function setListaTitulos($lista_titulos)
+
+    public function setIdtitulo($idtitulo)
 
     {
-        $this->lista_titulos = $lista_titulos;
+        $this->idtitulo = $idtitulo;
     }
 
     public function getLista_empleos_inscrito()

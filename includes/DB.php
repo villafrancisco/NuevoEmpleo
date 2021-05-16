@@ -79,39 +79,6 @@ class DB extends Conexion
      * @param  mixed $idempresa
      * @return mixed
      */
-    public function getUsuario____($idusuario)
-    {
-        try {
-            $sql = "SELECT * FROM usuarios as t1 INNER JOIN tipousuario as t2 ON t1.idtipo=t2.idtipo  WHERE t1.idusuario=:idusuario";
-            $parametros = array(':idusuario'   =>  $idusuario);
-            $consulta = self::ejecutaConsulta($sql, $parametros);
-            if ($resultado = $consulta->fetch()) {
-
-                $sql2 = "SELECT * FROM " . $this->getTipoTabla($resultado['tipousuario']) . " as t1 INNER JOIN usuarios as t2 ON t1.idusuario=t2.idusuario WHERE t1.idusuario = :idusuario AND t2.idtipo=:idtipo";
-                $parametros2 = array(
-                    ':idusuario' => $resultado['idusuario'],
-                    ':idtipo' => $resultado['idtipo']
-                );
-                $consulta2 = self::ejecutaConsulta($sql2, $parametros2);
-                if ($resultado2 = $consulta2->fetch()) {
-                    $nombreClase = $this->getNombreClase($resultado['tipousuario']);
-                    $usuario = new $nombreClase($resultado2);
-                }
-            }
-            return isset($usuario) ? $usuario : false;
-        } catch (PDOException $e) {
-            return false;
-        }
-    }
-
-    /**
-     * getUsuario
-     * 
-     * devuelve el usuario
-     *
-     * @param  mixed $idempresa
-     * @return mixed
-     */
     public function getUsuario($idusuario)
     {
         try {
@@ -120,7 +87,7 @@ class DB extends Conexion
             $consulta = self::ejecutaConsulta($sql, $parametros);
             if ($resultado = $consulta->fetch()) {
 
-                $sql2 = "SELECT * FROM " . $this->getTipoTabla($resultado['tipousuario']) . " as t1 INNER JOIN usuarios as t2 ON t1.idusuario=t2.idusuario WHERE t1.idusuario = :idusuario AND t2.idtipo=:idtipo";
+                $sql2 = "SELECT * FROM " . $this->getTipoTabla($resultado['tipousuario']) . " as t1 INNER JOIN usuarios as t2 ON t1.idusuario=t2.idusuario INNER JOIN tipousuario as t3 ON t2.idtipo=t3.idtipo WHERE t1.idusuario = :idusuario AND t2.idtipo=:idtipo";
                 $parametros2 = array(
                     ':idusuario' => $resultado['idusuario'],
                     ':idtipo' => $resultado['idtipo']
@@ -132,8 +99,9 @@ class DB extends Conexion
                 }
                 if (isset($usuario)) {
                     if ($usuario instanceof Titulado) {
-                        $usuario->setListaTitulos($this->getTitulacionUsuario($usuario));
                         $usuario->setLista_empleos_inscrito($this->getEmpleosInscritos($usuario));
+                    } else if ($usuario instanceof Empresa) {
+                        $usuario->setListaEmpleos($this->getEmpleosUsuario($usuario));
                     }
                 }
             }
@@ -141,6 +109,10 @@ class DB extends Conexion
         } catch (PDOException $e) {
             return false;
         }
+    }
+
+    public function getEmpleosUsuario($usuario)
+    {
     }
 
 
@@ -170,8 +142,10 @@ class DB extends Conexion
                     $nombreClase = $this->getNombreClase($resultado['tipousuario']);
                     $usuario = new $nombreClase($resultado2);
                     if ($usuario instanceof Titulado) {
-                        $usuario->setListaTitulos($this->getTitulacionUsuario($usuario));
+
                         $usuario->setLista_empleos_inscrito($this->getEmpleosInscritos($usuario));
+                    } else if ($usuario instanceof Empresa) {
+                        $usuario->setListaEmpleos($this->getEmpleosUsuario($usuario));
                     }
                     $listausuarios[] = $usuario;
                 }
@@ -247,7 +221,7 @@ class DB extends Conexion
                 $nombreClase = $this->getNombreClase($tipousuario);
                 $usuario = new $nombreClase($resultado);
                 if ($usuario instanceof Titulado) {
-                    $usuario->setListaTitulos($this->getTitulacionUsuario($usuario));
+
                     $usuario->setLista_empleos_inscrito($this->getEmpleosInscritos($usuario));
                 }
                 $listaUsuarios[] = $usuario;
@@ -271,10 +245,26 @@ class DB extends Conexion
         try {
             $conexion = parent::conectar();
             $conexion->beginTransaction();
-            $conexion->query('INSERT INTO usuarios (idtipo) VALUES ("' . $usuario->getIdtipo() . '")');
+            $sql1 = "INSERT INTO usuarios (idtipo,fecha_registro) VALUES (:idtipo,:fecha_registro)";
+            $parametros1 = array(
+                ":idtipo"  => $usuario->getIdtipo(),
+                ":fecha_registro"   => date("Y-m-d H:i:s")
+            );
+
+            $consulta1 = $conexion->prepare($sql1);
+            $consulta1->execute($parametros1);
+
             $idusuario = $conexion->lastInsertId();
 
-            $conexion->query('INSERT INTO ' . $this->getTipoTabla($usuario->getNameTipo()) . ' (idusuario,email,contrasena) VALUES ("' . $idusuario . '","' . $usuario->getEmail() . '","' . password_hash($usuario->getContrasena(), PASSWORD_DEFAULT) . '")');
+            $sql2 = "INSERT INTO " . $this->getTipoTabla($usuario->getTipousuario()) . " (idusuario,email,contrasena) VALUES (:idusuario,:email,:contrasena)";
+            $parametros2 = array(
+                ":idusuario"     => $idusuario,
+                ":email"        => $usuario->getEmail(),
+                ":contrasena"   =>   password_hash($usuario->getContrasena(), PASSWORD_DEFAULT)
+            );
+            $consulta2 = $conexion->prepare($sql2);
+            $consulta2->execute($parametros2);
+
             $conexion->commit();
             $usuario = $this->getUsuario($idusuario);
             return $usuario;
@@ -284,10 +274,20 @@ class DB extends Conexion
         }
     }
 
+
+
+
+
+
+
+
+
+
+
     public function updateUsuario($usuario)
     {
         try {
-            switch ($usuario->getNametipo()) {
+            switch ($usuario->getTipousuario()) {
                 case 'administrador':
                     $sql = "UPDATE administradores SET 
                         nombre= :nombre,
@@ -308,11 +308,11 @@ class DB extends Conexion
                 case 'empresa':
                     break;
                 case 'titulado':
-                    try{
-                            $conexion = parent::conectar();
-                            $conexion->beginTransaction();
+                    try {
+                        $conexion = parent::conectar();
+                        $conexion->beginTransaction();
 
-                            $sql1 = "UPDATE titulados SET 
+                        $sql1 = "UPDATE titulados SET 
                             nombre= :nombre,
                             apellidos= :apellidos,
                             email= :email, 
@@ -320,10 +320,11 @@ class DB extends Conexion
                             dni= :dni, 
                             telefono= :telefono, 
                             curriculum= :curriculum, 
-                            foto= :foto 
-                        WHERE idtitulado = :idtitulado ";
+                            foto= :foto,
+                            idtitulo=:idtitulo
+                        WHERE idtitulado = :idtitulado";
                         $parametros1 = array(
-                            ":idadmin"    =>  $usuario->getIdTitulado(),
+                            ":idtitulado"    =>  $usuario->getIdTitulado(),
                             ":nombre"       =>  $usuario->getNombre(),
                             ":apellidos"    =>  $usuario->getApellidos(),
                             ":email"        =>  $usuario->getEmail(),
@@ -332,27 +333,24 @@ class DB extends Conexion
                             ":telefono"     =>  $usuario->getTelefono(),
                             ":curriculum"   =>  $usuario->getCurriculum(),
                             ":foto"         =>  $usuario->getFoto(),
-                            ":contrasena"    =>  $usuario->getContrasena()
+                            ":idtitulo"     =>  $usuario->getIdtitulo()
                         );
-                        $sql2="UPDATE tituladostitulacion SET
-                            idtitulado=:idtitulado,
-                            idtitulacion=:idtitulacion
-                        WHERE idtitulado=:idtitulado AND idtitulacion=:idtitulacion";
-                        $PDOstmt=$conexion->prepare($sql1);
-                        $PDOstmt->execute($parametros1);
-                        $PDOstmt=$conexion->prepare($sql2);
+
+                        $PDOstmt = $conexion->prepare($sql1);
                         $PDOstmt->execute($parametros1);
                         $conexion->commit();
-                    }catch(PDOException $e){
+                        return true;
+                    } catch (PDOException $e) {
                         $conexion->rollBack();
                         return false;
                     }
 
+
                     break;
                 default:
-                break;
+                    break;
             }
-        }catch(PDOException $e){
+        } catch (PDOException $e) {
             return false;
         }
     }
@@ -369,7 +367,7 @@ class DB extends Conexion
     public function getEmpresa($idempresa)
     {
         try {
-            $sql = "SELECT * FROM empresas as t1 INNER JOIN usuarios as t2 ON t1.idusuario=t2.idusuario WHERE t1.idempresa = :idempresa";
+            $sql = "SELECT * FROM empresas as t1 INNER JOIN usuarios as t2 ON t1.idusuario=t2.idusuario INNER JOIN tipousuario as t3 ON t3.idtipo=t2.idtipo WHERE t1.idempresa = :idempresa";
             $parametros = array(':idempresa'   =>  $idempresa);
             $consulta = self::ejecutaConsulta($sql, $parametros);
             if ($resultado = $consulta->fetch()) {
@@ -484,7 +482,7 @@ class DB extends Conexion
     public function getAllEmpleos()
     {
         try {
-            $sql = "SELECT * FROM empleos as t1 INNER JOIN empresas as t2 ON t1.idempresa=t2.idempresa";
+            $sql = "SELECT * FROM empleos order by fecha_publicacion DESC";
             $parametros = array();
             $consulta = self::ejecutaConsulta($sql, $parametros);
             $empleos = [];
@@ -497,46 +495,7 @@ class DB extends Conexion
         }
     }
 
-    /**
-     * getTitulacionUsuario
-     * 
-     * devuelve la titulacion de un usuario
-     *
-     * @param  mixed $idusuario
-     * @return void
-     */
-    public function getTitulacionUsuario($usuario)
-    {
-        try {
-            $sql = "SELECT t4.* FROM usuarios as t1 INNER JOIN titulados as t2 ON t1.idusuario=t2.idusuario INNER JOIN tituladostitulacion as t3 ON t2.idtitulado=t3.idtitulado 
-            INNER JOIN titulos as t4 ON t3.idtitulacion=t4.idtitulo
-            WHERE t1.idusuario=:idusuario";
-            $parametros = array(':idusuario'  =>  $usuario->getIdusuario());
-            $consulta = self::ejecutaConsulta($sql, $parametros);
-            $listatitulos = [];
-            while ($resultado = $consulta->fetch()) {
-                $listatitulos[] = new Titulo($resultado);
-            }
-            return $listatitulos;
-        } catch (PDOException $e) {
-            return false;
-        }
-    }
-    public function deleteTitulacionUsuario($usuario, $idtitulacion)
-    {
-        try {
-            $sql = "DELETE FROM tituladostitulacion WHERE idtitulacion =:idtitulacion AND idtitulado IN(SELECT idtitulado FROM titulados WHERE idusuario=:idusuario)";
-            $parametros = array(
-                ':idtitulacion'   =>  $idtitulacion,
-                ':idusuario'    =>  $usuario->getIdusuario()
-            );
-            $consulta = self::ejecutaConsulta($sql, $parametros);
-            $resultado = $consulta->fetch();
-            return $resultado;
-        } catch (PDOException $e) {
-            return false;
-        }
-    }
+
 
     /**
      * getFamiliasTitulo
@@ -610,7 +569,7 @@ class DB extends Conexion
     {
         try {
 
-            $sql = "SELECT * FROM empleos t1 INNER JOIN empleotitulo t2 ON t1.idempleo = t2.idempleo INNER JOIN titulos t3 ON t2.idtitulo = t3.idtitulo INNER JOIN familia t4 ON t3.idfamilia= t4.idfamilia WHERE t4.idfamilia= :idfamilia GROUP BY t1.idempleo";
+            $sql = "SELECT * FROM empleos t1 INNER JOIN familia t2 ON t2.idfamilia= t1.idfamilia WHERE t1.idfamilia= :idfamilia";
             $parametros = array(':idfamilia'   =>  $familia->getIdfamilia());
             $consulta = self::ejecutaConsulta($sql, $parametros);
             $empleos = [];

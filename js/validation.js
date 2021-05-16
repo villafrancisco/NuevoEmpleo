@@ -61,18 +61,3 @@ function validarNumero(numero) {
     }
   }
 
-function validarTitulaciones(titulaciones){
-    let errores=[];
-    for(titulacion of titulaciones){
-        if(titulacion.selectedIndex==0){
-            errores.push(titulacion);
-        }
-    }
-    
-    if(errores.length==0){
-        return true;
-    }else{
-        return errores;
-    }
-    
-}

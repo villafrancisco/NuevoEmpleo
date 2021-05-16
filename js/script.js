@@ -1,76 +1,7 @@
-/************************
- * GUARDAR PREFERENCIAS DEL TEMA DEL USUARIO
- */
-const root = document.documentElement;
-const logo=document.getElementById('logo');
-let user={
-    colorbg:''
-};
-cargar_titulacion();
-function cargar_titulacion(){
-    const data = new FormData();
-    fetch('ajax/cargar_titulacion.php',{
-        method: "POST",
-        body: data
-    }).then(response => response.json())
-    .then(data => {
-        if(data!=null){
-            var div=document.createElement(div);
-            div.innerHTML=data;
-            var padre=document.getElementById('agregar_titulacion').parentElement;
-            padre.insertBefore(div,document.getElementById('agregar_titulacion'));
-        }
-    });
-}
-
-//Funcion para cambiar colores del tema
-const changeThemeUser = (user) => {
-   
-    if (user.colorbg == 'default-theme') {
-       
-        root.style.setProperty('--main-color', '#258FE8');
-        root.style.setProperty('--second-color', '#E8C11A');
-       
-        root.style.setProperty('--light-color', '#FFF');
-        root.style.setProperty('--dark-color', '#828282');
-        logo.setAttribute('src','assets/images/logo.PNG');
-    }else if(user.colorbg=='second-theme'){
-        
-        root.style.setProperty('--main-color', '#E8C11A');
-        root.style.setProperty('--second-color', '#258FE8');
-        
-        root.style.setProperty('--light-color', '#828282');
-        root.style.setProperty('--dark-color', '#FFF');
-        logo.setAttribute('src','assets/images/logo-yellow.PNG');
-        checkbox.checked = true;
-    } 
-};
-
-//Si no hay un tema guardado
-if(!localStorage.getItem('user')) {
-    //Establecemos el valor por defecto y o guardamos en localStorage
-    user.colorbg='default-theme';
-    localStorage.setItem('user',JSON.stringify(user));
-}else{
-    user.colorbg=JSON.parse(localStorage.getItem('user')).colorbg;
-} 
-changeThemeUser(user);
-
-//Evento para marcar el tema de color
-checkbox.addEventListener('change', (e) => {
-	if (!e.target.checked) {
-        user.colorbg='default-theme';
-        
-	} else {
-        user.colorbg='second-theme';
-	}
-    localStorage.setItem('user',JSON.stringify(user))
-    changeThemeUser(user);
-});
 
 let guardar_titulado=document.getElementById("guardar_titulado");
 guardar_titulado.addEventListener('click',(e)=>{
-    e.preventDefault();
+     e.preventDefault();
     //comprobar datos
     let idusuario=document.getElementById('idusuario');
     let nombre=document.getElementById('nombre');
@@ -79,15 +10,10 @@ guardar_titulado.addEventListener('click',(e)=>{
     let direccion=document.getElementById('direccion');
     let dni=document.getElementById('dni');
     let telefono=document.getElementById('telefono');
-    let curriculum=document.getElementById('curriculum');
-    let foto=document.getElementById('foto');
-    let titulaciones=document.getElementsByClassName("select-titulacion");
-    let arrayidtitulaciones=[];
-    for (titulacion of titulaciones) {
-        arrayidtitulaciones.push(titulacion.value);
-      }
-      
-    
+    let curriculum=document.getElementById('curriculuminput');
+    let foto=document.getElementById('fotoinput');
+    let titulacion=document.getElementById('titulacion');
+   
     error=false;
     if(!validarEmail(email.value)){
         error=true;
@@ -107,37 +33,50 @@ guardar_titulado.addEventListener('click',(e)=>{
     }else{
         apellidos.classList.remove('errorform');
     }
-    if(!validarNumero(telefono.value) && telefono.value!=""){
+    if(!validarNumero(telefono.value)){
         error=true;
         telefono.classList.add('errorform');
     }else{
         telefono.classList.remove('errorform');
     }
-    if(!validarDNI(dni.value) && dni.value!=""){
+    if(!validarDNI(dni.value)){
         error=true;
         dni.classList.add('errorform');
     }else{
         dni.classList.remove('errorform');
     }
-    //validar titulaciones
-    if(validarTitulaciones(titulaciones)!=true){
+    if(direccion.value==''){
         error=true;
-        for(errorselect of validarTitulaciones(titulaciones)){
-            errorselect.classList.add('errorform');
-            // errorselect.id.classList.add('errorform');
-        }
+        direccion.classList.add('errorform');
     }else{
-        for(titulacion of titulaciones){
-            titulacion.classList.remove('errorform');
-        }
+        direccion.classList.remove('errorform');
     }
+    if(curriculum.getAttribute('fotocargada')!='true' && curriculum.value==''){
+        console.log(curriculum.getAttribute('fotocargada'));
+        console.log(curriculum.value);
+        error=true;
+        curriculum.parentElement.parentElement.classList.add('errorform');
+    }else{
+        curriculum.parentElement.parentElement.classList.remove('errorform');
+    }
+    if(foto.getAttribute('fotocargada')!='true' && foto.value==''){
+        console.log(foto.value);
+        error=true;
+        foto.parentElement.parentElement.classList.add('errorform');
+    }else{
+        foto.parentElement.parentElement.classList.remove('errorform');
+    }
+    console.log('pasa');
+    
+    
     if(error==true){
         //muestro mensaje de toast de error
-        toastr.error('Compruebe los campos');
+        toastr.error('Comprueba los campos','Error');
     }else{
         //actualizo el titulado
         //guardo los datos
         const data = new FormData();
+        
         data.append('idusuario',idusuario.value);
         data.append('nombre',nombre.value);
         data.append('apellidos',apellidos.value);
@@ -145,20 +84,26 @@ guardar_titulado.addEventListener('click',(e)=>{
         data.append('direccion',direccion.value);
         data.append('dni',dni.value);
         data.append('telefono',telefono.value);
-        data.append('curriculum',curriculum.value);
-        data.append('foto',foto.value);
-        data.append('titulaciones', arrayidtitulaciones);
+        data.append('curriculum',curriculum.files[0]);
+        data.append('foto',foto.files[0]);
+        data.append('titulacion', titulacion.value);
+        
+       
 
         fetch('ajax/guardar_titulado.php',{
             method: "POST",
             body: data
-        }).then(res=> res.text())
+        }).then(res=> res.json())
         .then(data=> {
-                if(data){
+            
+                if(data.status=='ok'){
                     //datos actualizados correctamente
-                    toastr.success('Datos Guardados');
+                    toastr.success('Guardado')
                 }else{
                     //datos no actualizados
+                    if(data.email=='error'){
+                        email.classList.add('errorform');
+                    }
                     toastr.error('Datos incorrectos');
                     
                 }
@@ -166,32 +111,114 @@ guardar_titulado.addEventListener('click',(e)=>{
     }
 });
 
-let eliminarTitulacion=document.querySelector('.detalle-titulado.select');
-    eliminarTitulacion.addEventListener('click',(e)=>{
-        e.preventDefault();
-        const data = new FormData();
-        data.append('idtitulacion',e.target.nextElementSibling.getAttribute('id_titulacion'));
-        e.target.parentElement.remove();
-        //borrar titulacion del usuario
-        fetch('ajax/eliminar_titulacion.php',{
-            method: "POST",
-            body: data
-        }).then(response => response.json())
-    });
+let fotoInput=document.getElementById('fotoinput');
+let dropZoneFoto = document.getElementById('drop-zone-foto');
+let imagenfoto=document.getElementById('imagen-foto');
+
+let curriculumInput=document.getElementById('curriculuminput');
+let imagencv=document.getElementById('imagen-cv');
+//Evento que se dispara al hacer click en la zona del file
+dropZoneFoto.addEventListener('click', (e) =>{
+   //Preguntamos si hemos echo click en el aspa de cerrar
+        
+		
+            fotoInput.click()
+      
+}); 
 
 
-let btn_agregar_titulacion=document.getElementById('agregar_titulacion').addEventListener('click',(e)=>{
+fotoInput.addEventListener('change',(e)=>{
     e.preventDefault();
-    const data = new FormData();
-    data.append('i',1);
-    fetch('ajax/agregar_titulacion.php',{
-        method: "POST",
-        body: data
-    }).then(response => response.json())
-    .then(data => {
-        var div=document.createElement(div);
-        div.innerHTML=data;
-        e.target.parentElement.insertBefore(div,document.getElementById('agregar_titulacion'));
-    });
-
+    
+    var archivo=e.target.files;
+    comprobarArchivo(archivo);
 });
+
+curriculumInput.addEventListener('change',(e)=>{
+    e.preventDefault();
+    var archivo=e.target.files;
+    for (const a of archivo) {
+        
+        if (a.type.match('.pdf')) {
+            var reader = new FileReader();
+            reader.addEventListener('load', (e) => {
+                imagencv.innerHTML='';
+                
+                div = document.createElement('div');
+                div.setAttribute('class', 'img-fotoperfil');
+                // enlace=document.createElement('a');
+               
+               
+                // enlace.setAttribute('href',);
+                
+                img = document.createElement('img');
+                img.setAttribute('src', 'assets/images/iconopdf.png');
+                img.setAttribute('class',' img-fluid img-icon-pdf');
+                p = document.createElement('p');
+		        textp = document.createTextNode(a.name);
+                p.appendChild(textp);
+                // enlace.appendChild(img);
+               
+                
+                div.appendChild(img);
+                div.appendChild(p);
+                
+                imagencv.appendChild(div);
+                
+            });
+            reader.readAsDataURL(a);
+        }else{
+            toastr.error('Solo archivos pdf','No se ha podido cargar');
+        }
+    }
+    
+});
+
+
+dropZoneFoto.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    dropZoneFoto.classList.add('drop-zone--active');
+});
+
+dropZoneFoto.addEventListener('dragleave', (e) => {
+    e.preventDefault();
+    dropZoneFoto.classList.remove('drop-zone--active');
+});
+//Cogemos los archivos
+dropZoneFoto.addEventListener('drop', (e) => {
+    e.preventDefault();
+    var archivos = e.dataTransfer.files;
+    escogeArchivo(archivos);
+});
+
+//Comprobamos el tipo de archivo y los cargamos
+function comprobarArchivo(archivo) {
+    for (const a of archivo) {
+        
+        if (a.type.match('image.*')) {
+            var reader = new FileReader();
+            reader.addEventListener('load', (e) => {
+                cargaImagen(e, a);
+            });
+            reader.readAsDataURL(a);
+        }else{
+            toastr.error('Solo archivos de imagen','No se ha podido cargar');
+        }
+    }
+}
+//Cargamos un archivo en la pagina
+function cargaImagen(e, archivo) {
+    imagenfoto.innerHTML='';
+    div = document.createElement('div');
+    div.setAttribute('class', 'img-fotoperfil');
+    img = document.createElement('img');
+    img.setAttribute('src', e.target.result);
+    img.setAttribute('class',' img-fluid');
+   
+    
+    
+    div.appendChild(img);
+    
+    imagenfoto.appendChild(div);
+}
+

@@ -7,10 +7,7 @@ class Empresa extends Usuario
     protected $direccion;
     protected $nif;
     protected $logo;
-
-
-
-    protected $lista_ofertas = [];
+    protected $listaEmpleos;
 
     function __construct($row)
     {
@@ -19,6 +16,7 @@ class Empresa extends Usuario
         $this->nif = isset($row['nif']) ? $row['nif'] : false;
         $this->lista_ofertas = isset($row['lista_ofertas']) ? $row['lista_ofertas'] : false;
         $this->logo = isset($row['logo']) ? $row['logo'] : false;
+        $this->listaEmpleos = isset($row['listaEmpleos']) ? $row['listaEmpleos'] : false;
         parent::__construct($row);
     }
 
@@ -72,15 +70,6 @@ class Empresa extends Usuario
         return $this;
     }
 
-    public function getLista_ofertas()
-    {
-        return $this->lista_ofertas;
-    }
-
-    public function setLista_ofertas($lista_ofertas)
-    {
-        $this->lista_ofertas = $lista_ofertas;
-    }
 
     public function getLogo()
     {
@@ -90,5 +79,14 @@ class Empresa extends Usuario
     public function setLogo($logo)
     {
         $this->logo = $logo;
+    }
+    public function getListaEmpleos()
+    {
+        return $this->listaEmpleos;
+    }
+
+    public function setListaEmpleos($listaEmpleos)
+    {
+        $this->listaEmpleos = $listaEmpleos;
     }
 }

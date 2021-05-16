@@ -9,12 +9,12 @@ formLogin.addEventListener('submit',(e)=>{
     const datosForm=new FormData(formLogin);
     //Validamos el usuario y la contraseña
     if(validarEmail(datosForm.get('email'))==true && validarContrasena(datosForm.get('contrasena'))==true){
-        msjalert.classList.remove('show');
+       
         loginAjax(datosForm);
     }else{
         msjalert.innerText=msjerror;
-        msjalert.classList.add('show');
-        setTimeout(function(){ msjalert.classList.remove('show'); }, 3000);
+       
+        
     }
 })
 

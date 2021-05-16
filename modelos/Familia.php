@@ -7,9 +7,12 @@ class Familia{
 
     
     function __construct($row) {
-        $this->idfamilia = $row['idfamilia'];
-        $this->familia = $row['familia'];
-        $this->nombre_imagen = $row['nombre_imagen'];
+        $this->idfamilia = $row['idfamilia'] ? $row['idfamilia'] : false;
+        $this->familia = $row['familia'] ? $row['familia'] : false;
+        $this->nombre_imagen = $row['nombre_imagen'] ? $row['nombre_imagen'] : false;
+
+        
+        
         
     }
     /**
@@ -72,5 +75,3 @@ class Familia{
         return $this;
     }
 }
-
-?>

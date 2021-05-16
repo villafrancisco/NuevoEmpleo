@@ -1,6 +1,81 @@
-@import url("main.css");
-@import url("index.css");
-@import url("empleos.css");
-@import url("login.css");
-@import url("footer.css");
+.bd-placeholder-img {
+    font-size: 1.125rem;
+    text-anchor: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+  .logo{
+      width: 80px;
+  }
+  .custom-control{
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+.container {
+    max-width: 1200px;
+}
+.empleos-header {
+    max-width: 700px;
+}
+img{
+    border-radius: 5px;
+}
+.card-familia img{
+    height: 170px;
+}
+.card-familia .card-body{
+    height: 100px;
+}
+.custom-file-label::after {
+    content:"Examinar" !important;
+}
 
+.errorform{
+	border: 3px solid #CA2C0A;
+}
+.imagen-foto{
+    width: 100px;
+    margin: 0 auto;
+    position: absolute;
+    top:0px;
+    left: 30px;
+}
+.drop-zone {
+    height: 100px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	border: 2px dashed #caced6;
+    cursor: pointer;
+}
+.drop-zone--active {
+	border: 5px solid #caced6;
+	background-color: #414141;
+	color: #caced6;
+}
+
+.fa-window-close{
+    cursor: pointer;
+}
+.img-icon-pdf{
+    width: 35px;
+}
+#imagen-cv{
+    width: 100%;
+}
+
+  @media (min-width: 768px) {
+    .bd-placeholder-img-lg {
+      font-size: 3.5rem;
+    }  
+    .custom-control{
+        position: relative;
+        top:0;
+        right: 0;
+    }
+    
+  }

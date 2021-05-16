@@ -1,13 +1,12 @@
-<?php 
+<?php
 
 //Archivo de configuración de la aplicacion
-    const SERVERURL="http://localhost/NuevoEmpleo/";
-    const EMPRESA="NuevoEmpleo";
-    const SERVER="localhost";
-    const DB="nuevoempleo";
-    const USER="root";
-    const PASS="";
-    const SGDB="mysql:host=".SERVER.";dbname=".DB;
+const SERVERURL = "http://localhost/NuevoEmpleo/";
+const EMPRESA = "NuevoEmpleo";
+const SERVER = "localhost";
+const DB = "nuevoempleo";
+const USER = "root";
+const PASS = "";
+const SGDB = "mysql:host=" . SERVER . ";dbname=" . DB;
 
-    error_reporting(E_ERROR | E_PARSE);
-?>
+//error_reporting(E_ERROR | E_PARSE);

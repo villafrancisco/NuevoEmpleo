@@ -1,9 +1,8 @@
 <?php
 
-abstract class Usuario
+class Usuario extends Tipousuario
 {
     protected $idusuario;
-    protected $idtipo;
     protected $email;
     protected $contrasena;
     protected $nombre;
@@ -12,10 +11,10 @@ abstract class Usuario
     function __construct($row)
     {
         $this->idusuario = isset($row['idusuario']) ? $row['idusuario'] : false;
-        $this->idtipo = isset($row['idtipo']) ? $row['idtipo'] : false;
         $this->email = isset($row['email']) ? $row['email'] : false;
         $this->contrasena = isset($row['contrasena']) ? $row['contrasena'] : false;
         $this->nombre = isset($row['nombre']) ? $row['nombre'] : false;
+        parent::__construct($row);
     }
     /**
      * Get the value of idusuario
@@ -35,44 +34,6 @@ abstract class Usuario
         $this->idusuario = $idusuario;
 
         return $this;
-    }
-
-    /**
-     * Get the value of idtipo
-     */
-    public function getIdtipo()
-    {
-        return $this->idtipo;
-    }
-
-    /**
-     * Set the value of idtipo
-     *
-     * @return  self
-     */
-    public function setIdtipo($idtipo)
-    {
-        $this->idtipo = $idtipo;
-
-        return $this;
-    }
-
-
-    public function getNameTipo()
-    {
-        switch ($this->getIdtipo()) {
-            case 1:
-                return "administrador";
-                break;
-            case 2:
-                return "empresa";
-                break;
-            case 3:
-                return "titulado";
-                break;
-            default:
-                break;
-        }
     }
 
     public function getEmail()
