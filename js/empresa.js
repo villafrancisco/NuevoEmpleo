@@ -161,6 +161,7 @@ guardarEmpleo.addEventListener('click',(e)=>{
     errorEmpleo=false;
     var descripcion=document.getElementById('descripcion');
     var familia=document.getElementById('familia');
+    var idempleo=document.getElementById('idempleo');
     if(descripcion.value==''){
         errorEmpleo=true;
         descripcion.classList.add('errorform');
@@ -185,6 +186,7 @@ guardarEmpleo.addEventListener('click',(e)=>{
         
         data.append('descripcion',descripcion.value);
         data.append('familia',familia.value);
+        data.append('idempleo',idempleo.value);
 
         fetch('ajax/guardar_empleo.php',{
             method: "POST",
@@ -196,6 +198,8 @@ guardarEmpleo.addEventListener('click',(e)=>{
                     toastr.success('Guardado')
                     //borrar formulario y cargar las ofertas en la pagina princpal
                     document.getElementById('form_guardar_empleo').reset();
+                    $('#exampleModal').modal('hide');
+                    document.getElementById('idempleo').value='';
                     cargar_tabla_empleos();
                 }else{
                    toastr.error('No se ha podido guardar el empleo');
@@ -287,6 +291,7 @@ tabla.addEventListener('click',(e)=>{
                 $('#exampleModal').modal('show');
                 document.getElementById('descripcion').value=data.descripcion;
                 document.getElementById('familia').value=data.idfamilia;
+                document.getElementById('idempleo').value=data.idempleo;
             }
        });
     }

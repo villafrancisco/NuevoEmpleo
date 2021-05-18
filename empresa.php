@@ -5,9 +5,9 @@ $db = new DB();
 if (isset($_SESSION["idusuario"])) {
     $empresa = $db->getUsuario($_SESSION["idusuario"]);
     $familias = $db->getAllFamilias();
-    
-    
-    if (!$empresa->getTipousuario() == 'empresa') {
+
+
+    if ($empresa->getTipousuario() != 'empresa') {
         header('Location:index.php');
     }
 } else {
@@ -44,7 +44,7 @@ if (isset($_SESSION["idusuario"])) {
             </div>
             <div class="form-row">
                 <div class="form-group col-md-6">
-                <label for="direccion">Dirección: <span class="required">*</span></label>
+                    <label for="direccion">Dirección: <span class="required">*</span></label>
                     <input type="text" class="form-control" name="direccion" id="direccion" value="<?php echo $empresa->getDireccion(); ?>">
 
                 </div>
@@ -54,9 +54,9 @@ if (isset($_SESSION["idusuario"])) {
 
                 </div>
             </div>
-           
-            
-           
+
+
+
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <div class="custom-file">
@@ -80,80 +80,78 @@ if (isset($_SESSION["idusuario"])) {
 
                 </div>
             </div>
-            
+
             <button id="guardar_empresa" name="guardar_empresa" type="submit" class="btn btn-primary">Guardar</button>
         </form>
         <!-- Ofertas de empleo publicada por la empresa -->
         <h1 class="display-4 text-center">Ofertas de empleo publicadas</h1>
         <?php
-       
-        if(empty($empresa->getListaEmpleos())){
-            echo '<p class="text-center">No hay ninguna oferta de empleo publicada</p>';
-        }else{
-        ?>
-        
 
-        <?php
-     }
-     ?>
-     <table id="tabla_empleos" class="table table-hover">
-            
+        if (empty($empresa->getListaEmpleos())) {
+            echo '<p class="text-center">No hay ninguna oferta de empleo publicada</p>';
+        } else {
+        ?>
+            <table id="tabla_empleos" class="table table-hover">
+
             </table>
-   
-   <!-- Button trigger modal -->
-   <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" id="modal-empleo" >
-     Publicar empleo
-   </button>
+        <?php
+        }
+        ?>
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" id="modal-empleo">
+            Publicar empleo
+        </button>
+
     </main>
 
 
-   
 
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Publicar Oferta de Empleo</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-      <form enctype="multipart/form-data" id="form_guardar_empleo" action="ajax/guardar_empleo">
-            <div class="form-row">
-                <div class="form-group col-md-12">
-                    
-                    
-                    <label for="descripcion">Descripcion de la oferta de empleo: <span class="required">*</span></label>
-                    <textarea class="form-control" name="descripcion" id="descripcion" rows="3"></textarea>
-                    <input type="hidden" id="idempleo" name="idempleo" value="<?php ?>">
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Publicar Oferta de Empleo</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
-                
-            </div>
-            <div class="form-row">
-                <div class="form-group col-md-12">
-                    <label for="Familia">Familia Profesional: <span class="required">*</span></label>
-                    <select id="familia" class="form-control">
-                        <option value="0" selected>Elige una Familia Profesional</option>
-                        <?php
-                        foreach ($familias as $familia) {
-                                echo '<option value="' . $familia->getIdfamilia() . '" >' . $familia->getFamilia() . '</option>';
-                        }
-                        ?>
-                    </select>
+                <div class="modal-body">
+                    <form enctype="multipart/form-data" id="form_guardar_empleo" action="ajax/guardar_empleo">
+                        <div class="form-row">
+                            <div class="form-group col-md-12">
+
+
+                                <label for="descripcion">Descripcion de la oferta de empleo: <span class="required">*</span></label>
+                                <textarea class="form-control" name="descripcion" id="descripcion" rows="3"></textarea>
+                                <input type="hidden" id="idempleo" name="idempleo">
+                            </div>
+
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-12">
+                                <label for="Familia">Familia Profesional: <span class="required">*</span></label>
+                                <select id="familia" class="form-control">
+                                    <option value="0" selected>Elige una Familia Profesional</option>
+                                    <?php
+                                    foreach ($familias as $familia) {
+                                        echo '<option value="' . $familia->getIdfamilia() . '" >' . $familia->getFamilia() . '</option>';
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary" id="guardar_empleo" name="guardar_empleo">Guardar empleo</button>
                 </div>
             </div>
-        </form>
-       
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-        <button type="button" class="btn btn-primary" id="guardar_empleo" name="guardar_empleo">Guardar empleo</button>
-      </div>
+        </div>
     </div>
-  </div>
-</div>
 
     <?php include "inc/footer.php" ?>
     <?php include 'inc/scripts.php' ?>

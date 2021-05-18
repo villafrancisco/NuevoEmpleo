@@ -95,6 +95,9 @@ if (isset($_GET["familia"]) && !empty($_GET['familia'])) {
                 <?php
                         $familia = $db->getFamilia($empleo->getIdfamilia());
                         $empresa = $db->getEmpresa($empleo->getIdempresa());
+                        if (empty($empresa->getLogo())) {
+                            $empresa->setLogo('no-imagen.svg');
+                        }
                 ?>
                 <div class="row-cols-1">
                     <div class="card-deck mb-3 text-center">
@@ -105,13 +108,31 @@ if (isset($_GET["familia"]) && !empty($_GET['familia'])) {
                             <div class="card-body ">
                                 <div class="row align-items-center">
                                     <div class="col-md-1">
-                                        <img class="d-none d-md-block img-fluid" src="assets/images/no-imagen.svg">
+                                        <img class="d-none d-md-block img-fluid" src="archivos_subidos/<?php echo $empresa->getLogo() ?>">
                                     </div>
                                     <div class="col-md-8 text-left">
                                         <h5 class="card-title pricing-card-title"><?php echo $familia->getFamilia(); ?> </h5>
                                         <p class="card-text"><?php echo $empleo->getDescripcion(); ?> </p>
 
-                                        <button type="button" class="btn btn-lg btn-block btn-outline-primary">Inscríbite</button>
+
+                                        <?php
+                                        if (isset($_SESSION["idusuario"])) {
+                                            $titulado = $db->getUsuario($_SESSION["idusuario"]);
+                                            if ($titulado->getTipousuario() == 'titulado') {
+                                        ?>
+                                                <button type="button" class="disabled btn btn-lg btn-block btn-primary" class="guardar_inscripcion" idempleo="<?php echo $empleo->getIdempleo() ?>">Inscríbite</button>
+                                            <?php
+                                            } else { ?>
+                                                <button type="button" class="disabled btn btn-lg btn-block btn-outline-primary">Necesitas estar registrado</button>
+                                            <?php
+                                            }
+                                        } else { ?>
+                                            <button type="button" class="disabled btn btn-lg btn-block btn-outline-primary">Necesitas estar registrado para inscribirte</button>
+
+                                        <?php
+                                        }
+                                        ?>
+
                                     </div>
                                     <div class="col-md-3">
                                         <a href="index.php?familia=<?php echo $familia->getIdfamilia(); ?>"><img class="d-none d-md-block img-fluid" src="assets/images/<?php echo $familia->getNombre_imagen(); ?>">

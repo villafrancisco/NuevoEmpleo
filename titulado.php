@@ -5,7 +5,7 @@ $db = new DB();
 if (isset($_SESSION["idusuario"])) {
     $titulado = $db->getUsuario($_SESSION["idusuario"]);
     $titulaciones = $db->getAlltitulos();
-    if (!$titulado->getTipousuario() == 'titulado') {
+    if ($titulado->getTipousuario() != 'titulado') {
         header('Location:index.php');
     }
 } else {
@@ -137,35 +137,19 @@ if (isset($_SESSION["idusuario"])) {
             </div>
             <button id="guardar_titulado" name="guardar_titulado" type="submit" class="btn btn-primary">Guardar</button>
         </form>
-        <table class="table table-hover">
-            <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">First</th>
-                    <th scope="col">Last</th>
-                    <th scope="col">Handle</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <th scope="row">1</th>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td>@mdo</td>
-                </tr>
-                <tr>
-                    <th scope="row">2</th>
-                    <td>Jacob</td>
-                    <td>Thornton</td>
-                    <td>@fat</td>
-                </tr>
-                <tr>
-                    <th scope="row">3</th>
-                    <td colspan="2">Larry the Bird</td>
-                    <td>@twitter</td>
-                </tr>
-            </tbody>
-        </table>
+        <h1 class="display-4 text-center">Inscripciones en Ofertas</h1>
+        <?php
+
+        if (empty($titulado->getLista_empleos_inscrito())) {
+            echo '<p class="text-center">No te has inscrito en ninguna oferta</p>';
+        } else {
+        ?>
+            <table id="tabla_inscripciones" class="table table-hover">
+
+            </table>
+        <?php
+        }
+        ?>
 
     </main>
 

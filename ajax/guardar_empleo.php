@@ -14,29 +14,24 @@ require_once '../modelos/Empleo.php';
 
 $db = new DB();
 
-if(isset($_POST["descripcion"]) && isset($_POST["familia"])){
-    $usuarioactualizar = $db->getUsuario($_SESSION['idusuario']);
-    $row['idempresa']=$usuarioactualizar->getIdempresa();
-    $row['idfamilia']=$_POST["familia"];
-    $row['descripcion']=$_POST["descripcion"];
+if (isset($_POST["descripcion"]) && isset($_POST["familia"])) {
+    $usuario = $db->getUsuario($_SESSION['idusuario']);
+    $row['idempresa'] = $usuario->getIdempresa();
+    $row['idfamilia'] = $_POST["familia"];
+    $row['descripcion'] = $_POST["descripcion"];
+    if (empty($_POST['idempleo'])) {
+        $empleo = new Empleo($row);
 
-    $empleo=new Empleo($row);
-    
-    if($db->createEmpleo($empleo)){
-       $data['status'] = 'ok';
-       $data['result'] = $db->getEmpleosUsuario($usuarioactualizar);
-
+        if ($db->createEmpleo($empleo)) {
+            $data['status'] = 'ok';
+        }
+    } else {
+        $row['idempleo'] = $_POST['idempleo'];
+        $empleo = new Empleo($row);
+        if ($db->updateEmpleo($empleo)) {
+            $data['status'] = 'ok';
+        }
     }
 
     echo json_encode($data);
-    
-    
-    
 }
-
-
-    
- 
-    
-    
-

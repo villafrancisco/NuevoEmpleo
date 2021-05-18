@@ -111,40 +111,42 @@ class DB extends Conexion
         }
     }
 
-    public function createEmpleo($empleo){
-        try{
+    public function createEmpleo($empleo)
+    {
+        try {
             $conexion = parent::conectar();
             $conexion->beginTransaction();
-            $sql="INSERT INTO empleos (idempresa,idfamilia,descripcion,fecha_publicacion) VALUES (:idempresa,:idfamilia,:descripcion,:fecha_publicacion)";
-            $parametros=array(":idempresa"  => $empleo->getIdempresa(),
-                                ":idfamilia"    =>$empleo->getIdfamilia(),
-                                ":descripcion"  =>$empleo->getDescripcion(),
-                                ":fecha_publicacion"    =>  date("Y-m-d H:i:s"));
+            $sql = "INSERT INTO empleos (idempresa,idfamilia,descripcion,fecha_publicacion) VALUES (:idempresa,:idfamilia,:descripcion,:fecha_publicacion)";
+            $parametros = array(
+                ":idempresa"  => $empleo->getIdempresa(),
+                ":idfamilia"    => $empleo->getIdfamilia(),
+                ":descripcion"  => $empleo->getDescripcion(),
+                ":fecha_publicacion"    =>  date("Y-m-d H:i:s")
+            );
             $consulta = $conexion->prepare($sql);
             $consulta->execute($parametros);
             $conexion->commit();
             return true;
-        }catch(PDOException $e){
+        } catch (PDOException $e) {
             $conexion->rollBack();
             return false;
         }
-
     }
 
-    public function getEmpleosUsuario($usuario){
-        try{
-            
-                $sql = "SELECT * FROM empleos WHERE idempresa =:idempresa Order by fecha_publicacion";
-                $parametros = array(':idempresa'    =>  $usuario->getIdempresa());
-                $consulta = self::ejecutaConsulta($sql, $parametros);
-                $empleos = [];
-                while ($resultado = $consulta->fetch()) {
-                    $empleos[] = new Empleo($resultado);
-                }
-                return $empleos;
-        }catch(PDOException $e){
-            return false;
+    public function getEmpleosUsuario($usuario)
+    {
+        try {
 
+            $sql = "SELECT * FROM empleos WHERE idempresa =:idempresa Order by fecha_publicacion";
+            $parametros = array(':idempresa'    =>  $usuario->getIdempresa());
+            $consulta = self::ejecutaConsulta($sql, $parametros);
+            $empleos = [];
+            while ($resultado = $consulta->fetch()) {
+                $empleos[] = new Empleo($resultado);
+            }
+            return $empleos;
+        } catch (PDOException $e) {
+            return false;
         }
     }
 
@@ -339,14 +341,14 @@ class DB extends Conexion
                     return $resultado;
                     break;
                 case 'empresa':
-                    $sql="UPDATE empresas SET
+                    $sql = "UPDATE empresas SET
                         nombre = :nombre,
                         email = :email,
                         telefono = :telefono,
                         direccion = :direccion,
                         logo = :logo
                     WHERE idempresa= :idempresa";
-                    $parametros=array(
+                    $parametros = array(
                         ":idempresa"    =>  $usuario->getIdempresa(),
                         ":nombre"       =>  $usuario->getNombre(),
                         ":email"    =>  $usuario->getEmail(),
@@ -497,39 +499,59 @@ class DB extends Conexion
             return false;
         }
     }
-    public function deleteEmpleo($idempleo){
-        try{
+    public function deleteEmpleo($idempleo)
+    {
+        try {
             $conexion = parent::conectar();
             $conexion->beginTransaction();
             $sql = "DELETE FROM empleos WHERE idempleo=:idempleo";
             $parametros = array(
                 ":idempleo"  => $idempleo
-                
+
             );
-            $consulta= $conexion->prepare($sql);
+            $consulta = $conexion->prepare($sql);
             $consulta->execute($parametros);
 
-            
+
             $conexion->commit();
             return true;
-        }catch(PDOException $e){
+        } catch (PDOException $e) {
             return false;
         }
     }
-    public function deleteInscripcion($idinscripcion){
-        try{
+
+    public function updateEmpleo($empleo)
+    {
+        $conexion = parent::conectar();
+        $conexion->beginTransaction();
+        $sql = "UPDATE empleos SET descripcion = :descripcion, idfamilia=:idfamilia WHERE idempleo=:idempleo";
+        $parametros = array(
+            ":descripcion"  => $empleo->getDescripcion(),
+            ":idfamilia"  => $empleo->getIdfamilia(),
+            ":idempleo"  => $empleo->getIdempleo(),
+
+
+        );
+        $consulta = $conexion->prepare($sql);
+        $consulta->execute($parametros);
+        $conexion->commit();
+        return true;
+    }
+    public function deleteInscripcion($idinscripcion)
+    {
+        try {
             $conexion = parent::conectar();
             $conexion->beginTransaction();
             $sql = "DELETE FROM inscripciones WHERE idinscripcion:idinscripcion";
             $parametros = array(
                 ":idinscripcion"  => $idinscripcion
-                
+
             );
-            $consulta= $conexion->prepare($sql);
+            $consulta = $conexion->prepare($sql);
             $consulta->execute($parametros);
             $conexion->commit();
             return true;
-        }catch(PDOException $e){
+        } catch (PDOException $e) {
             return false;
         }
     }
