@@ -125,7 +125,7 @@ if (isset($_SESSION["idusuario"])) {
                 <div class="form-group col-md-6">
                     <div class="imagen-foto" id="imagen-cv">
                         <?php if ($titulado->getCurriculum() != "") {
-                            echo '<a href="archivos_subidos/' . $titulado->getCurriculum() . '">';
+                            echo '<a target="_blank" href="archivos_subidos/' . $titulado->getCurriculum() . '">';
                             echo '<img class="img-fluid  img-icon-pdf" src="assets/images/iconopdf.png" />';
                             echo '</a>';
                             echo '<p>' . explode("/", $titulado->getCurriculum())[2] . '</p>';
@@ -171,6 +171,7 @@ if (isset($_SESSION["idusuario"])) {
 
     <?php include "inc/footer.php" ?>
     <?php include 'inc/scripts.php' ?>
+    <script src="js/titulado.js"></script>
 
 </body>
 

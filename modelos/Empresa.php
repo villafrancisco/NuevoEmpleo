@@ -5,15 +5,16 @@ class Empresa extends Usuario
 {
     protected $idempresa;
     protected $direccion;
-    protected $nif;
+    protected $telefono;
+   
     protected $logo;
     protected $listaEmpleos;
 
     function __construct($row)
     {
         $this->idempresa = isset($row['idempresa']) ? $row['idempresa'] : false;
+        $this->telefono = isset($row['telefono']) ? $row['telefono'] : false;
         $this->direccion = isset($row['direccion']) ? $row['direccion'] : false;
-        $this->nif = isset($row['nif']) ? $row['nif'] : false;
         $this->lista_ofertas = isset($row['lista_ofertas']) ? $row['lista_ofertas'] : false;
         $this->logo = isset($row['logo']) ? $row['logo'] : false;
         $this->listaEmpleos = isset($row['listaEmpleos']) ? $row['listaEmpleos'] : false;
@@ -40,6 +41,41 @@ class Empresa extends Usuario
 
         return $this;
     }
+
+
+    /**
+     * Set the value of telefono
+     *
+     * @return  self
+     */
+    public function getTelefono()
+    {
+        return $this->telefono;
+
+        
+    }
+    /**
+     * Set the value of telefono
+     *
+     * @return  self
+     */
+    public function setTelefono($telefono)
+    {
+        $this->telefono = $telefono;
+
+        return $this;
+    }
+/**
+     * Set the value of direccion
+     *
+     * @return  self
+     */
+    public function getDireccion()
+    {
+        return $this->direccion;
+
+        
+    }
     /**
      * Set the value of direccion
      *
@@ -52,27 +88,8 @@ class Empresa extends Usuario
         return $this;
     }
 
-    /**
-     * Get the value of nif
-     */
-    public function getNif()
-    {
-        return $this->nif;
-    }
-    /**
-     * Set the value of nif
-     *
-     * @return  self
-     */
-    public function setNif($nif)
-    {
-        $this->nif = $nif;
-        return $this;
-    }
 
-
-    public function getLogo()
-    {
+    public function getLogo(){
         return $this->logo;
     }
 

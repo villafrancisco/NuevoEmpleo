@@ -1,13 +1,13 @@
 <?php
 
-class Empleo
+class Empleo implements JsonSerializable
 {
     protected $idempleo;
     protected $idempresa;
     protected $idfamilia;
 
     protected $descripcion;
-    protected $logo;
+    
     protected $fecha_publicacion;
 
 
@@ -18,8 +18,12 @@ class Empleo
         $this->idfamilia = isset($row['idfamilia']) ? $row['idfamilia'] : false;
 
         $this->descripcion = isset($row['descripcion']) ? $row['descripcion'] : false;
-        $this->logo = isset($row['logo']) ? $row['logo'] : false;
+        
         $this->fecha_publicacion = isset($row['fecha_publicacion']) ? $row['fecha_publicacion'] : false;
+    }
+    public function jsonSerialize()
+    {
+        return get_object_vars($this);
     }
 
     public function getIdempleo()
@@ -63,16 +67,6 @@ class Empleo
     public function setDescripcion($descripcion)
     {
         $this->descripcion = $descripcion;
-    }
-
-    public function getLogo()
-    {
-        return $this->logo;
-    }
-
-    public function setLogo($logo)
-    {
-        $this->logo = $logo;
     }
 
     public function getFecha_publicacion()
