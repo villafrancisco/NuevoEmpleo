@@ -7,6 +7,13 @@ if (isset($_GET["familia"]) && !empty($_GET['familia'])) {
 } else {
     $listaEmpleos = $db->getAllEmpleos();
 }
+$permisoInscribirse=false;
+if(isset($_SESSION['idusuario'])){
+    $titulado = $db->getUsuario($_SESSION["idusuario"]);
+    if ($titulado->getTipousuario() == 'titulado') {
+        $permisoInscribirse=true;
+    }   
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -116,19 +123,25 @@ if (isset($_GET["familia"]) && !empty($_GET['familia'])) {
 
 
                                         <?php
-                                        if (isset($_SESSION["idusuario"])) {
-                                            $titulado = $db->getUsuario($_SESSION["idusuario"]);
-                                            if ($titulado->getTipousuario() == 'titulado') {
-                                        ?>
-                                                <button type="button" class="disabled btn btn-lg btn-block btn-primary" class="guardar_inscripcion" idempleo="<?php echo $empleo->getIdempleo() ?>">Inscríbite</button>
-                                            <?php
-                                            } else { ?>
-                                                <button type="button" class="disabled btn btn-lg btn-block btn-outline-primary">Necesitas estar registrado</button>
-                                            <?php
-                                            }
+                                        $inscrito=false;
+                                        if($permisoInscribirse){?>
+                                                
+                                                <?php  foreach ($titulado->getLista_empleos_inscrito() as $e) {
+                                                    if($e->getIdempleo()==$empleo->getIdempleo()){
+                                                        $inscrito=true;
+                                                    }
+                                                       
+                                                }  
+                                                if(!$inscrito){?>
+                                                    <button type="button" class="disabled btn btn-lg btn-block btn-primary guardar_inscripcion"  idempleo="<?php echo $empleo->getIdempleo() ?>">Inscríbite</button>       
+                                                <?php
+                                                }else{?>
+                                                    <button type="button" class="disabled btn btn-lg btn-block btn-outline-primary guardar_inscripcion"  idempleo="<?php echo $empleo->getIdempleo() ?>">Ya estás inscrito</button>       
+                                                <?php
+                                                }?>
+                                        <?php
                                         } else { ?>
                                             <button type="button" class="disabled btn btn-lg btn-block btn-outline-primary">Necesitas estar registrado para inscribirte</button>
-
                                         <?php
                                         }
                                         ?>

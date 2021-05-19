@@ -1,0 +1,31 @@
+<?php
+session_start();
+
+require_once "../config/app.php";
+require_once '../includes/conexion.php';
+require_once '../includes/DB.php';
+require_once '../modelos/Tipousuario.php';
+require_once '../modelos/Usuario.php';
+require_once '../modelos/Administrador.php';
+require_once '../modelos/Titulado.php';
+require_once '../modelos/Empresa.php';
+require_once '../modelos/Titulo.php';
+require_once '../modelos/Empleo.php';
+require_once '../modelos/Inscripcion.php';
+
+$db = new DB();
+
+
+$usuario = $db->getUsuario($_SESSION['idusuario']);
+$row['idempleo']=$_POST['idempleo'];
+$row['idtitulado']=$usuario->getIdtitulado();
+
+$inscripcion=new Inscripcion($row);
+
+if($db->createInscripcion($inscripcion)){
+    $data['status']='ok';
+}else{
+    $data['status']='error';
+}
+echo json_encode($data);
+

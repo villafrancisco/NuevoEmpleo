@@ -149,6 +149,23 @@ class DB extends Conexion
             return false;
         }
     }
+    public function createInscripcion($inscripcion){
+        try{
+            $conexion = parent::conectar();
+            $conexion->beginTransaction();
+            $sql="INSERT INTO inscripciones (idempleo,idtitulado,fecha_inscripcion) VALUES (:idempleo,:idtitulado,:fecha_inscripcion)";
+            $parametros=array(":idempleo"   => $inscripcion->getIdempleo(),
+                                ":idtitulado"   => $inscripcion->getIdtitulado(),
+                                ":fecha_inscripcion"    => date("Y-m-d H:i:s"));
+            
+                                $consulta = $conexion->prepare($sql);
+            $consulta->execute($parametros);
+            $conexion->commit();
+            return true;
+        }catch(PDOException $e){
+            return false;
+        }
+    }
 
 
 

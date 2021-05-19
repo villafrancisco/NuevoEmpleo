@@ -9,10 +9,11 @@ class Inscripcion
 
     function __construct($row)
     {
-        $this->idinscripcion = $row['idinscripcion'] ? $row['idinscripcion'] : false;
-        $this->idempleo = $row['idempleo'] ? $row['idempleo'] : false;
-        $this->idtitulado = $row['idtitulado'] ? $row['idtitulado'] : false;
-        $this->fecha_inscripcion = $row['fecha_inscripcion'] ? $row['fecha_inscripcion'] : false;
+        
+        $this->idinscripcion =isset($row['idinscripcion']) ? $row['idinscripcion'] : false;
+        $this->idempleo = isset($row['idempleo']) ? $row['idempleo'] : false;
+        $this->idtitulado = isset($row['idtitulado']) ? $row['idtitulado'] : false;
+        $this->fecha_inscripcion =isset($row['fecha_inscripcion']) ? $row['fecha_inscripcion'] : false;
     }
 
 
