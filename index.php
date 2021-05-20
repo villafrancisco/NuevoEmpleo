@@ -136,7 +136,7 @@ if(isset($_SESSION['idusuario'])){
                                                     <button type="button" class="disabled btn btn-lg btn-block btn-primary guardar_inscripcion"  idempleo="<?php echo $empleo->getIdempleo() ?>">Inscríbite</button>       
                                                 <?php
                                                 }else{?>
-                                                    <button type="button" class="disabled btn btn-lg btn-block btn-outline-primary guardar_inscripcion"  idempleo="<?php echo $empleo->getIdempleo() ?>">Ya estás inscrito</button>       
+                                                    <button type="button" class="disabled btn btn-lg btn-block btn-outline-primary"  idempleo="<?php echo $empleo->getIdempleo() ?>">Ya estás inscrito</button>       
                                                 <?php
                                                 }?>
                                         <?php
