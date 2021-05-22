@@ -201,11 +201,13 @@ guardarEmpleo.addEventListener('click',(e)=>{
                     $('#exampleModal').modal('hide');
                     document.getElementById('idempleo').value='';
                     cargar_tabla_empleos();
+                    
                 }else{
                    toastr.error('No se ha podido guardar el empleo');
                    document.getElementById('form_guardar_empleo').reset();
                 }
             });
+            
         
        
     }
@@ -215,9 +217,10 @@ guardarEmpleo.addEventListener('click',(e)=>{
 $('#exampleModal').on('hidden.bs.modal', function (event) {
     document.getElementById('form_guardar_empleo').reset();
   });
-var tabla=document.getElementById('tabla_empleos');
+  const tabla=document.getElementById('tabla_empleos');
 cargar_tabla_empleos();
 function cargar_tabla_empleos(){
+ 
     tabla.innerHTML='';
     const data = new FormData();
     fetch('ajax/cargar_empleos.php',{
@@ -244,7 +247,7 @@ function cargar_tabla_empleos(){
                 data.forEach(empleo => {
                 
                     fragment+='<tr>'+
-                                '<th scope="row"><a href="'+empleo.id+'">Inscritos</a></th>'+
+                                '<th scope="row"><a href="inscritos.php?idempleo='+empleo.id+'">Inscritos</a></th>'+
                                 '<td>'+empleo.familia+'</td>'+
                                 '<td>'+empleo.descripcion.substr(0,50)+'</td>'+
                                 '<td>'+empleo.fecha_publicacion+'</td>'+
@@ -254,14 +257,17 @@ function cargar_tabla_empleos(){
                     
                 });
                 tabla.innerHTML=fragment;            
+            }else{
+                tabla.innerHTML='<p class="text-center">No hay ninguna oferta de empleo publicada</p>';
             }
         });
     
 }
 tabla.addEventListener('click',(e)=>{
-    e.preventDefault();
+   
 
     if(e.target.parentElement.getAttribute('class')=='eliminar_empleo'){
+        e.preventDefault();
         const data = new FormData();
         data.append('idempleo',e.target.parentElement.getAttribute('href'));
         fetch('ajax/eliminar_empleo.php',{
@@ -279,6 +285,7 @@ tabla.addEventListener('click',(e)=>{
                 }
             });
     }else if(e.target.parentElement.getAttribute('class')=='editar_empleo'){
+        e.preventDefault();
        //abrir modal
        const data = new FormData();
        data.append('idempleo',e.target.parentElement.getAttribute('href'));

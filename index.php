@@ -7,12 +7,12 @@ if (isset($_GET["familia"]) && !empty($_GET['familia'])) {
 } else {
     $listaEmpleos = $db->getAllEmpleos();
 }
-$permisoInscribirse=false;
-if(isset($_SESSION['idusuario'])){
+$permisoInscribirse = false;
+if (isset($_SESSION['idusuario'])) {
     $titulado = $db->getUsuario($_SESSION["idusuario"]);
     if ($titulado->getTipousuario() == 'titulado') {
-        $permisoInscribirse=true;
-    }   
+        $permisoInscribirse = true;
+    }
 }
 ?>
 <!DOCTYPE html>
@@ -33,78 +33,30 @@ if(isset($_SESSION['idusuario'])){
         <div class="empleos-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
             <?php
             if (isset($familia)  && $familia != false) {
-            ?>
-                <h1 class="display-4">Ofertas de <?php echo $familia->getFamilia() ?></h1>
-                <?php
+                echo '<h1 class="display-4">Ofertas de ' . $familia->getFamilia() . '</h1>';
                 if (!$listaEmpleos) {
                     echo '<p class="lead">No hay ninguna oferta de empleo para esta categoria</p>';
-                    echo '</div>';
-                } else { ?>
-                    <p class="lead">Infórmate de todas las ofertas de empleo disponibles, para la familia de <?php echo $familia->getFamilia(); ?>, poder aplicar necesitas estar registrado.</p>
-        </div>
-        <section>
-            <?php
-                    foreach ($listaEmpleos as $empleo) { ?>
-                <?php
-                        $familia = $db->getFamilia($empleo->getIdfamilia());
-                        $empresa = $db->getEmpresa($empleo->getIdempresa());
-                ?>
-                <div class="row-cols-1">
-                    <div class="card-deck mb-3 text-center">
-                        <div class="card mb-4 shadow-sm">
-                            <div class="card-header">
-                                <h4 class="my-0 font-weight-normal"><?php echo $empresa->getNombre() ?></h4>
-                            </div>
-                            <div class="card-body ">
-                                <div class="row align-items-center">
-                                    <div class="col-md-1">
-                                        <img class="d-none d-md-block img-fluid" src="assets/images/no-imagen.svg">
-                                    </div>
-                                    <div class="col-md-8 text-left">
-                                        <h5 class="card-title pricing-card-title"><?php echo $familia->getFamilia(); ?> </h5>
-                                        <p class="card-text"><?php echo $empleo->getDescripcion(); ?> </p>
-
-                                        <button type="button" class="btn btn-lg btn-block btn-outline-primary">Inscríbite</button>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <img class="d-none d-md-block img-fluid" src="assets/images/<?php echo $familia->getNombre_imagen(); ?>">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-footer text-muted">
-                                <?php
-                                echo $empleo->getFecha_publicacion();
-
-
-                                ?>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            <?php
-                    } //fin del for each
-            ?>
-        </section><?php
-
+                } else {
+                    echo '<p class="lead">Infórmate de todas las ofertas de empleo disponibles, para la familia de ' . $familia->getFamilia() . ', poder aplicar necesitas estar registrado.</p>';
                 }
-            } else { ?>
-    <h1 class="display-4">Ofertas de Empleo</h1>
-    <?php
+            } else {
+                echo '<h1 class="display-4">Ofertas de Empleo</h1>';
                 if (!$listaEmpleos) {
                     echo '<p class="lead">En estos momentos no hay disponible ninguna oferta de empleo</p>';
-                    echo '</div>';
-                } else { ?>
-        <p class="lead">Infórmate de todas las ofertas de empleo disponibles, para poder aplicar necesitas estar registrado.</p>
+                } else {
+                    echo '<p class="lead">Infórmate de todas las ofertas de empleo disponibles, para poder aplicar necesitas estar registrado.</p>';
+                }
+            } ?>
         </div>
         <section>
             <?php
-                    foreach ($listaEmpleos as $empleo) { ?>
+            foreach ($listaEmpleos as $empleo) { ?>
                 <?php
-                        $familia = $db->getFamilia($empleo->getIdfamilia());
-                        $empresa = $db->getEmpresa($empleo->getIdempresa());
-                        if (empty($empresa->getLogo())) {
-                            $empresa->setLogo('no-imagen.svg');
-                        }
+                $familia = $db->getFamilia($empleo->getIdfamilia());
+                $empresa = $db->getEmpresa($empleo->getIdempresa());
+                if (empty($empresa->getLogo())) {
+                    $empresa->setLogo('no-imagen.svg');
+                }
                 ?>
                 <div class="row-cols-1">
                     <div class="card-deck mb-3 text-center">
@@ -123,22 +75,21 @@ if(isset($_SESSION['idusuario'])){
 
 
                                         <?php
-                                        $inscrito=false;
-                                        if($permisoInscribirse){?>
-                                                
-                                                <?php  foreach ($titulado->getLista_empleos_inscrito() as $e) {
-                                                    if($e->getIdempleo()==$empleo->getIdempleo()){
-                                                        $inscrito=true;
-                                                    }
-                                                       
-                                                }  
-                                                if(!$inscrito){?>
-                                                    <button type="button" class="disabled btn btn-lg btn-block btn-primary guardar_inscripcion"  idempleo="<?php echo $empleo->getIdempleo() ?>">Inscríbite</button>       
-                                                <?php
-                                                }else{?>
-                                                    <button type="button" class="disabled btn btn-lg btn-block btn-outline-primary"  idempleo="<?php echo $empleo->getIdempleo() ?>">Ya estás inscrito</button>       
-                                                <?php
-                                                }?>
+                                        $inscrito = false;
+                                        if ($permisoInscribirse) { ?>
+
+                                            <?php foreach ($titulado->getLista_empleos_inscrito() as $e) {
+                                                if ($e->getIdempleo() == $empleo->getIdempleo()) {
+                                                    $inscrito = true;
+                                                }
+                                            }
+                                            if (!$inscrito) { ?>
+                                                <button type="button" class="disabled btn btn-lg btn-block btn-primary guardar_inscripcion" idempleo="<?php echo $empleo->getIdempleo() ?>">Inscríbite</button>
+                                            <?php
+                                            } else { ?>
+                                                <button type="button" class="disabled btn btn-lg btn-block btn-outline-primary" idempleo="<?php echo $empleo->getIdempleo() ?>">Ya estás inscrito</button>
+                                            <?php
+                                            } ?>
                                         <?php
                                         } else { ?>
                                             <button type="button" class="disabled btn btn-lg btn-block btn-outline-primary">Necesitas estar registrado para inscribirte</button>
@@ -163,15 +114,8 @@ if(isset($_SESSION['idusuario'])){
                         </div>
                     </div>
                 </div>
-            <?php
-                    } //fin del for each
-            ?>
+            <?php } ?>
         </section>
-<?php
-                }
-            } ?>
-
-
     </main>
     <?php include "inc/footer.php" ?>
 

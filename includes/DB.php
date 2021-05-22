@@ -149,20 +149,23 @@ class DB extends Conexion
             return false;
         }
     }
-    public function createInscripcion($inscripcion){
-        try{
+    public function createInscripcion($inscripcion)
+    {
+        try {
             $conexion = parent::conectar();
             $conexion->beginTransaction();
-            $sql="INSERT INTO inscripciones (idempleo,idtitulado,fecha_inscripcion) VALUES (:idempleo,:idtitulado,:fecha_inscripcion)";
-            $parametros=array(":idempleo"   => $inscripcion->getIdempleo(),
-                                ":idtitulado"   => $inscripcion->getIdtitulado(),
-                                ":fecha_inscripcion"    => date("Y-m-d H:i:s"));
-            
-                                $consulta = $conexion->prepare($sql);
+            $sql = "INSERT INTO inscripciones (idempleo,idtitulado,fecha_inscripcion) VALUES (:idempleo,:idtitulado,:fecha_inscripcion)";
+            $parametros = array(
+                ":idempleo"   => $inscripcion->getIdempleo(),
+                ":idtitulado"   => $inscripcion->getIdtitulado(),
+                ":fecha_inscripcion"    => date("Y-m-d H:i:s")
+            );
+
+            $consulta = $conexion->prepare($sql);
             $consulta->execute($parametros);
             $conexion->commit();
             return true;
-        }catch(PDOException $e){
+        } catch (PDOException $e) {
             return false;
         }
     }
@@ -678,6 +681,23 @@ class DB extends Conexion
                 $listaempleosinscrito[] = new Empleo($resultado);
             }
             return $listaempleosinscrito;
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
+    public function getInscripciones($idempleo)
+    {
+
+        try {
+            $sql = "SELECT * FROM inscripciones as t1
+            WHERE t1.idempleo = :idempleo";
+            $parametros = array(':idempleo'   => $idempleo);
+            $consulta = self::ejecutaConsulta($sql, $parametros);
+            $inscripciones = [];
+            while ($resultado = $consulta->fetch()) {
+                $inscripciones[] = new Inscripcion($resultado);
+            }
+            return $inscripciones;
         } catch (PDOException $e) {
             return false;
         }

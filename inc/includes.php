@@ -11,3 +11,4 @@ require_once 'modelos/Titulado.php';
 require_once 'modelos/Familia.php';
 require_once 'modelos/Empleo.php';
 require_once 'modelos/Titulo.php';
+require_once 'modelos/Inscripcion.php';

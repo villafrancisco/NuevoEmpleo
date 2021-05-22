@@ -17,16 +17,17 @@ $db = new DB();
 
 $usuario = $db->getUsuario($_SESSION['idusuario']);
 $empleos = $db->getEmpleosUsuario($usuario);
-$data=[];
-$i=0;
-foreach($empleos as $empleo){
-   
-    $data[$i]['id']=$empleo->getIdempleo();
-    $data[$i]['descripcion']=$empleo->getDescripcion();
-    $familia=$db->getFamilia($empleo->getIdfamilia());
-    $data[$i]['familia']=$familia->getFamilia();
-    $data[$i]['fecha_publicacion']=$empleo->getFecha_publicacion();
+$data = [];
+$i = 0;
+foreach ($empleos as $empleo) {
+
+    $data[$i]['id'] = $empleo->getIdempleo();
+    $data[$i]['descripcion'] = $empleo->getDescripcion();
+    $familia = $db->getFamilia($empleo->getIdfamilia());
+    $data[$i]['familia'] = $familia->getFamilia();
+    $data[$i]['fecha_publicacion'] = $empleo->getFecha_publicacion();
     $i++;
 }
+
 
 echo json_encode($data);

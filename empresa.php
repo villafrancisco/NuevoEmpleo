@@ -85,18 +85,11 @@ if (isset($_SESSION["idusuario"])) {
         </form>
         <!-- Ofertas de empleo publicada por la empresa -->
         <h1 class="display-4 text-center">Ofertas de empleo publicadas</h1>
-        <?php
 
-        if (empty($empresa->getListaEmpleos())) {
-            echo '<p class="text-center">No hay ninguna oferta de empleo publicada</p>';
-        } else {
-        ?>
-            <table id="tabla_empleos" class="table table-hover">
+        <table id="tabla_empleos" class="table table-hover">
 
-            </table>
-        <?php
-        }
-        ?>
+        </table>
+
         <!-- Button trigger modal -->
         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" id="modal-empleo">
             Publicar empleo
