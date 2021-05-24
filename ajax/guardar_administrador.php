@@ -22,46 +22,55 @@ function comprobarEmail($email)
         return false;
     }
 }
-
-//Comprobamos que existan los campos para de email el nombre y los apellidos
-if (isset($_POST["email"]) && isset($_POST["nombre"]) && isset($_POST['apellidos'])) {
+$db = new DB();
 
 
-    if (!comprobarEmail($_POST['email'])) {
-        $data['status'] = 'error';
-        return false;
-    }
-    if (!ctype_alpha($_POST['nombre'])) {
-        $data['status'] = 'error';
-        return false;
-    }
-    if (!ctype_alpha($_POST['apellidos'])) {
-        $data['status'] = 'error';
-        return false;
-    }
-    //Guardamos todos los datos
-    //tenemos que comprobar que el email nuevo no se encuentra ocupado
-    //updateAdministrador
-    $db = new DB();
-    $usuarioactualizar = $db->getUsuario($_POST['idusuario']);
-    $usuarioactualizar->setNombre($_POST["nombre"]);
-    $usuarioactualizar->setApellidos($_POST["apellidos"]);
-    if ($db->existeEmail($_POST["email"])) {
-        if ($_POST["email"] == $usuarioactualizar->getEmail()) {
-            $usuarioactualizar->setEmail($_POST["email"]);
-        } else {
-            $data['status'] = 'error';
-            return false;
+if (isset($_SESSION["idusuario"])) {
+    $administrador = $db->getUsuario($_SESSION["idusuario"]);
+    if ($administrador->getTipousuario() == 'administrador') {
+
+        //Comprobamos que existan los campos para de email el nombre y los apellidos
+        if (isset($_POST["email"]) && isset($_POST["nombre"]) && isset($_POST['apellidos'])) {
+
+
+            if (!comprobarEmail($_POST['email'])) {
+                $data['status'] = 'error';
+                return false;
+            }
+            if (!ctype_alpha($_POST['nombre'])) {
+                $data['status'] = 'error';
+                return false;
+            }
+            if (!ctype_alpha($_POST['apellidos'])) {
+                $data['status'] = 'error';
+                return false;
+            }
+            //Guardamos todos los datos
+            //tenemos que comprobar que el email nuevo no se encuentra ocupado
+            //updateAdministrador
+
+
+            $administrador->setNombre($_POST["nombre"]);
+            $administrador->setApellidos($_POST["apellidos"]);
+            if ($db->existeEmail($_POST["email"])) {
+                if ($_POST["email"] == $administrador->getEmail()) {
+                    $administrador->setEmail($_POST["email"]);
+                } else {
+                    $data['status'] = 'error';
+                    echo json_encode($data);
+                    return false;
+                }
+            } else {
+                $administrador->setEmail($_POST["email"]);
+            }
+
+            if ($db->updateUsuario($administrador)) {
+                $data['status'] = 'ok';
+            } else {
+                $data['status'] = 'error';
+            };
+
+            echo json_encode($data);
         }
-    } else {
-        $usuarioactualizar->setEmail($_POST["email"]);
     }
-
-    if ($db->updateUsuario($usuarioactualizar)) {
-        $data['status'] = 'ok';
-    } else {
-        $data['status'] = 'error';
-    };
-
-    echo json_encode($data);
 }

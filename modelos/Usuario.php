@@ -145,7 +145,7 @@ abstract class Usuario extends Tipousuario
     public function getFecha_registro()
     {
 
-        $date = date_create($this->$this->fecha_registro);
+        $date = date_create($this->fecha_registro);
         return date_format($date, "d/m/Y");
     }
 

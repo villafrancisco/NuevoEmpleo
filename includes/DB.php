@@ -159,7 +159,7 @@ class DB extends Conexion
     {
         switch ($usuario->getTipoUsuario()) {
             case "administrador":
-                $campos = 'idusuario= :idusuario, email=: email, contrasena=:contrasena, nombre= :nombre, apellidos= :apellidos';
+                $campos = 'idusuario= :idusuario, email= :email, nombre= :nombre, apellidos= :apellidos';
                 return $campos;
                 break;
             case "empresa":
@@ -182,7 +182,6 @@ class DB extends Conexion
                 $campos = array(
                     ':idusuario'    =>  $usuario->getIdusuario(),
                     ':email'        =>  $usuario->getEmail(),
-                    ':contrasena'   =>  $usuario->getContrasena(),
                     ':nombre'       =>  $usuario->getNombre(),
                     ':apellidos'    =>  $usuario->getApellidos()
                 );
@@ -315,7 +314,7 @@ class DB extends Conexion
     public function getAllTipoUsuario($tipousuario)
     {
         try {
-            $sql = "SELECT * FROM " . $this->getTipoTabla($tipousuario) . "  as t1 INNER JOIN usuarios as t2 ON t1.idusuario=t2.idusuario WHERE t2.tipousuario=:tipousuario";
+            $sql = "SELECT * FROM " . $this->getTipoTabla($tipousuario) . "  as t1 INNER JOIN usuarios as t2 ON t1.idusuario=t2.idusuario INNER JOIN tipousuario as t3 ON t3.idtipo=t2.idtipo WHERE t3.tipousuario= :tipousuario";
             $parametros = array(':tipousuario'  => $tipousuario);
             $consulta = self::ejecutaConsulta($sql, $parametros);
             $usuarios = [];

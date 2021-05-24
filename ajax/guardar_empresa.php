@@ -25,8 +25,9 @@ function comprobarEmail($email)
 }
 $db = new DB();
 if (isset($_SESSION["idusuario"])) {
-    $empresa = $db->getUsuario($_SESSION["idusuario"]);
-    if ($empresa->getTipousuario() == 'empresa') {
+    $usuario = $db->getUsuario($_SESSION["idusuario"]);
+    if ($usuario->getTipousuario() == 'empresa') {
+        $empresa = $db->getUsuario($_SESSION["idusuario"]);
         $destino = "empresas/" . $_POST['idusuario'];
         $prefijo = substr(md5(uniqid(rand())), 0, 6);
         //Comprobamos que existan los campos para de email el nombre y los apellidos
@@ -65,6 +66,42 @@ if (isset($_SESSION["idusuario"])) {
                 if (isset($_FILES['logo'])) {
                     move_uploaded_file($_FILES['logo']['tmp_name'], $directorio . '/' . $prefijo . '_' . $_FILES['logo']['name']);
                 }
+                $data['status'] = 'ok';
+            } else {
+                $data['status'] = 'error';
+            };
+            echo json_encode($data);
+        }
+    } elseif ($usuario->getTipousuario() == 'administrador') {
+        $empresa = $db->getUsuario($_POST["idusuario"]);
+        if (isset($_POST["email"]) && isset($_POST["nombre"])) {
+            if (!comprobarEmail($_POST['email'])) {
+                $data['status'] = 'error';
+                $data['email'] = 'error';
+                echo json_encode($data);
+                return false;
+            }
+
+            if ($db->existeEmail($_POST["email"])) {
+                if ($_POST["email"] == $empresa->getEmail()) {
+                    $empresa->setEmail($_POST["email"]);
+                } else {
+                    //el email ya esta ej uso
+                    $data['status'] = 'error';
+                    $data['email'] = 'error';
+                    echo json_encode($data);
+                    return false;
+                }
+            } else {
+                $empresa->setEmail($_POST["email"]);
+            }
+            $empresa->setNombre($_POST["nombre"]);
+            $empresa->setEmail($_POST["email"]);
+            $empresa->setDireccion($_POST["direccion"]);
+            $empresa->setTelefono($_POST["telefono"]);
+            if ($db->updateUsuario($empresa)) {
+                //subir archivos
+
                 $data['status'] = 'ok';
             } else {
                 $data['status'] = 'error';
