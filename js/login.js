@@ -10,7 +10,7 @@ formLogin.addEventListener('submit',(e)=>{
     //Validamos el usuario y la contraseña
     if(validarEmail(datosForm.get('email'))==true && validarContrasena(datosForm.get('contrasena'))==true){
        
-        loginAjax(datosForm);
+        login(datosForm);
     }else{
         msjalert.innerText=msjerror;
        
@@ -18,7 +18,7 @@ formLogin.addEventListener('submit',(e)=>{
     }
 })
 
-function loginAjax($datos){
+function login($datos){
     //Hacemos las peticion ajax
     document.getElementById('loader').classList.toggle('hide');
     fetch('ajax/login.php',{
@@ -29,7 +29,7 @@ function loginAjax($datos){
         document.getElementById('loader').classList.toggle('hide');
             if(data.status=='ok'){
                 if(data.tipousuario=='administrador'){
-                    window.location.href="admin/dashboard.php";
+                    window.location.href="admin/administrador.php";
                 }else if(data.tipousuario=="empresa"){
                     window.location.href="empresa.php";
                 }else if(data.tipousuario=='titulado'){

@@ -7,13 +7,13 @@ class Inscripcion
     protected $idtitulado;
     protected $fecha_inscripcion;
 
-    function __construct($row)
+    function __construct($row = false)
     {
-        
-        $this->idinscripcion =isset($row['idinscripcion']) ? $row['idinscripcion'] : false;
-        $this->idempleo = isset($row['idempleo']) ? $row['idempleo'] : false;
-        $this->idtitulado = isset($row['idtitulado']) ? $row['idtitulado'] : false;
-        $this->fecha_inscripcion =isset($row['fecha_inscripcion']) ? $row['fecha_inscripcion'] : false;
+
+        $this->idinscripcion = isset($row['idinscripcion']) ? $row['idinscripcion'] : null;
+        $this->idempleo = isset($row['idempleo']) ? $row['idempleo'] : null;
+        $this->idtitulado = isset($row['idtitulado']) ? $row['idtitulado'] : null;
+        $this->fecha_inscripcion = isset($row['fecha_inscripcion']) ? $row['fecha_inscripcion'] : null;
     }
 
 
@@ -49,7 +49,9 @@ class Inscripcion
 
     public function getFecha_inscripcion()
     {
-        return $this->fecha_inscripcion;
+
+        $date = date_create($this->fecha_inscripcion);
+        return date_format($date, "d/m/Y");
     }
 
     public  function setFecha_inscripcion($fecha_inscripcion)

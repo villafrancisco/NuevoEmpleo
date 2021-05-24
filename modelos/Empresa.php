@@ -1,40 +1,33 @@
 <?php
 
 
-class Empresa extends Usuario
+class Empresa extends Usuario implements JsonSerializable
 {
     protected $idempresa;
-    protected $direccion;
     protected $telefono;
-   
+    protected $direccion;
     protected $logo;
-    protected $listaEmpleos;
 
-    function __construct($row)
+
+    function __construct($row = false)
     {
-        $this->idempresa = isset($row['idempresa']) ? $row['idempresa'] : false;
-        $this->telefono = isset($row['telefono']) ? $row['telefono'] : false;
-        $this->direccion = isset($row['direccion']) ? $row['direccion'] : false;
-        $this->lista_ofertas = isset($row['lista_ofertas']) ? $row['lista_ofertas'] : false;
-        $this->logo = isset($row['logo']) ? $row['logo'] : false;
-        $this->listaEmpleos = isset($row['listaEmpleos']) ? $row['listaEmpleos'] : false;
+        $this->idempresa = isset($row['idempresa']) ? $row['idempresa'] : null;
+        $this->telefono = isset($row['telefono']) ? $row['telefono'] : null;
+        $this->direccion = isset($row['direccion']) ? $row['direccion'] : null;
+
+        $this->logo = isset($row['logo']) ? $row['logo'] : null;
+
         parent::__construct($row);
     }
-
-    /**
-     * Get the value of idempresa
-     * 
-     */
+    public function jsonSerialize()
+    {
+        return get_object_vars($this);
+    }
     public function getIdempresa()
     {
         return $this->idempresa;
     }
 
-    /**
-     * Set the value of idempresa
-     *
-     * @return  self
-     */
     public function setIdempresa($idempresa)
     {
         $this->idempresa = $idempresa;
@@ -43,44 +36,20 @@ class Empresa extends Usuario
     }
 
 
-    /**
-     * Set the value of telefono
-     *
-     * @return  self
-     */
     public function getTelefono()
     {
         return $this->telefono;
-
-        
     }
-    /**
-     * Set the value of telefono
-     *
-     * @return  self
-     */
     public function setTelefono($telefono)
     {
         $this->telefono = $telefono;
 
         return $this;
     }
-/**
-     * Set the value of direccion
-     *
-     * @return  self
-     */
     public function getDireccion()
     {
         return $this->direccion;
-
-        
     }
-    /**
-     * Set the value of direccion
-     *
-     * @return  self
-     */
     public function setDireccion($direccion)
     {
         $this->direccion = $direccion;
@@ -89,21 +58,16 @@ class Empresa extends Usuario
     }
 
 
-    public function getLogo(){
+    public function getLogo()
+    {
+        if (empty($this->logo) || !isset($this->logo)) {
+            $this->setLogo('no-imagen.svg');
+        }
         return $this->logo;
     }
 
     public function setLogo($logo)
     {
         $this->logo = $logo;
-    }
-    public function getListaEmpleos()
-    {
-        return $this->listaEmpleos;
-    }
-
-    public function setListaEmpleos($listaEmpleos)
-    {
-        $this->listaEmpleos = $listaEmpleos;
     }
 }

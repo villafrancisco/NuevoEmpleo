@@ -1,33 +1,23 @@
-<?php 
+<?php
 
-class Familia{
+class Familia
+{
     protected $idfamilia;
-    protected $familia;
+    protected $nombre;
     protected $nombre_imagen;
 
-    
-    function __construct($row) {
-        $this->idfamilia = $row['idfamilia'] ? $row['idfamilia'] : false;
-        $this->familia = $row['familia'] ? $row['familia'] : false;
-        $this->nombre_imagen = $row['nombre_imagen'] ? $row['nombre_imagen'] : false;
 
-        
-        
-        
+    function __construct($row)
+    {
+        $this->idfamilia = $row['idfamilia'] ? $row['idfamilia'] : null;
+        $this->nombre = $row['nombre'] ? $row['nombre'] : null;
+        $this->nombre_imagen = $row['nombre_imagen'] ? $row['nombre_imagen'] : null;
     }
-    /**
-     * Get the value of idfamilia
-     */ 
     public function getIdfamilia()
     {
         return $this->idfamilia;
     }
 
-    /**
-     * Set the value of idfamilia
-     *
-     * @return  self
-     */ 
     public function setIdfamilia($idfamilia)
     {
         $this->idfamilia = $idfamilia;
@@ -35,39 +25,23 @@ class Familia{
         return $this;
     }
 
-    /**
-     * Get the value of familia
-     */ 
-    public function getFamilia()
+    public function getNombre()
     {
-        return $this->familia;
+        return $this->nombre;
     }
 
-    /**
-     * Set the value of familia
-     *
-     * @return  self
-     */ 
-    public function setFamilia($familia)
+
+    public function setNombre($nombre)
     {
-        $this->familia = $familia;
+        $this->nombre = $nombre;
 
         return $this;
     }
-
-    /**
-     * Get the value of nombre_imagen
-     */ 
     public function getNombre_imagen()
     {
         return $this->nombre_imagen;
     }
 
-    /**
-     * Set the value of nombre_imagen
-     *
-     * @return  self
-     */ 
     public function setNombre_imagen($nombre_imagen)
     {
         $this->nombre_imagen = $nombre_imagen;

@@ -50,7 +50,7 @@ guardar_empresa.addEventListener('click',(e)=>{
         //muestro mensaje de toast de error
         toastr.error('Comprueba los campos','Error');
     }else{
-        //actualizo el titulado
+        
         //guardo los datos
         const data = new FormData();
         
@@ -74,6 +74,7 @@ guardar_empresa.addEventListener('click',(e)=>{
                 if(data.status=='ok'){
                     //datos actualizados correctamente
                     toastr.success('Guardado')
+                    document.getElementById('nombre_empresa').textContent=document.getElementById('nombre').value;
                 }else{
                     //datos no actualizados
                     if(data.email=='error'){
@@ -243,16 +244,16 @@ function cargar_tabla_empleos(){
                             '</tr>'+
                         '</thead>'+
                         '<tbody>';
-
-                data.forEach(empleo => {
                 
+                data.forEach(result => {
+                   
                     fragment+='<tr>'+
-                                '<th scope="row"><a href="inscritos.php?idempleo='+empleo.id+'">Inscritos</a></th>'+
-                                '<td>'+empleo.familia+'</td>'+
-                                '<td>'+empleo.descripcion.substr(0,50)+'</td>'+
-                                '<td>'+empleo.fecha_publicacion+'</td>'+
-                                '<td><a class="editar_empleo" href="'+empleo.id+'"><i class="fas fa-edit"></i></a></td>'+
-                                '<td><a class="eliminar_empleo" href="'+empleo.id+'"><i class="fas fa-trash-alt"></i></a></td>'+
+                                '<th scope="row"><a href="inscritos.php?idempleo='+result.idempleo+'">Inscritos</a></th>'+
+                                '<td>'+result.familia+'</td>'+
+                                '<td>'+result.descripcion.substr(0,50)+'</td>'+
+                                '<td>'+result.fecha_publicacion+'</td>'+
+                                '<td><a class="editar_empleo" href="'+result.idempleo+'"><i class="fas fa-edit"></i></a></td>'+
+                                '<td><a class="eliminar_empleo" href="'+result.idempleo+'"><i class="fas fa-trash-alt"></i></a></td>'+
                             '</tr>';
                     
                 });

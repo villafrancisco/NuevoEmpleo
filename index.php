@@ -11,7 +11,11 @@ $permisoInscribirse = false;
 if (isset($_SESSION['idusuario'])) {
     $titulado = $db->getUsuario($_SESSION["idusuario"]);
     if ($titulado->getTipousuario() == 'titulado') {
-        $permisoInscribirse = true;
+        $inscripcionesTitulado = $db->getInscripcionesTitulado($titulado);
+
+        if ($titulado->getTipousuario() == 'titulado') {
+            $permisoInscribirse = true;
+        }
     }
 }
 ?>
@@ -22,22 +26,18 @@ if (isset($_SESSION['idusuario'])) {
     <?php include 'inc/head.php' ?>
 </head>
 
-<?php
 
-?>
-
-
-<body>
+<body class="d-flex flex-column min-vh-100">
     <?php include 'inc/header.php' ?>
-    <main class="container">
+    <main class=" container">
         <div class="empleos-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
             <?php
             if (isset($familia)  && $familia != false) {
-                echo '<h1 class="display-4">Ofertas de ' . $familia->getFamilia() . '</h1>';
+                echo '<h1 class="display-4">Ofertas de ' . $familia->getNombre() . '</h1>';
                 if (!$listaEmpleos) {
                     echo '<p class="lead">No hay ninguna oferta de empleo para esta categoria</p>';
                 } else {
-                    echo '<p class="lead">Infórmate de todas las ofertas de empleo disponibles, para la familia de ' . $familia->getFamilia() . ', poder aplicar necesitas estar registrado.</p>';
+                    echo '<p class="lead">Infórmate de todas las ofertas de empleo disponibles, para la familia de ' . $familia->getNombre() . ', para poder aplicar necesitas estar registrado.</p>';
                 }
             } else {
                 echo '<h1 class="display-4">Ofertas de Empleo</h1>';
@@ -54,9 +54,7 @@ if (isset($_SESSION['idusuario'])) {
                 <?php
                 $familia = $db->getFamilia($empleo->getIdfamilia());
                 $empresa = $db->getEmpresa($empleo->getIdempresa());
-                if (empty($empresa->getLogo())) {
-                    $empresa->setLogo('no-imagen.svg');
-                }
+
                 ?>
                 <div class="row-cols-1">
                     <div class="card-deck mb-3 text-center">
@@ -70,16 +68,21 @@ if (isset($_SESSION['idusuario'])) {
                                         <img class="d-none d-md-block img-fluid" src="archivos_subidos/<?php echo $empresa->getLogo() ?>">
                                     </div>
                                     <div class="col-md-8 text-left">
-                                        <h5 class="card-title pricing-card-title"><?php echo $familia->getFamilia(); ?> </h5>
+                                        <h5 class="card-title pricing-card-title"><?php echo $familia->getNombre(); ?> </h5>
                                         <p class="card-text"><?php echo $empleo->getDescripcion(); ?> </p>
 
 
                                         <?php
-                                        $inscrito = false;
-                                        if ($permisoInscribirse) { ?>
 
-                                            <?php foreach ($titulado->getLista_empleos_inscrito() as $e) {
-                                                if ($e->getIdempleo() == $empleo->getIdempleo()) {
+                                        if ($permisoInscribirse) { ?>
+                                            <!-- tengo que mirar si el usuario ya está inscrito -->
+                                            <?php
+
+                                            $inscrito = false;
+
+                                            foreach ($inscripcionesTitulado as $inscripcion) {
+
+                                                if ($inscripcion->getIdempleo() == $empleo->getIdempleo()) {
                                                     $inscrito = true;
                                                 }
                                             }

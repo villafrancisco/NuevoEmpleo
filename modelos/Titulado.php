@@ -3,30 +3,24 @@
 class Titulado extends Usuario
 {
     protected $idtitulado;
+    protected $idtitulo;
     protected $apellidos;
     protected $direccion;
     protected $dni;
     protected $telefono;
     protected $curriculum;
     protected $foto;
-    protected $fecha_registro;
-    protected $idtitulo;
-    protected $lista_empleos_inscrito;
 
-
-    function __construct($row)
+    function __construct($row = false)
     {
-        $this->idtitulado = isset($row['idtitulado']) ? $row['idtitulado'] : false;
-        $this->apellidos = isset($row['apellidos']) ? $row['apellidos'] : false;
-        $this->direccion = isset($row['direccion']) ? $row['direccion'] : false;
-        $this->dni = isset($row['dni']) ? $row['dni'] : false;
-        $this->telefono = isset($row['telefono']) ? $row['telefono'] : false;
-        $this->curriculum = isset($row['curriculum']) ? $row['curriculum'] : false;
-        $this->foto = isset($row['foto']) ? $row['foto'] : false;
-        $this->fecha_registro = isset($row['fecha_registro']) ? $row['fecha_registro'] : false;
-        $this->idtitulo = isset($row['idtitulo']) ? $row['idtitulo'] : false;
-        $this->lista_empleos_inscrito = isset($row['lista_empleos_inscrito']) ? $row['lista_empleos_inscrito'] : false;
-
+        $this->idtitulado = isset($row['idtitulado']) ? $row['idtitulado'] : null;
+        $this->idtitulo = isset($row['idtitulo']) ? $row['idtitulo'] : null;
+        $this->apellidos = isset($row['apellidos']) ? $row['apellidos'] : null;
+        $this->direccion = isset($row['direccion']) ? $row['direccion'] : null;
+        $this->dni = isset($row['dni']) ? $row['dni'] : null;
+        $this->telefono = isset($row['telefono']) ? $row['telefono'] : null;
+        $this->curriculum = isset($row['curriculum']) ? $row['curriculum'] : null;
+        $this->foto = isset($row['foto']) ? $row['foto'] : null;
         parent::__construct($row);
     }
 
@@ -39,7 +33,24 @@ class Titulado extends Usuario
     {
         $this->idtitulado = $idtitulado;
     }
+    public function getIdtitulo()
+    {
+        return $this->idtitulo;
+    }
 
+    public function setIdtitulo($idtitulo)
+    {
+        $this->idtitulo = $idtitulo;
+    }
+    public function getApellidos()
+    {
+        return $this->apellidos;
+    }
+
+    public function setApellidos($apellidos)
+    {
+        $this->apellidos = $apellidos;
+    }
 
     public function getDireccion()
     {
@@ -83,52 +94,14 @@ class Titulado extends Usuario
 
     public function getFoto()
     {
-        return $this->foto;
+        if (empty($this->foto) || !isset($this->foto)) {
+            return 'no-imagen.svg';
+        } else {
+            return $this->foto;
+        }
     }
-
     public function setFoto($foto)
     {
         $this->foto = $foto;
-    }
-
-    public function getFecha_registro()
-    {
-        return $this->fecha_registro;
-    }
-
-    public function setFecha_registro($fecha_registro)
-    {
-        $this->fecha_registro = $fecha_registro;
-    }
-
-    public function getIdtitulo()
-    {
-        return $this->idtitulo;
-    }
-
-
-    public function setIdtitulo($idtitulo)
-
-    {
-        $this->idtitulo = $idtitulo;
-    }
-
-    public function getLista_empleos_inscrito()
-    {
-        return $this->lista_empleos_inscrito;
-    }
-
-    public function setLista_empleos_inscrito($lista_empleos_inscrito)
-    {
-        $this->lista_empleos_inscrito = $lista_empleos_inscrito;
-    }
-    public function getApellidos()
-    {
-        return $this->apellidos;
-    }
-
-    public function setApellidos($apellidos)
-    {
-        $this->apellidos = $apellidos;
     }
 }

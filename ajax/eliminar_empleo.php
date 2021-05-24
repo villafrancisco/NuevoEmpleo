@@ -1,6 +1,7 @@
 <?php
 session_start();
 
+
 require_once "../config/app.php";
 require_once '../includes/conexion.php';
 require_once '../includes/DB.php';
@@ -14,9 +15,15 @@ require_once '../modelos/Titulo.php';
 require_once '../modelos/Empleo.php';
 
 $db = new DB();
-if($db->deleteEmpleo($_POST['idempleo'])){
-    $data["status"]='ok';
-}else{
-    $data["status"]='error';
+
+if (isset($_SESSION["idusuario"])) {
+    $empresa = $db->getUsuario($_SESSION["idusuario"]);
+    if ($empresa->getTipousuario() == 'empresa') {
+        if ($db->deleteEmpleo($db->getEmpleo($_POST['idempleo']))) {
+            $data['status'] = 'ok';
+        } else {
+            $data['status'] = 'error';
+        }
+        echo json_encode($data);
+    }
 }
-echo json_encode($data);

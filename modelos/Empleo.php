@@ -5,21 +5,16 @@ class Empleo implements JsonSerializable
     protected $idempleo;
     protected $idempresa;
     protected $idfamilia;
-
     protected $descripcion;
-    
     protected $fecha_publicacion;
 
-
-    function __construct($row)
+    function __construct($row = false)
     {
-        $this->idempleo = isset($row['idempleo']) ? $row['idempleo'] : false;
-        $this->idempresa = isset($row['idempresa']) ? $row['idempresa'] : false;
-        $this->idfamilia = isset($row['idfamilia']) ? $row['idfamilia'] : false;
-
-        $this->descripcion = isset($row['descripcion']) ? $row['descripcion'] : false;
-        
-        $this->fecha_publicacion = isset($row['fecha_publicacion']) ? $row['fecha_publicacion'] : false;
+        $this->idempleo = isset($row['idempleo']) ? $row['idempleo'] : null;
+        $this->idempresa = isset($row['idempresa']) ? $row['idempresa'] : null;
+        $this->idfamilia = isset($row['idfamilia']) ? $row['idfamilia'] : null;
+        $this->descripcion = isset($row['descripcion']) ? $row['descripcion'] : null;
+        $this->fecha_publicacion = isset($row['fecha_publicacion']) ? $row['fecha_publicacion'] : null;
     }
     public function jsonSerialize()
     {
@@ -56,9 +51,6 @@ class Empleo implements JsonSerializable
     {
         $this->idfamilia = $idfamilia;
     }
-
-
-
     public function getDescripcion()
     {
         return $this->descripcion;
@@ -73,7 +65,7 @@ class Empleo implements JsonSerializable
     {
         $date = date_create($this->fecha_publicacion);
 
-        return date_format($date, "d/m/Y");;
+        return date_format($date, "d/m/Y");
     }
 
     public function setFecha_publicacion($fecha_publicacion)

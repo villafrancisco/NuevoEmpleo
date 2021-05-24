@@ -4,21 +4,18 @@ session_start();
 require_once "../config/app.php";
 require_once '../includes/conexion.php';
 require_once '../includes/DB.php';
+require_once '../modelos/Tipousuario.php';
 require_once '../modelos/Usuario.php';
 require_once '../modelos/Administrador.php';
 require_once '../modelos/Titulado.php';
 require_once '../modelos/Empresa.php';
 require_once '../modelos/Titulo.php';
+require_once '../modelos/Empleo.php';
 
-/**
- * comprobarEmail
- *
- * @param  mixed $email
- * @return void
- */
+
 function comprobarEmail($email)
 {
-    $prueba = filter_var($email, FILTER_VALIDATE_EMAIL);
+
     if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
         return true;
     } else {

@@ -12,17 +12,18 @@ require_once '../modelos/Empresa.php';
 require_once '../modelos/Familia.php';
 require_once '../modelos/Titulo.php';
 require_once '../modelos/Empleo.php';
+require_once '../modelos/Inscripcion.php';
 
 $db = new DB();
 
 if (isset($_SESSION["idusuario"])) {
-    $empresa = $db->getUsuario($_SESSION["idusuario"]);
-    if ($empresa->getTipousuario() == 'empresa') {
-        if ($empleo = $db->getEmpleo($_POST['idempleo'])) {
+    $titulado = $db->getUsuario($_SESSION["idusuario"]);
+
+
+    if ($titulado->getTipousuario() == 'titulado') {
+
+        if ($db->deleteInscripcion($db->getInscripcion($_POST['idinscripcion']))) {
             $data["status"] = 'ok';
-            $data["descripcion"] = $empleo->getDescripcion();
-            $data["idfamilia"] = $empleo->getIdfamilia();
-            $data["idempleo"] = $empleo->getIdempleo();
         } else {
             $data["status"] = 'error';
         }

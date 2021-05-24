@@ -13,8 +13,10 @@
         <div class="d-flex d-sm-inline-flex justify-content-center align-items-center ">
             <div>
                 <?php
-                if (isset($_SESSION["idusuario"])) { ?>
-                    <a href="<?php echo $db->getUsuario($_SESSION['idusuario'])->getTipousuario(); ?>.php" class="m-1"><i class="fas fa-user fa-lg"></i></a>
+                if (isset($_SESSION["idusuario"])) {
+
+                ?>
+                    <a href="<?php echo ($db->getUsuario($_SESSION['idusuario'])->getTipousuario() == 'administrador') ? "admin/administrador" : $db->getUsuario($_SESSION['idusuario'])->getTipousuario(); ?>.php" class="m-1"><i class="fas fa-user fa-lg"></i></a>
                     <a href="logout.php" class="m-1"><i class="fas fa-sign-out-alt fa-lg"></i></a>
 
                 <?php

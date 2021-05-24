@@ -1,33 +1,65 @@
-<?php
-abstract class Tipousuario
-{
-    protected $idtipo;
-    protected $tipousuario;
+ <?php
+    /**
+     * @abstract Tipousuario
+     */
 
-    function __construct($row)
+    abstract class Tipousuario
     {
-        $this->idtipo = $row['idtipo'] ? $row['idtipo'] : false;
-        $this->tipousuario = $row['tipousuario'] ? $row['tipousuario'] : false;
-    }
+        protected $idtipo;
+        protected $tipousuario;
+
+        /**
+         * __construct
+         *
+         * @param  mixed $row
+         * @return void
+         */
+        function __construct($row)
+        {
+            $this->idtipo = isset($row['idtipo']) ? $row['idtipo'] : null;
+            $this->tipousuario = isset($row['tipousuario']) ? $row['tipousuario'] : null;
+        }
 
 
-    public function getIdtipo()
-    {
-        return $this->idtipo;
-    }
+        /**
+         * getIdtipo
+         *
+         * @return void
+         */
+        public function getIdtipo()
+        {
+            return $this->idtipo;
+        }
 
-    public function setIdtipo($idtipo)
-    {
-        $this->idtipo = $idtipo;
-    }
+        /**
+         * setIdtipo
+         *
+         * @param  int $idtipo
+         * @return void
+         */
+        public function setIdtipo($idtipo)
+        {
+            $this->idtipo = $idtipo;
+        }
 
-    public function getTipousuario()
-    {
-        return $this->tipousuario;
-    }
+        /**
+         * getTipousuario
+         *
+         * @return void
+         */
+        public function getTipousuario()
+        {
+            return $this->tipousuario;
+        }
 
-    public function setTipousuario($tipousuario)
-    {
-        $this->tipousuario = $tipousuario;
+        /**
+         * setTipousuario
+         *
+         * @param  int $tipousuario
+         * @return void
+         */
+        public function setTipousuario($tipousuario)
+        {
+            $this->tipousuario = $tipousuario;
+        }
     }
-}

@@ -15,17 +15,19 @@ require_once '../modelos/Inscripcion.php';
 
 $db = new DB();
 
+if (isset($_SESSION["idusuario"])) {
+    $titulado = $db->getUsuario($_SESSION["idusuario"]);
 
-$usuario = $db->getUsuario($_SESSION['idusuario']);
-$row['idempleo']=$_POST['idempleo'];
-$row['idtitulado']=$usuario->getIdtitulado();
 
-$inscripcion=new Inscripcion($row);
-
-if($db->createInscripcion($inscripcion)){
-    $data['status']='ok';
-}else{
-    $data['status']='error';
+    if ($titulado->getTipousuario() == 'titulado') {
+        $inscripcion = new Inscripcion();
+        $inscripcion->setIdempleo($_POST['idempleo']);
+        $inscripcion->setIdtitulado($titulado->getIdtitulado());
+        if ($db->createInscripcion($inscripcion)) {
+            $data['status'] = 'ok';
+        } else {
+            $data['status'] = 'error';
+        }
+        echo json_encode($data);
+    }
 }
-echo json_encode($data);
-

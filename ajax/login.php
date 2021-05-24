@@ -84,9 +84,30 @@ if (isset($_POST["email"]) && isset($_POST["contrasena"])) {
 function login($email, $contrasena, $tipo)
 {
     $db = new DB();
-    if ($db->login($email, $contrasena, $tipo)) {
+    switch ($tipo) {
+        case 'administrador':
+            $usuario = new Administrador();
+            $usuario->setTipousuario('administrador');
+            $usuario->setIdTipo('1');
+            break;
+        case 'empresa':
+            $usuario = new Empresa();
+            $usuario->setTipousuario('empresa');
+            $usuario->setIdTipo('2');
+            break;
+        case 'titulado':
+            $usuario = new Titulado();
+            $usuario->setTipousuario('titulado');
+            $usuario->setIdTipo('3');
+            break;
+        default:
+            break;
+    }
+    $usuario->setEmail($email);
+    $usuario->setContrasena($contrasena);
+    if ($idusuario = $db->login($usuario)) {
         session_start();
-        $_SESSION['idusuario'] = $db->login($email, $contrasena, $tipo);
+        $_SESSION['idusuario'] = $idusuario;
         return true;
     }
     if (!$db->existeEmail($email)) {
@@ -103,29 +124,14 @@ function login($email, $contrasena, $tipo)
             // ]);
             // $nuevousuario = $db->crearNuevoUsuario($usuario);
             return false;
-        } else if ($tipo == 'empresa') {
-            $usuario = new Empresa([
-                'email'           => $email,
-                'contrasena'    =>  $contrasena,
-                'idtipo'        =>  '2',
-                'tipousuario'   => 'empresa'
-            ]);
-            $nuevousuario = $db->crearNuevoUsuario($usuario);
-        } else if ($tipo == 'titulado') {
-            $usuario = new Titulado([
-                'email'           => $email,
-                'contrasena'    =>  $contrasena,
-                'idtipo'        =>  '3',
-                'tipousuario'   => 'titulado'
-            ]);
-            $nuevousuario = $db->crearNuevoUsuario($usuario);
-        }
-        if (isset($nuevousuario)) {
-            session_start();
-            $_SESSION['idusuario'] = $nuevousuario->getIdusuario();
-            return true;
         } else {
-            return false;
+            if ($idusuario = $db->createUsuario($usuario)) {
+                session_start();
+                $_SESSION['idusuario'] = $idusuario;
+                return true;
+            } else {
+                return false;
+            }
         }
     } else {
         return false;

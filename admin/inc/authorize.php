@@ -3,8 +3,8 @@ session_start();
 $db = new DB();
 if (isset($_SESSION["idusuario"])) {
     $usuariologueado = $db->getUsuario($_SESSION["idusuario"]);
-    if ($usuariologueado->getNameTipo() == 'administrador') {
-        $administrador = $db->getUsuario($usuariologueado->getIdusuario());
+    if ($usuariologueado->getTipousuario() == 'administrador') {
+        $administrador = $usuariologueado;
     } else {
         header('Location:../index.php');
         
@@ -13,4 +13,3 @@ if (isset($_SESSION["idusuario"])) {
     header('Location:../index.php');
     
 }
-?>

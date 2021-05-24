@@ -15,7 +15,7 @@ $listaFamilias = $db->getAllFamilias();
 
 
 
-<body>
+<body class="d-flex flex-column min-vh-100">
     <?php include 'inc/header.php' ?>
     <main class="container">
         <div class="empleos-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
@@ -34,7 +34,7 @@ $listaFamilias = $db->getAllFamilias();
                             <div class="card card-familia">
                                 <img class="card-img-top" src="assets/images/<?php echo $familia->getNombre_imagen() ?>" alt="Card image cap">
                                 <div class="card-body">
-                                    <h6 class="card-title text-center"> <?php echo $familia->getFamilia(); ?></h6>
+                                    <h6 class="card-title text-center"> <?php echo $familia->getNombre(); ?></h6>
                                 </div>
                             </div>
                         </a>

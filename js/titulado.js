@@ -217,11 +217,7 @@ function cargaImagen(e, archivo) {
     img = document.createElement('img');
     img.setAttribute('src', e.target.result);
     img.setAttribute('class',' img-fluid');
-   
-    
-    
     div.appendChild(img);
-    
     imagenfoto.appendChild(div);
 }
 
@@ -235,74 +231,70 @@ function cargar_tabla_inscripciones(){
         body: data
     }).then(res=> res.json())
     .then(data=> {
-            console.log(data);
-            
             if(data.length!=0){
-               
                 let fragment;;
                 fragment='<thead>'+
                             '<tr>'+
-                                '<th scope="col">IDempleo</th>'+
+                                '<th scope="col">Empresa</th>'+
                                 '<th scope="col">Descripcion</th>'+
                                 '<th scope="col">Fecha de publicacion</th>'+
+                                '<th scope="col">Fecha de inscripcion</th>'+
                                 '<th scope="col">Eliminar</th>'+
                             '</tr>'+
                         '</thead>'+
                         '<tbody>';
-
-                data.forEach(empleo => {
-                
+                data.forEach(result => {
                     fragment+='<tr>'+
                                 
-                                '<td>'+empleo.idempleo+'</td>'+
-                                '<td>'+empleo.descripcion+'</td>'+
-                                '<td>'+empleo.fecha_publicacion+'</td>'+
-                                '<td><a class="eliminar_empleo" href="'+empleo.idempleo+'"><i class="fas fa-trash-alt"></i></a></td>'+
+                                '<td>'+result.nombre_empresa+'</td>'+
+                                '<td>'+result.descripcion+'</td>'+
+                                '<td>'+result.fecha_publicacion+'</td>'+
+                                '<td>'+result.fecha_inscripcion+'</td>'+
+                                '<td><a class="eliminar_inscripcion" href="'+result.idinscripcion+'"><i class="fas fa-trash-alt"></i></a></td>'+
                             '</tr>';
-                    
                 });
                 tabla.innerHTML=fragment;            
             }
         });
     
 }
-// tabla.addEventListener('click',(e)=>{
-//     e.preventDefault();
+tabla.addEventListener('click',(e)=>{
+    e.preventDefault();
 
-//     if(e.target.parentElement.getAttribute('class')=='eliminar_empleo'){
-//         const data = new FormData();
-//         data.append('idempleo',e.target.parentElement.getAttribute('href'));
-//         fetch('ajax/eliminar_empleo.php',{
-//             method: "POST",
-//             body: data
-//         }).then(res=> res.json())
-//         .then(data=> {
-//                 if(data.status=='ok'){
-//                     //datos eliminados correctamente
-//                     toastr.success('Eliminado')
-//                     cargar_tabla_empleos();
+    if(e.target.parentElement.getAttribute('class')=='eliminar_inscripcion'){
+        const data = new FormData();
+        data.append('idinscripcion',e.target.parentElement.getAttribute('href'));
+        fetch('ajax/eliminar_inscripcion.php',{
+            method: "POST",
+            body: data
+        }).then(res=> res.json())
+        .then(data=> {
+                if(data.status=='ok'){
+                    //datos eliminados correctamente
+                    toastr.success('Eliminado')
+                    cargar_tabla_inscripciones();
 
-//                 }else{
-//                     toastr.error('Error al borrar la oferta de empleo');
-//                 }
-//             });
-//     }else if(e.target.parentElement.getAttribute('class')=='editar_empleo'){
-//        //abrir modal
-//        const data = new FormData();
-//        data.append('idempleo',e.target.parentElement.getAttribute('href'));
+                }else{
+                    toastr.error('Error al borrar la oferta de empleo');
+                }
+            });
+    }else if(e.target.parentElement.getAttribute('class')=='editar_empleo'){
+       //abrir modal
+       const data = new FormData();
+       data.append('idempleo',e.target.parentElement.getAttribute('href'));
       
-//        fetch('ajax/editar_empleo.php',{
-//         method:"POST",
-//         body:data
-//        }).then(res=>res.json()).then(data=>{
-//             if(data.status=='ok'){
-//                 $('#exampleModal').modal('show');
-//                 document.getElementById('descripcion').value=data.descripcion;
-//                 document.getElementById('familia').value=data.idfamilia;
-//                 document.getElementById('idempleo').value=data.idempleo;
-//             }
-//        });
-//     }
-// });
+       fetch('ajax/editar_empleo.php',{
+        method:"POST",
+        body:data
+       }).then(res=>res.json()).then(data=>{
+            if(data.status=='ok'){
+                $('#exampleModal').modal('show');
+                document.getElementById('descripcion').value=data.descripcion;
+                document.getElementById('familia').value=data.idfamilia;
+                document.getElementById('idempleo').value=data.idempleo;
+            }
+       });
+    }
+});
 
 

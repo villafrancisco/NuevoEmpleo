@@ -16,16 +16,22 @@ require_once '../modelos/Inscripcion.php';
 
 $db = new DB();
 
-$usuario = $db->getUsuario($_SESSION['idusuario']);
-$empleos = $usuario->getLista_empleos_inscrito();
-$data=[];
-$i=0;
-foreach($empleos as $empleo){
-   
-    $data[$i]['idempleo']=$empleo->getIdempleo();
-    $data[$i]['descripcion']=$empleo->getDescripcion();
-    $data[$i]['fecha_publicacion']=$empleo->getFecha_publicacion();
-    $i++;
-}
+if (isset($_SESSION["idusuario"])) {
+    $titulado = $db->getUsuario($_SESSION["idusuario"]);
+    if ($titulado->getTipousuario() == 'titulado') {
+        $inscripciones = $db->getInscripcionesTitulado($titulado);
+        $data = [];
+        $i = 0;
+        foreach ($inscripciones as $inscripcion) {
+            $data[$i]['idinscripcion'] = $inscripcion->getIdinscripcion();
+            $data[$i]['descripcion'] = $db->getEmpleo($inscripcion->getIdempleo())->getDescripcion();
+            $data[$i]['fecha_publicacion'] = $db->getEmpleo($inscripcion->getIdempleo())->getFecha_publicacion();
+            $data[$i]['fecha_inscripcion'] = $inscripcion->getFecha_inscripcion();
+            $data[$i]['nombre_empresa'] = $db->getEmpresa($db->getEmpleo($inscripcion->getIdempleo())->getIdempresa())->getNombre();
+            $i++;
 
-echo json_encode($data);
+            //Tengo que devolver idinscripcion, descripcion del empleo, fecha publicacion, fecha inscripcion, y empresa
+        }
+        echo json_encode($data);
+    }
+}

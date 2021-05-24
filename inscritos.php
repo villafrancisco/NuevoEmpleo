@@ -5,8 +5,8 @@ $db = new DB();
 if (isset($_SESSION["idusuario"]) && isset($_GET['idempleo']) && !empty($_GET['idempleo'])) {
     $empresa = $db->getUsuario($_SESSION["idusuario"]);
     $empleo = $db->getEmpleo($_GET['idempleo']);
-    $inscripciones = $db->getInscripciones($_GET['idempleo']);
-
+    $inscritos = $db->getInscritosEmpleo($empleo);
+    $inscripciones = $db->getAllInscripciones();
 
 
     if ($empresa->getTipousuario() != 'empresa') {
@@ -29,62 +29,75 @@ if (isset($_SESSION["idusuario"]) && isset($_GET['idempleo']) && !empty($_GET['i
 <body>
     <?php include 'inc/header.php' ?>
     <main class="container">
+        <div class="empleos-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+            <a href="empresa.php" class="text-decoration-none">
+                <div class="card text-center">
+                    <div class="card-header">
+                        <?php echo $empresa->getNombre(); ?>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title"><?php echo $empleo->getDescripcion(); ?></h5>
+                    </div>
 
-        <!-- Ofertas de empleo publicada por la empresa -->
-        <h1 class="display-4 text-center">Inscritos para la Oferta</h1>
-        <p class="lead"><?php echo $empleo->getDescripcion(); ?></p>
+                </div>
+            </a>
 
-        <table id="tabla_inscritos" class="table table-hover">
-            <thead class="thead-light">
-                <tr>
-                    <th scope="col">Foto</th>
-                    <th scope="col">Nombre</th>
-                    <th scope="col">Apellidos</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">Teléfono</th>
-                    <th scope="col">Curriculum</th>
-                    <th scope="col">Fecha Inscripcion</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php
+        </div>
 
-                foreach ($inscripciones as $inscripcion) {
-                    $titulado = $db->getUsuario($inscripcion->getIdtitulado());
 
-                ?>
+
+
+        <?php
+        if (!empty($inscritos)) { ?>
+
+            <table id="tabla_inscritos" class="table table-hover">
+                <thead class="thead-light">
                     <tr>
-                        <th scope="row"><?php echo $titulado->getFoto(); ?></th>
-                        <td><?php echo $titulado->getNombre(); ?></td>
-                        <td><?php echo $titulado->getApellidos(); ?></td>
-                        <td><?php echo $titulado->getEmail(); ?></td>
-
-                        <td><?php echo $titulado->getTelefono(); ?></td>
-                        <td><?php echo $titulado->getCurriculum(); ?></td>
-                        <td><?php echo $inscripcion->getFecha_inscripcion(); ?></td>
-
+                        <th scope="col">Foto</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Apellidos</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Teléfono</th>
+                        <th scope="col">Curriculum</th>
+                        <th scope="col">Fecha Inscripcion</th>
                     </tr>
-                    </form>
-                <?php
-                }
+                </thead>
+                <tbody>
+                    <?php
+
+                    foreach ($inscritos as $titulado) {
+                        foreach ($inscripciones as $inscripcion) {
+                            if ($inscripcion->getIdempleo() == $empleo->getIdempleo() && $inscripcion->getIdtitulado() == $titulado->getIdtitulado()) {
+                                $fecha_inscripcion = $inscripcion->getFecha_inscripcion();
+                            }
+                        }
+                    ?>
+                        <tr>
+                            <td><img class="img-fluid img-thumbnail foto-imagen" src="archivos_subidos/<?php echo $titulado->getFoto(); ?>"></td>
+                            <td><?php echo $titulado->getNombre(); ?></td>
+                            <td><?php echo $titulado->getApellidos(); ?></td>
+                            <td><?php echo $titulado->getEmail(); ?></td>
+
+                            <td><?php echo $titulado->getTelefono(); ?></td>
+                            <td><a target="_blank" href="archivos_subidos/<?php echo $titulado->getCurriculum(); ?>"><img class="img-fluid img-icon-pdf" src="assets/images/iconopdf.png"></a></td>
+                            <td><?php echo $fecha_inscripcion; ?></td>
 
 
-                ?>
-            </tbody>
-        </table>
+                        </tr>
+                        </form>
+                    <?php
+                    }
 
-        </table>
 
-        <!-- Button trigger modal -->
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" id="modal-empleo">
-            Publicar empleo
-        </button>
+                    ?>
+                </tbody>
 
+
+            </table>
+        <?php } else {
+            echo '<p class="text-center">No hay ningún inscrito para esta oferta</p>';
+        } ?>
     </main>
-
-
-
-
     <!-- Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
@@ -114,7 +127,7 @@ if (isset($_SESSION["idusuario"]) && isset($_GET['idempleo']) && !empty($_GET['i
                                     <option value="0" selected>Elige una Familia Profesional</option>
                                     <?php
                                     foreach ($familias as $familia) {
-                                        echo '<option value="' . $familia->getIdfamilia() . '" >' . $familia->getFamilia() . '</option>';
+                                        echo '<option value="' . $familia->getIdfamilia() . '" >' . $familia->getNombre() . '</option>';
                                     }
                                     ?>
                                 </select>
@@ -123,17 +136,14 @@ if (isset($_SESSION["idusuario"]) && isset($_GET['idempleo']) && !empty($_GET['i
                     </form>
 
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                    <button type="button" class="btn btn-primary" id="guardar_empleo" name="guardar_empleo">Guardar empleo</button>
-                </div>
+
             </div>
         </div>
     </div>
 
     <?php include "inc/footer.php" ?>
     <?php include 'inc/scripts.php' ?>
-    <script src="js/empresa.js"></script>
+
 
 </body>
 

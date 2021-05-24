@@ -27,6 +27,9 @@ if (isset($_SESSION["idusuario"])) {
 <body>
     <?php include 'inc/header.php' ?>
     <main class="container">
+        <div class="empleos-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+            <h4 id="nombre_empresa"><?php echo $empresa->getNombre(); ?></h4>
+        </div>
         <form enctype="multipart/form-data" action="ajax/guardar_empresa">
             <div class="form-row">
                 <div class="form-group col-md-6">
@@ -129,7 +132,7 @@ if (isset($_SESSION["idusuario"])) {
                                     <option value="0" selected>Elige una Familia Profesional</option>
                                     <?php
                                     foreach ($familias as $familia) {
-                                        echo '<option value="' . $familia->getIdfamilia() . '" >' . $familia->getFamilia() . '</option>';
+                                        echo '<option value="' . $familia->getIdfamilia() . '" >' . $familia->getNombre() . '</option>';
                                     }
                                     ?>
                                 </select>

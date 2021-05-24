@@ -138,9 +138,10 @@ if (isset($_SESSION["idusuario"])) {
             <button id="guardar_titulado" name="guardar_titulado" type="submit" class="btn btn-primary">Guardar</button>
         </form>
         <h1 class="display-4 text-center">Inscripciones en Ofertas</h1>
-        <?php
 
-        if (empty($titulado->getLista_empleos_inscrito())) {
+        <?php
+        //TODO
+        if (empty($db->getInscripcionesTitulado($titulado))) {
             echo '<p class="text-center">No te has inscrito en ninguna oferta</p>';
         } else {
         ?>
