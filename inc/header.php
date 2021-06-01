@@ -35,10 +35,7 @@
                 }
                 ?>
             </div>
-            <div class="custom-control custom-switch m-1">
-                <input type="checkbox" class="custom-control-input" id="customSwitch1">
-                <label class="custom-control-label" for="customSwitch1"></label>
-            </div>
+
         </div>
 
     </div>

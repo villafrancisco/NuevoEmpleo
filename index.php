@@ -64,10 +64,10 @@ if (isset($_SESSION['idusuario'])) {
                             </div>
                             <div class="card-body ">
                                 <div class="row align-items-center">
-                                    <div class="col-md-1">
+                                    <div class="col-md-3">
                                         <img class="d-none d-md-block img-fluid" src="archivos_subidos/<?php echo $empresa->getLogo() ?>">
                                     </div>
-                                    <div class="col-md-8 text-left">
+                                    <div class="col-md-9 text-left">
                                         <h5 class="card-title pricing-card-title"><?php echo $familia->getNombre(); ?> </h5>
                                         <p class="card-text"><?php echo $empleo->getDescripcion(); ?> </p>
 
@@ -95,16 +95,13 @@ if (isset($_SESSION['idusuario'])) {
                                             } ?>
                                         <?php
                                         } else { ?>
-                                            <button type="button" class="disabled btn btn-lg btn-block btn-outline-primary">Necesitas estar registrado para inscribirte</button>
+                                            <a href="login.php?tipo=titulado" class="btn btn-lg btn-block btn-primary" idempleo="<?php echo $empleo->getIdempleo() ?>">Inscríbite</a>
                                         <?php
                                         }
                                         ?>
 
                                     </div>
-                                    <div class="col-md-3">
-                                        <a href="index.php?familia=<?php echo $familia->getIdfamilia(); ?>"><img class="d-none d-md-block img-fluid" src="assets/images/<?php echo $familia->getNombre_imagen(); ?>">
-                                        </a>
-                                    </div>
+
                                 </div>
                             </div>
                             <div class="card-footer text-muted">
