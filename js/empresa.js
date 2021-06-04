@@ -250,7 +250,7 @@ function cargar_tabla_empleos(){
                     fragment+='<tr>'+
                                 '<th scope="row"><a href="inscritos.php?idempleo='+result.idempleo+'">Inscritos</a></th>'+
                                 '<td>'+result.familia+'</td>'+
-                                '<td>'+result.descripcion.substr(0,50)+'</td>'+
+                                '<td>'+result.descripcion+'</td>'+
                                 '<td>'+result.fecha_publicacion+'</td>'+
                                 '<td><a class="editar_empleo" href="'+result.idempleo+'"><i class="fas fa-edit"></i></a></td>'+
                                 '<td><a class="eliminar_empleo" href="'+result.idempleo+'"><i class="fas fa-trash-alt"></i></a></td>'+

@@ -22,9 +22,11 @@ guardar_titulado.addEventListener('click',(e)=>{
     }
     if(!validarTexto(nombre.value)){
         error=true;
+        console.log('novalido');
         nombre.classList.add('errorform');
     }else{
         nombre.classList.remove('errorform');
+        console.log('valido');
     }
     if(!validarTexto(apellidos.value)){
         error=true;

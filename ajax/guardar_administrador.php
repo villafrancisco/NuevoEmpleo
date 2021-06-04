@@ -37,11 +37,12 @@ if (isset($_SESSION["idusuario"])) {
                 $data['status'] = 'error';
                 return false;
             }
-            if (!ctype_alpha($_POST['nombre'])) {
+
+            if (!preg_match("/^(?!-+)[a-zA-Z-ñáéíóú\s]*$/", $_POST['nombre'])) {
                 $data['status'] = 'error';
                 return false;
             }
-            if (!ctype_alpha($_POST['apellidos'])) {
+            if (!preg_match("/^(?!-+)[a-zA-Z-ñáéíóú\s]*$/", $_POST['apellidos'])) {
                 $data['status'] = 'error';
                 return false;
             }

@@ -83,7 +83,7 @@ include 'inc/includes.php';
                                 } else {
                                 ?>
                                     <tr id="<?php echo $admin->getIdadmin(); ?>">
-                                        <th scope="row"><?php echo $admin->getIdadmin(); ?></th>
+
                                         <td><?php echo $admin->getNombre(); ?></td>
                                         <td><?php echo $admin->getApellidos(); ?></td>
                                         <td><?php echo $admin->getEmail(); ?></td>

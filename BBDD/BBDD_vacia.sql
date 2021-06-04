@@ -1,1 +1,0 @@
-SELECT idtipo FROM tipousuario AS t1 WHERE t1.tipousuario = administrador

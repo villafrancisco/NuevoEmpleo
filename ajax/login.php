@@ -116,13 +116,14 @@ function login($email, $contrasena, $tipo)
         if ($tipo == "administrador") { //Solo para los sean administradores
             //Metodo para insertar en la base de datos que solo debe estar en desarrollo
 
-            //Cambiar para poder insertar administradores
+            // Cambiar para poder insertar administradores
             // $usuario = new Administrador([
             //     'email'           => $email,
             //     'contrasena'    =>  $contrasena,
             //     'idtipo'        =>  '1'
             // ]);
-            // $nuevousuario = $db->crearNuevoUsuario($usuario);
+            // $usuario->setTipousuario($tipo);
+            // $nuevousuario = $db->createUsuario($usuario);
             return false;
         } else {
             if ($idusuario = $db->createUsuario($usuario)) {

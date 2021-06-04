@@ -44,7 +44,7 @@ function validarContrasena(contrasena){
 }
 
 function validarTexto(txt){
-    var regex=/^[A-Z]+$/i;
+    var regex=/^[A-Z ñáéíóú]+$/i;
     if(!regex.test(txt)){
         return false;
     }
