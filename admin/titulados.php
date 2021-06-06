@@ -66,7 +66,7 @@ include 'inc/includes.php';
                                     <th>DNI</th>
                                     <th>Teléfono</th>
                                     <th scope="col">Fecha Registro</th>
-                                    <th scope="col">Ver/Editar</th>
+
                                 </tr>
                             </thead>
                             <tbody class="table-striped">
@@ -86,10 +86,7 @@ include 'inc/includes.php';
                                             <td><?php echo $titulado->getTelefono(); ?></td>
 
                                             <td><?php echo $titulado->getFecha_registro(); ?></td>
-                                            <td class="accion">
-                                                <a href="titulados.php?id=<?php echo $titulado->getIdusuario(); ?>" class="ver"><i class="fas fa-eye fa-2x"></i></i></a>
 
-                                            </td>
                                         </tr>
                                     </form>
                                 <?php

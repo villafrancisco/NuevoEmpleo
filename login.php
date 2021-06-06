@@ -38,11 +38,7 @@ if (isset($_GET["tipo"]) && ($_GET["tipo"] == "empresa" || $_GET["tipo"] == "tit
         <input type="email" id="email" name="email" class="form-control" placeholder="Email" required autofocus>
         <label for="contrasena" class="sr-only">Contraseña</label>
         <input type="password" id="contrasena" name="contrasena" class="form-control" placeholder="Contraseña" required>
-        <div class="checkbox mb-3">
-            <label>
-                <input type="checkbox" value="remember-me"> Recuérdame
-            </label>
-        </div>
+
         <div id="loader" class="loader hide"></div>
         <button class="btn btn-lg btn-primary btn-block" type="submit">Entrar</button>
         <p class="mt-5 mb-3 text-muted">&copy; 2017-2021</p>

@@ -32,7 +32,7 @@ $listaFamilias = $db->getAllFamilias();
 
                         <a href="index.php?familia=<?php echo $familia->getIdfamilia(); ?>">
                             <div class="card card-familia">
-                                <img class="card-img-top" src="assets/images/<?php echo $familia->getNombre_imagen() ?>" alt="Card image cap">
+                                <img class="card-img-top" src="assets/images/<?php echo $familia->getNombre_imagen() ?>" alt="imagen familia" title="familia profesional">
                                 <div class="card-body">
                                     <h6 class="card-title text-center"> <?php echo $familia->getNombre(); ?></h6>
                                 </div>

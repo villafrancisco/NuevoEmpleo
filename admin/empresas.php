@@ -60,7 +60,7 @@ include 'inc/includes.php';
                                 <th>Teléfono</th>
                                 <th>Dirección</th>
 
-                                <th>Guardar</th>
+
                             </tr>
                         </thead>
                         <tbody class="table-striped">
@@ -69,16 +69,14 @@ include 'inc/includes.php';
                             foreach ($empresas as $empresa) {
                             ?>
                                 <form name="form<?php echo $empresa->getIdempresa(); ?>" name="form<?php echo $empresa->getIdempresa(); ?>" action="ajax/guardar_administrador" method="post" class="disable-autocomplete" autocomplete="off">
-                                    <tr id="<?php echo $empresa->getIdusuario(); ?>">
-                                        <td><input type="text" class="form-control" name="nombre" value="<?php echo $empresa->getNombre(); ?>"><input type="hidden" name="idusuario" value="<?php echo $empresa->getIdusuario(); ?>"></td>
-                                        <td><input type="text" class="form-control" name="email" value="<?php echo $empresa->getEmail(); ?>"></td>
-                                        <td><input type="text" class="form-control" name="telefono" value="<?php echo $empresa->getTelefono(); ?>"></td>
-                                        <td><input type="text" class="form-control" name="direccion" value="<?php echo $empresa->getDireccion(); ?>"></td>
+                                    <tr>
+                                        <td><?php echo $empresa->getNombre(); ?></td>
+                                        <td><?php echo $empresa->getEmail(); ?></td>
+                                        <td><?php echo $empresa->getTelefono(); ?></td>
+                                        <td><?php echo $empresa->getDireccion(); ?></td>
 
 
-                                        <td class="accion">
-                                            <a href="<?php echo $empresa->getIdusuario(); ?>" class="save"><i class="fas fa-save fa-2x"></i></a>
-                                        </td>
+
                                     </tr>
 
                                 </form>

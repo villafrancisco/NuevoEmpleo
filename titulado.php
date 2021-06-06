@@ -90,6 +90,7 @@ if (isset($_SESSION["idusuario"])) {
 
                 </div>
 
+
             </div>
             <div class="form-row">
                 <div class="form-group col-md-6">
@@ -136,6 +137,9 @@ if (isset($_SESSION["idusuario"])) {
                 </div>
             </div>
             <button id="guardar_titulado" name="guardar_titulado" type="submit" class="btn btn-primary">Guardar</button>
+
+
+
         </form>
         <h1 class="display-4 text-center">Inscripciones en Ofertas</h1>
 

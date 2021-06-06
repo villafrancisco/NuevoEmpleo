@@ -1,6 +1,18 @@
 const formLogin=document.getElementById('formLogin');
 const msjalert=document.getElementById('alert');
+let remember=document.getElementById('remember');
 var msjerror='';  
+
+
+    if(window.location.pathname=='/NuevoEmpleo/admin.php'){
+        if(localStorage.getItem('email')!=null && localStorage.getItem('contrasena')!=null){
+            const datosForm=new FormData();
+            datosForm.append('email',localStorage.getItem('email'));
+            datosForm.append('contrasena',localStorage.getItem('contrasena'));
+           
+            login(datosForm);
+        }    
+    }
 
 //Enviamos el formulario de login
 formLogin.addEventListener('submit',(e)=>{
@@ -28,13 +40,29 @@ function login($datos){
     .then(data => {
         document.getElementById('loader').classList.toggle('hide');
             if(data.status=='ok'){
+                
                 if(data.tipousuario=='administrador'){
+                    if(localStorage.getItem('email')==null && localStorage.getItem('contrasena')==null){
+                            let remember=document.getElementById('remember');
+                       
+                            if(remember.checked){
+                                //guardar en localstorage
+                            localStorage.setItem('email',$datos.get('email'));
+                            localStorage.setItem('contrasena',$datos.get('contrasena'));
+                           
+                            }else{
+                                localStorage.removeItem('email');
+                                localStorage.removeItem('contrasena');
+                                
+                            }
+                        }
                     window.location.href="admin/administrador.php";
                 }else if(data.tipousuario=="empresa"){
                     window.location.href="empresa.php";
                 }else if(data.tipousuario=='titulado'){
                     window.location.href="titulado.php";
                 }
+                
             }else{
                 msjalert.innerText='Login Incorrecto'; 
                 msjalert.classList.add('show');
@@ -47,6 +75,8 @@ function login($datos){
             setTimeout(function(){ msjalert.classList.remove('show'); }, 3000);
     });
 }
+
+
 
   
  

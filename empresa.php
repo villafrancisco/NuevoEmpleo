@@ -34,26 +34,26 @@ if (isset($_SESSION["idusuario"])) {
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="nombre">Nombre: <span class="required">*</span></label>
-                    <input type="text" name="nombre" class="form-control" id="nombre" value="<?php echo $empresa->getNombre(); ?>">
+                    <input type="text" name="nombre" class="form-control" id="nombre" value="<?php echo $empresa->getNombre(); ?>" title="nombre">
                     <input type="hidden" name="idusuario" id="idusuario" value="<?php echo $empresa->getIdusuario(); ?>">
 
 
                 </div>
                 <div class="form-group col-md-6">
                     <label for="email">Email: <span class="required">*</span></label>
-                    <input type="text" class="form-control" name="email" id="email" value="<?php echo $empresa->getEmail(); ?>"></input>
+                    <input type="text" class="form-control" title="email" name="email" id="email" value="<?php echo $empresa->getEmail(); ?>"></input>
 
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="direccion">Dirección: <span class="required">*</span></label>
-                    <input type="text" class="form-control" name="direccion" id="direccion" value="<?php echo $empresa->getDireccion(); ?>">
+                    <input type="text" class="form-control" name="direccion" title="direccion" id="direccion" value="<?php echo $empresa->getDireccion(); ?>">
 
                 </div>
                 <div class="form-group col-md-6">
                     <label for="telefono">Telefono: <span class="required">*</span></label>
-                    <input type="text" class="form-control" name="telefono" id="telefono" value="<?php echo $empresa->getTelefono(); ?>">
+                    <input type="text" class="form-control" name="telefono" title="telefono" id="telefono" value="<?php echo $empresa->getTelefono(); ?>">
 
                 </div>
             </div>
@@ -63,7 +63,7 @@ if (isset($_SESSION["idusuario"])) {
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <div class="custom-file">
-                        <input type="file" class="custom-file-input" id="logoinput" aria-describedby="inputGroupFileAddon01" name="logo" accept="image/*" fotocargada="<?php echo ($empresa->getLogo() != "") ? "true" :  "false" ?>">
+                        <input type="file" title="logo" class="custom-file-input" id="logoinput" aria-describedby="inputGroupFileAddon01" name="logo" accept="image/*" fotocargada="<?php echo ($empresa->getLogo() != "") ? "true" :  "false" ?>">
                         <label class="custom-file-label" for="logo">Elige un logo <span class="required">* Solo archivos de imagen</span></label>
                     </div>
                 </div>
@@ -84,7 +84,7 @@ if (isset($_SESSION["idusuario"])) {
                 </div>
             </div>
 
-            <button id="guardar_empresa" name="guardar_empresa" type="submit" class="btn btn-primary">Guardar</button>
+            <button id="guardar_empresa" name="guardar_empresa" type="submit" class="btn btn-primary" title="Guardar">Guardar</button>
         </form>
         <!-- Ofertas de empleo publicada por la empresa -->
         <h1 class="display-4 text-center">Ofertas de empleo publicadas</h1>
@@ -94,7 +94,7 @@ if (isset($_SESSION["idusuario"])) {
         </table>
 
         <!-- Button trigger modal -->
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" id="modal-empleo">
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" id="modal-empleo" title="Publicar empleo">
             Publicar empleo
         </button>
 
@@ -120,7 +120,7 @@ if (isset($_SESSION["idusuario"])) {
 
 
                                 <label for="descripcion">Descripcion de la oferta de empleo: <span class="required">*</span></label>
-                                <textarea class="form-control" name="descripcion" id="descripcion" rows="3"></textarea>
+                                <textarea class="form-control" title="Descripcion" name="descripcion" id="descripcion" rows="3"></textarea>
                                 <input type="hidden" id="idempleo" name="idempleo">
                             </div>
 

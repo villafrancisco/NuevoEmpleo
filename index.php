@@ -65,7 +65,7 @@ if (isset($_SESSION['idusuario'])) {
                             <div class="card-body ">
                                 <div class="row align-items-center">
                                     <div class="col-md-3">
-                                        <img class="d-none d-md-block img-fluid" src="archivos_subidos/<?php echo $empresa->getLogo() ?>">
+                                        <img class="d-none d-md-block img-fluid" src="archivos_subidos/<?php echo $empresa->getLogo() ?>" alt="logotipo" title="logotipo empresa">
                                     </div>
                                     <div class="col-md-9 text-left">
                                         <h5 class="card-title pricing-card-title"><?php echo $familia->getNombre(); ?> </h5>
