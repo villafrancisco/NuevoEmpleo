@@ -95,7 +95,7 @@ class Titulado extends Usuario
     public function getFoto()
     {
         if (empty($this->foto) || !isset($this->foto)) {
-            return 'no-imagen.svg';
+            return 'no-perfil.png';
         } else {
             return $this->foto;
         }

@@ -58,14 +58,14 @@ include 'inc/includes.php';
                         <table class="table">
                             <thead class="thead-light">
                                 <tr>
-
+                                    <th>Foto</th>
                                     <th>Nombre</th>
                                     <th>Apellidos</th>
                                     <th>Email</th>
-
                                     <th>DNI</th>
                                     <th>Teléfono</th>
                                     <th scope="col">Fecha Registro</th>
+                                    <th>Curriculum</th>
 
                                 </tr>
                             </thead>
@@ -77,7 +77,7 @@ include 'inc/includes.php';
                                 ?>
                                     <form name="form<?php echo $titulado->getIdtitulado(); ?>" name="form<?php echo $titulado->getIdtitulado(); ?>" action="ajax/guardar_titulado" method="post" class="disable-autocomplete" autocomplete="off">
                                         <tr id="<?php echo $titulado->getIdtitulado(); ?>">
-
+                                            <th><img class="img-fluid foto-imagen" src="../archivos_subidos/<?php echo $titulado->getFoto(); ?>" alt=""></th>
                                             <td><?php echo $titulado->getNombre(); ?></td>
                                             <td><?php echo $titulado->getApellidos(); ?></td>
                                             <td><?php echo $titulado->getEmail(); ?></td>
@@ -86,6 +86,7 @@ include 'inc/includes.php';
                                             <td><?php echo $titulado->getTelefono(); ?></td>
 
                                             <td><?php echo $titulado->getFecha_registro(); ?></td>
+                                            <td><a href="../archivos_subidos/<?php echo $titulado->getCurriculum(); ?>"><img class="img-fluid foto-cv" src="../assets/images/iconopdf.png" alt="curriculum"></a></td>
 
                                         </tr>
                                     </form>
@@ -101,7 +102,6 @@ include 'inc/includes.php';
             </div>
         </div>
         <?php include 'inc/scripts.php' ?>
-        <script src="js/titulados.js"></script>
 </body>
 
 </html>

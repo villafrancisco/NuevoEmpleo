@@ -49,72 +49,76 @@ if (isset($_SESSION['idusuario'])) {
             } ?>
         </div>
         <section>
-            <?php
-            foreach ($listaEmpleos as $empleo) { ?>
+            <div class="row">
                 <?php
-                $familia = $db->getFamilia($empleo->getIdfamilia());
-                $empresa = $db->getEmpresa($empleo->getIdempresa());
 
-                ?>
-                <div class="row-cols-1">
-                    <div class="card-deck mb-3 text-center">
-                        <div class="card mb-4 shadow-sm">
-                            <div class="card-header">
-                                <h4 class="my-0 font-weight-normal"><?php echo $empresa->getNombre() ?></h4>
-                            </div>
-                            <div class="card-body ">
-                                <div class="row align-items-center">
-                                    <div class="col-md-3">
-                                        <img class="d-none d-md-block img-fluid" src="archivos_subidos/<?php echo $empresa->getLogo() ?>" alt="logotipo" title="logotipo empresa">
-                                    </div>
-                                    <div class="col-md-9 text-left">
-                                        <h5 class="card-title pricing-card-title"><?php echo $familia->getNombre(); ?> </h5>
-                                        <p class="card-text"><?php echo $empleo->getDescripcion(); ?> </p>
+                foreach ($listaEmpleos as $empleo) { ?>
+                    <?php
+                    $familia = $db->getFamilia($empleo->getIdfamilia());
+                    $empresa = $db->getEmpresa($empleo->getIdempresa());
+
+                    ?>
+                    <div class="col-lg-6 col-md-6">
+                        <div class="card-deck mb-3 text-center">
+                            <div class="card mb-4 shadow-sm">
+                                <div class="card-header">
+                                    <h4 class="my-0 font-weight-normal"><?php echo $empresa->getNombre() ?></h4>
+                                </div>
+                                <div class="card-body ">
+                                    <div class="row align-items-center">
+                                        <div class="col-md-3">
+                                            <img class="d-none d-md-block img-fluid" src="archivos_subidos/<?php echo $empresa->getLogo() ?>" alt="logotipo" title="logotipo empresa">
+                                        </div>
+                                        <div class="col-md-9 text-left">
+                                            <h5 class="card-title pricing-card-title"><?php echo $familia->getNombre(); ?> </h5>
+                                            <p class="card-text"><?php echo $empleo->getDescripcion(); ?> </p>
 
 
-                                        <?php
-
-                                        if ($permisoInscribirse) { ?>
-                                            <!-- tengo que mirar si el usuario ya está inscrito -->
                                             <?php
 
-                                            $inscrito = false;
+                                            if ($permisoInscribirse) { ?>
+                                                <!-- tengo que mirar si el usuario ya está inscrito -->
+                                                <?php
 
-                                            foreach ($inscripcionesTitulado as $inscripcion) {
+                                                $inscrito = false;
 
-                                                if ($inscripcion->getIdempleo() == $empleo->getIdempleo()) {
-                                                    $inscrito = true;
+                                                foreach ($inscripcionesTitulado as $inscripcion) {
+
+                                                    if ($inscripcion->getIdempleo() == $empleo->getIdempleo()) {
+                                                        $inscrito = true;
+                                                    }
                                                 }
-                                            }
-                                            if (!$inscrito) { ?>
-                                                <button type="button" class="disabled btn btn-lg btn-block btn-primary guardar_inscripcion" idempleo="<?php echo $empleo->getIdempleo() ?>">Inscríbite</button>
+                                                if (!$inscrito) { ?>
+                                                    <button type="button" class="disabled btn btn-lg btn-block btn-primary guardar_inscripcion" idempleo="<?php echo $empleo->getIdempleo() ?>">Inscríbite</button>
+                                                <?php
+                                                } else { ?>
+                                                    <button type="button" class="disabled btn btn-lg btn-block btn-outline-primary" idempleo="<?php echo $empleo->getIdempleo() ?>">Ya estás inscrito</button>
+                                                <?php
+                                                } ?>
                                             <?php
                                             } else { ?>
-                                                <button type="button" class="disabled btn btn-lg btn-block btn-outline-primary" idempleo="<?php echo $empleo->getIdempleo() ?>">Ya estás inscrito</button>
+                                                <a href="login.php?tipo=titulado" class="btn btn-lg btn-block btn-primary" idempleo="<?php echo $empleo->getIdempleo() ?>">Inscríbite</a>
                                             <?php
-                                            } ?>
-                                        <?php
-                                        } else { ?>
-                                            <a href="login.php?tipo=titulado" class="btn btn-lg btn-block btn-primary" idempleo="<?php echo $empleo->getIdempleo() ?>">Inscríbite</a>
-                                        <?php
-                                        }
-                                        ?>
+                                            }
+                                            ?>
+
+                                        </div>
 
                                     </div>
-
                                 </div>
-                            </div>
-                            <div class="card-footer text-muted">
-                                <?php
-                                echo $empleo->getFecha_publicacion();
+                                <div class="card-footer text-muted">
+                                    <span>Fecha Publicación: </span>
+                                    <?php
+                                    echo $empleo->getFecha_publicacion();
 
 
-                                ?>
+                                    ?>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            <?php } ?>
+                <?php } ?>
+            </div>
         </section>
     </main>
     <?php include "inc/footer.php" ?>

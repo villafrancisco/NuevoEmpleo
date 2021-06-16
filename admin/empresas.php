@@ -54,7 +54,7 @@ include 'inc/includes.php';
                     <table class="table">
                         <thead class="thead-light">
                             <tr>
-
+                                <th>Logotipo</th>
                                 <th>Nombre</th>
                                 <th>Email</th>
                                 <th>Teléfono</th>
@@ -70,12 +70,11 @@ include 'inc/includes.php';
                             ?>
                                 <form name="form<?php echo $empresa->getIdempresa(); ?>" name="form<?php echo $empresa->getIdempresa(); ?>" action="ajax/guardar_administrador" method="post" class="disable-autocomplete" autocomplete="off">
                                     <tr>
-                                        <td><?php echo $empresa->getNombre(); ?></td>
-                                        <td><?php echo $empresa->getEmail(); ?></td>
-                                        <td><?php echo $empresa->getTelefono(); ?></td>
-                                        <td><?php echo $empresa->getDireccion(); ?></td>
-
-
+                                        <td><img class="img-fluid foto-imagen" src="../archivos_subidos/<?php echo $empresa->getLogo(); ?>" alt=""></td>
+                                        <td class="align-middle"><?php echo $empresa->getNombre(); ?></td>
+                                        <td class="align-middle"><?php echo $empresa->getEmail(); ?></td>
+                                        <td class="align-middle"><?php echo $empresa->getTelefono(); ?></td>
+                                        <td class="align-middle"><?php echo $empresa->getDireccion(); ?></td>
 
                                     </tr>
 

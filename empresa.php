@@ -71,16 +71,21 @@ if (isset($_SESSION["idusuario"])) {
                     <div id="drop-zone-logo" class="drop-zone">
                         <i class="fas fa-file-upload"></i>
                         <p class="drop-zone__text">Arrastra el archivo o click para subir el logotipo, solo archivos de imágen
-                        <div class="imagen-foto" id="imagen-logo">
-                            <?php if ($empresa->getLogo() != "") {
-                                echo '<img class="img-fluid" src="archivos_subidos/' . $empresa->getLogo() . '" />';
-                            }
-                            ?>
 
-                        </div>
                         </p>
                     </div>
 
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <div class="imagen-foto" id="imagen-logo">
+                        <?php if ($empresa->getLogo() != "") {
+                            echo '<img class="img-fluid foto-perfil"  src="archivos_subidos/' . $empresa->getLogo() . '" />';
+                        }
+                        ?>
+
+                    </div>
                 </div>
             </div>
 

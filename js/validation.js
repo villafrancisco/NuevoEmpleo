@@ -1,9 +1,9 @@
 const expresiones={
     texto: /^[A-Z ñáéíóú]+$/i, //Letras y espacios pueden llevar acentos
-    contrasena: /^.{4,12}$/,  //Entre 4 y 12 digitos
+    contrasena: /^.{4,16}$/,  //Entre 4 y 12 digitos
     email: /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/,
-    dni: /[0-9]{8}[A-Za-z]{1}/,
-    telefono:/^\d{7,14}$/ //Entre 7 y 14 numeros
+    dni: /^\d{8}[a-zA-Z]$/,
+    telefono:/^\d{9,12}$/ //Entre 7 y 14 numeros
 }
 function reverseString(str) {
     return str.split("").reverse().join("");
@@ -27,9 +27,9 @@ function validarEmail(email) {
 function validarDNI(dni){
     if(!expresiones.dni.test(dni)){
         return false;
-    }else{
-        return true;
     }
+    return true;
+   
 }
 
 function validarContrasena(contrasena){

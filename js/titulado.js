@@ -214,13 +214,12 @@ function comprobarArchivo(archivo) {
 //Cargamos un archivo en la pagina
 function cargaImagen(e, archivo) {
     imagenfoto.innerHTML='';
-    div = document.createElement('div');
-    div.setAttribute('class', 'img-fotoperfil');
+    
     img = document.createElement('img');
     img.setAttribute('src', e.target.result);
-    img.setAttribute('class',' img-fluid');
-    div.appendChild(img);
-    imagenfoto.appendChild(div);
+    img.setAttribute('class',' img-fluid foto-perfil');
+   
+    imagenfoto.appendChild(img);
 }
 
 var tabla=document.getElementById('tabla_inscripciones');
@@ -234,9 +233,11 @@ function cargar_tabla_inscripciones(){
     }).then(res=> res.json())
     .then(data=> {
             if(data.length!=0){
+                console.log(data);
                 let fragment;;
                 fragment='<thead>'+
                             '<tr>'+
+                                '<th scope="col">Logotipo</th>'+
                                 '<th scope="col">Empresa</th>'+
                                 '<th scope="col">Descripcion</th>'+
                                 '<th scope="col">Fecha de publicacion</th>'+
@@ -247,7 +248,7 @@ function cargar_tabla_inscripciones(){
                         '<tbody>';
                 data.forEach(result => {
                     fragment+='<tr>'+
-                                
+                                '<td><img class="img-fluid foto-imagen" src="archivos_subidos/'+result.logo+'"></td>'+
                                 '<td>'+result.nombre_empresa+'</td>'+
                                 '<td>'+result.descripcion+'</td>'+
                                 '<td>'+result.fecha_publicacion+'</td>'+

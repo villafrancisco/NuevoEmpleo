@@ -58,6 +58,7 @@ include 'inc/includes.php';
                         <table class="table">
                             <thead class="thead-light">
                                 <tr>
+                                    <th>Logotipo</th>
                                     <th>Empresa</th>
                                     <th>Descripcion</th>
                                     <th>Fecha Publicación</th>
@@ -71,7 +72,7 @@ include 'inc/includes.php';
                                 ?>
 
                                     <tr id="<?php echo $empleo->getIdempleo(); ?>">
-
+                                        <td><img class="img-fluid foto-imagen" src="../archivos_subidos/<?php echo $db->getEmpresa($empleo->getIdempresa())->getLogo(); ?>" alt=""></td>
                                         <td><?php echo $db->getEmpresa($empleo->getIdempresa())->getNombre(); ?></td>
                                         <td><?php echo $empleo->getDescripcion(); ?></td>
                                         <td><?php echo $empleo->getFecha_publicacion(); ?></td>
@@ -91,7 +92,7 @@ include 'inc/includes.php';
             </div>
         </div>
         <?php include 'inc/scripts.php' ?>
-        <script src="js/titulados.js"></script>
+
 </body>
 
 </html>

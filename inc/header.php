@@ -1,7 +1,9 @@
 <header>
     <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
         <div class="logo">
-            <img class="img-fluid" src="assets/images/logo.PNG" alt="logo">
+            <a href="index.php">
+                <img class="img-fluid" src="assets/images/logo.PNG" alt="logo">
+            </a>
         </div>
         <h5 class="my-0 mr-md-auto font-weight-normal"><?php echo EMPRESA ?></h5>
         <nav class="my-2 my-md-0 mr-md-3">

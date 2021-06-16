@@ -103,16 +103,21 @@ if (isset($_SESSION["idusuario"])) {
                     <div id="drop-zone-foto" class="drop-zone">
                         <i class="fas fa-file-upload"></i>
                         <p class="drop-zone__text">Arrastra el archivo o click para subir la foto, solo archivos de imágen
-                        <div class="imagen-foto" id="imagen-foto">
-                            <?php if ($titulado->getFoto() != "") {
-                                echo '<img class="img-fluid" src="archivos_subidos/' . $titulado->getFoto() . '" />';
-                            }
-                            ?>
 
-                        </div>
                         </p>
                     </div>
 
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <div class="imagen-foto" id="imagen-foto">
+                        <?php if ($titulado->getFoto() != "") {
+                            echo '<img class="img-fluid foto-perfil" src="archivos_subidos/' . $titulado->getFoto() . '" />';
+                        }
+                        ?>
+
+                    </div>
                 </div>
             </div>
             <div class="form-row">

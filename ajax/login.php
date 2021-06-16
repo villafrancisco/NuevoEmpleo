@@ -38,7 +38,7 @@ function comprobarEmail($email)
  */
 function comprobarContrasena($contrasena)
 {
-    if (strlen($contrasena) > 5) {
+    if (strlen($contrasena) > 4 && strlen($contrasena) < 16) {
         return true;
     } else {
         return false;
