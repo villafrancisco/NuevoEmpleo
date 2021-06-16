@@ -13,10 +13,12 @@
 
 
 -- Volcando estructura de base de datos para nuevoempleo
+DROP DATABASE IF EXISTS `nuevoempleo`;
 CREATE DATABASE IF NOT EXISTS `nuevoempleo` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci */;
 USE `nuevoempleo`;
 
 -- Volcando estructura para tabla nuevoempleo.administradores
+DROP TABLE IF EXISTS `administradores`;
 CREATE TABLE IF NOT EXISTS `administradores` (
   `idadmin` int(11) NOT NULL AUTO_INCREMENT,
   `idusuario` int(11) NOT NULL,
@@ -29,7 +31,7 @@ CREATE TABLE IF NOT EXISTS `administradores` (
   CONSTRAINT `FK_administradores_usuarios` FOREIGN KEY (`idusuario`) REFERENCES `usuarios` (`idusuario`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 
--- Volcando datos para la tabla nuevoempleo.administradores: ~0 rows (aproximadamente)
+-- Volcando datos para la tabla nuevoempleo.administradores: ~1 rows (aproximadamente)
 DELETE FROM `administradores`;
 /*!40000 ALTER TABLE `administradores` DISABLE KEYS */;
 INSERT INTO `administradores` (`idadmin`, `idusuario`, `email`, `contrasena`, `nombre`, `apellidos`) VALUES
@@ -37,6 +39,7 @@ INSERT INTO `administradores` (`idadmin`, `idusuario`, `email`, `contrasena`, `n
 /*!40000 ALTER TABLE `administradores` ENABLE KEYS */;
 
 -- Volcando estructura para tabla nuevoempleo.empleos
+DROP TABLE IF EXISTS `empleos`;
 CREATE TABLE IF NOT EXISTS `empleos` (
   `idempleo` int(11) NOT NULL AUTO_INCREMENT,
   `idempresa` int(11) NOT NULL,
@@ -68,6 +71,7 @@ INSERT INTO `empleos` (`idempleo`, `idempresa`, `idfamilia`, `descripcion`, `fec
 /*!40000 ALTER TABLE `empleos` ENABLE KEYS */;
 
 -- Volcando estructura para tabla nuevoempleo.empresas
+DROP TABLE IF EXISTS `empresas`;
 CREATE TABLE IF NOT EXISTS `empresas` (
   `idempresa` int(11) NOT NULL AUTO_INCREMENT,
   `idusuario` int(11) NOT NULL,
@@ -95,6 +99,7 @@ INSERT INTO `empresas` (`idempresa`, `idusuario`, `email`, `contrasena`, `nombre
 /*!40000 ALTER TABLE `empresas` ENABLE KEYS */;
 
 -- Volcando estructura para tabla nuevoempleo.familia
+DROP TABLE IF EXISTS `familia`;
 CREATE TABLE IF NOT EXISTS `familia` (
   `idfamilia` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(50) NOT NULL,
@@ -132,6 +137,7 @@ INSERT INTO `familia` (`idfamilia`, `nombre`, `nombre_imagen`) VALUES
 /*!40000 ALTER TABLE `familia` ENABLE KEYS */;
 
 -- Volcando estructura para tabla nuevoempleo.inscripciones
+DROP TABLE IF EXISTS `inscripciones`;
 CREATE TABLE IF NOT EXISTS `inscripciones` (
   `idinscripcion` int(11) NOT NULL AUTO_INCREMENT,
   `idempleo` int(11) NOT NULL,
@@ -170,6 +176,7 @@ INSERT INTO `inscripciones` (`idinscripcion`, `idempleo`, `idtitulado`, `fecha_i
 /*!40000 ALTER TABLE `inscripciones` ENABLE KEYS */;
 
 -- Volcando estructura para tabla nuevoempleo.tipousuario
+DROP TABLE IF EXISTS `tipousuario`;
 CREATE TABLE IF NOT EXISTS `tipousuario` (
   `idtipo` int(11) NOT NULL AUTO_INCREMENT,
   `tipousuario` enum('administrador','empresa','titulado') NOT NULL,
@@ -186,6 +193,7 @@ INSERT INTO `tipousuario` (`idtipo`, `tipousuario`) VALUES
 /*!40000 ALTER TABLE `tipousuario` ENABLE KEYS */;
 
 -- Volcando estructura para tabla nuevoempleo.titulados
+DROP TABLE IF EXISTS `titulados`;
 CREATE TABLE IF NOT EXISTS `titulados` (
   `idtitulado` int(11) NOT NULL AUTO_INCREMENT,
   `idusuario` int(11) NOT NULL,
@@ -234,6 +242,7 @@ INSERT INTO `titulados` (`idtitulado`, `idusuario`, `idtitulo`, `email`, `contra
 /*!40000 ALTER TABLE `titulados` ENABLE KEYS */;
 
 -- Volcando estructura para tabla nuevoempleo.titulos
+DROP TABLE IF EXISTS `titulos`;
 CREATE TABLE IF NOT EXISTS `titulos` (
   `idtitulo` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(100) NOT NULL,
@@ -347,6 +356,7 @@ INSERT INTO `titulos` (`idtitulo`, `nombre`, `grado`, `idfamilia`) VALUES
 /*!40000 ALTER TABLE `titulos` ENABLE KEYS */;
 
 -- Volcando estructura para tabla nuevoempleo.usuarios
+DROP TABLE IF EXISTS `usuarios`;
 CREATE TABLE IF NOT EXISTS `usuarios` (
   `idusuario` int(11) NOT NULL AUTO_INCREMENT,
   `idtipo` int(11) NOT NULL,
