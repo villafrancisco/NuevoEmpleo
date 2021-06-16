@@ -17,6 +17,13 @@ $db = new DB();
 
 if (isset($_SESSION["idusuario"])) {
     $titulado = $db->getUsuario($_SESSION["idusuario"]);
+    if ($titulado->getRegistro_completo() != true) {
+        //registro incompleto
+        $data['registro_incompleto'] = true;
+        echo json_encode($data);
+        exit();
+    }
+
 
 
     if ($titulado->getTipousuario() == 'titulado') {

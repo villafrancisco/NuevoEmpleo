@@ -167,7 +167,7 @@ class DB extends Conexion
                 return $campos;
                 break;
             case "titulado":
-                $campos = 'idusuario= :idusuario, idtitulo= :idtitulo, email= :email, nombre= :nombre, apellidos= :apellidos, direccion= :direccion, dni= :dni, telefono= :telefono, curriculum= :curriculum, foto= :foto';
+                $campos = 'idusuario= :idusuario, idtitulo= :idtitulo, email= :email, nombre= :nombre, apellidos= :apellidos, direccion= :direccion, dni= :dni, telefono= :telefono, curriculum= :curriculum, foto= :foto, registro_completo= :registro_completo';
                 return $campos;
                 break;
             default:
@@ -210,7 +210,8 @@ class DB extends Conexion
                     ':dni'    =>  $usuario->getDNI(),
                     ':telefono'    =>  $usuario->getTelefono(),
                     ':curriculum'    =>  $usuario->getCurriculum(),
-                    ':foto'    =>  $usuario->getFoto()
+                    ':foto'    =>  $usuario->getFoto(),
+                    ':registro_completo'    => $usuario->getRegistro_completo()
                 );
                 return $campos;
                 break;

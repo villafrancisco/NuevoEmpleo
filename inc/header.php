@@ -13,13 +13,13 @@
         </nav>
 
         <div class="d-flex d-sm-inline-flex justify-content-center align-items-center ">
-            <div>
+            <div class="d-flex d-sm-inline-flex justify-content-center align-items-center ">
                 <?php
                 if (isset($_SESSION["idusuario"])) {
 
                 ?>
-                    <a href="<?php echo ($db->getUsuario($_SESSION['idusuario'])->getTipousuario() == 'administrador') ? "admin/administrador" : $db->getUsuario($_SESSION['idusuario'])->getTipousuario(); ?>.php" class="m-1"><i class="fas fa-user fa-lg"></i></a>
-                    <a href="logout.php" class="m-1"><i class="fas fa-sign-out-alt fa-lg"></i></a>
+                    <a class="d-flex d-sm-inline-flex align-items-center flex-column  pr-3" href="<?php echo ($db->getUsuario($_SESSION['idusuario'])->getTipousuario() == 'administrador') ? "admin/administrador" : $db->getUsuario($_SESSION['idusuario'])->getTipousuario(); ?>.php" class="m-1"><i class="fas fa-user fa-lg"></i><span><?php echo $db->getUsuario($_SESSION['idusuario'])->getNombre(); ?></span></a>
+                    <a class="d-flex d-sm-inline-flex align-items-center flex-column" href="logout.php" class="m-1 "><i class="fas fa-sign-out-alt fa-lg"></i><span>Salir</span></a>
 
                 <?php
                 } else { ?>

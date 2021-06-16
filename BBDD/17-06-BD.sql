@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS `administradores` (
   `idadmin` int(11) NOT NULL AUTO_INCREMENT,
   `idusuario` int(11) NOT NULL,
   `email` varchar(50) NOT NULL,
-  `contrasena` blob NOT NULL,
+  `contrasena` varchar(255) NOT NULL DEFAULT '0',
   `nombre` varchar(50) DEFAULT NULL,
   `apellidos` varchar(50) DEFAULT NULL,
   KEY `idadmin` (`idadmin`) USING BTREE,
@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS `administradores` (
 DELETE FROM `administradores`;
 /*!40000 ALTER TABLE `administradores` DISABLE KEYS */;
 INSERT INTO `administradores` (`idadmin`, `idusuario`, `email`, `contrasena`, `nombre`, `apellidos`) VALUES
-	(1, 11, 'administrador@administrador.com', _binary 0x243279243130246143527A34502E722E566E707549485571312E59722E347A6355655474334A4B54445263584A7A7838345266744C716C675632314F, 'administrador nombre', 'administrador apellidos');
+	(1, 11, 'administrador@administrador.com', '$2y$10$aCRz4P.r.VnpuIHUq1.Yr.4zcUeTt3JKTDRcXJzx84RftLqlgV21O', 'Francisco', 'Villa');
 /*!40000 ALTER TABLE `administradores` ENABLE KEYS */;
 
 -- Volcando estructura para tabla nuevoempleo.empleos
@@ -48,14 +48,23 @@ CREATE TABLE IF NOT EXISTS `empleos` (
   KEY `FK_empleo_familia` (`idfamilia`),
   CONSTRAINT `FK_empleo_familia` FOREIGN KEY (`idfamilia`) REFERENCES `familia` (`idfamilia`),
   CONSTRAINT `FK_empleos_empresas` FOREIGN KEY (`idempresa`) REFERENCES `empresas` (`idempresa`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4;
 
--- Volcando datos para la tabla nuevoempleo.empleos: ~0 rows (aproximadamente)
+-- Volcando datos para la tabla nuevoempleo.empleos: ~11 rows (aproximadamente)
 DELETE FROM `empleos`;
 /*!40000 ALTER TABLE `empleos` DISABLE KEYS */;
 INSERT INTO `empleos` (`idempleo`, `idempresa`, `idfamilia`, `descripcion`, `fecha_publicacion`) VALUES
 	(1, 2, 19, 'Empresa de servicios necesita personal sanitario, necesario aportar curriculum', '2021-06-04 12:36:24'),
-	(2, 2, 14, 'Empresa de servicios, necesita personal informático', '2021-06-04 12:44:57');
+	(2, 2, 14, 'Empresa de servicios, necesita personal informático', '2021-06-04 12:44:57'),
+	(3, 3, 14, 'Buscamos un administrador de bases de datos', '2021-06-06 18:37:56'),
+	(4, 3, 14, 'Buscamos un desarrollador de aplicaciones web', '2021-06-06 18:38:39'),
+	(6, 4, 3, 'Buscamos director contable para sucursal en madrid', '2021-06-06 18:42:52'),
+	(7, 4, 3, 'Buscamos director de oficina para Laredo', '2021-06-06 18:43:28'),
+	(8, 5, 18, 'Buscamos analista de laboratorio recién titulado', '2021-06-06 18:47:18'),
+	(9, 5, 19, 'Buscamos enfermero para el servicio médico', '2021-06-06 18:48:04'),
+	(10, 6, 3, 'Auxiliar contable, con conocimientos de excel y sap.\nhorario de mañana, 8.00 a 2.00', '2021-06-16 12:24:35'),
+	(11, 6, 14, 'programador de php, java. con ingles c1.', '2021-06-16 12:26:57'),
+	(12, 7, 20, 'Necesitamos 10 personas para limpieza de edificios. 20 horas semanales. Sueldo según convenio', '2021-06-16 20:08:23');
 /*!40000 ALTER TABLE `empleos` ENABLE KEYS */;
 
 -- Volcando estructura para tabla nuevoempleo.empresas
@@ -63,21 +72,26 @@ CREATE TABLE IF NOT EXISTS `empresas` (
   `idempresa` int(11) NOT NULL AUTO_INCREMENT,
   `idusuario` int(11) NOT NULL,
   `email` varchar(50) NOT NULL,
-  `contrasena` blob NOT NULL,
+  `contrasena` varchar(255) NOT NULL DEFAULT '',
   `nombre` varchar(50) DEFAULT NULL,
   `telefono` varchar(50) DEFAULT NULL,
   `direccion` varchar(50) DEFAULT NULL,
-  `logo` varchar(50) DEFAULT NULL,
+  `logo` varchar(255) DEFAULT NULL,
   KEY `idempresa` (`idempresa`),
   KEY `FK_empresas_usuarios` (`idusuario`),
   CONSTRAINT `FK_empresas_usuarios` FOREIGN KEY (`idusuario`) REFERENCES `usuarios` (`idusuario`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4;
 
--- Volcando datos para la tabla nuevoempleo.empresas: ~0 rows (aproximadamente)
+-- Volcando datos para la tabla nuevoempleo.empresas: ~6 rows (aproximadamente)
 DELETE FROM `empresas`;
 /*!40000 ALTER TABLE `empresas` DISABLE KEYS */;
 INSERT INTO `empresas` (`idempresa`, `idusuario`, `email`, `contrasena`, `nombre`, `telefono`, `direccion`, `logo`) VALUES
-	(2, 14, 'empresa1@empresa.com', _binary 0x2432792431302478387378314B773966575635714856783866395564656F627459716F557836512F47677166454B393255325A7347334B6354664336, 'SOLTEC s.l.', '654987123', 'astillero', 'empresas/14/96e06e_logo.png');
+	(2, 14, 'empresa1@empresa.com', '$2y$10$x8sx1Kw9fWV5qHVx8f9UdeobtYqoUx6Q/GgqfEK92U2ZsG3KcTfC6', 'SOLTEC s.l.', '654987123', 'astillero', 'empresas/14/96e06e_logo.png'),
+	(3, 19, 'empresa2@empresa.com', '$2y$10$CtQ7L74b7sDXgZVHd6eWO.2eQuDNGJWDTRnmd2f6QlC9MmoPP/aWa', 'ITECAN', '65896523', 'calle albert einstein', 'empresas/19/c12bf9_descarga (1).png'),
+	(4, 20, 'empresa3@empresa.com', '$2y$10$ZiBKbCzEhxGjG9pxy17AG.AGvhRvUngYTi1zBK8ANTPzVAUEgm.aa', 'Banco Santander', '654123689', 'avenida constitucion', 'empresas/20/30f22f_descarga.png'),
+	(5, 21, 'empresa4@empresa.com', '$2y$10$MENW7suCoLyqR.5pSBBvMOxp44q8KDItjqa/N5Ar8VUjlRISJ3UP2', 'Farmalab', '987456321', 'avenida esperanza', 'empresas/21/8273ac_farmalab.jpg'),
+	(6, 28, 'carpasa@gmail.com', '$2y$10$HvPPWI1uHsavd4/3XP/nhuXKcmgsz9JgJBlf72WPRNNk8Hjj7pNeK', 'CARPASA', '942051120', 'CALLE VARGAS 53', 'empresas/28/ecfdd4_1200px-Cantabrian_Lábaru_Flag.svg.png'),
+	(7, 29, 'empresa5@empresa.com', '$2y$10$Wbydd2PKzp5YFDwy7urLJeh8jDDFxIGw27zKHmtIDxnf/mI2ICFpa', 'Open Services S.L.', '987456321', 'Santoña', 'empresas/29/5429f2_descarga.jpg');
 /*!40000 ALTER TABLE `empresas` ENABLE KEYS */;
 
 -- Volcando estructura para tabla nuevoempleo.familia
@@ -128,16 +142,31 @@ CREATE TABLE IF NOT EXISTS `inscripciones` (
   KEY `FK_inscripciones_titulado` (`idtitulado`),
   CONSTRAINT `FK_incscripciones_titulado` FOREIGN KEY (`idtitulado`) REFERENCES `titulados` (`idtitulado`) ON DELETE CASCADE,
   CONSTRAINT `FK_inscripciones_empleo` FOREIGN KEY (`idempleo`) REFERENCES `empleos` (`idempleo`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4;
 
--- Volcando datos para la tabla nuevoempleo.inscripciones: ~0 rows (aproximadamente)
+-- Volcando datos para la tabla nuevoempleo.inscripciones: ~19 rows (aproximadamente)
 DELETE FROM `inscripciones`;
 /*!40000 ALTER TABLE `inscripciones` DISABLE KEYS */;
 INSERT INTO `inscripciones` (`idinscripcion`, `idempleo`, `idtitulado`, `fecha_inscripcion`) VALUES
-	(1, 1, 4, '2021-06-04 12:37:22'),
 	(2, 1, 9, '2021-06-04 12:40:25'),
 	(3, 2, 9, '2021-06-04 12:47:53'),
-	(4, 2, 8, '2021-06-04 12:50:50');
+	(4, 2, 8, '2021-06-04 12:50:50'),
+	(6, 2, 4, '2021-06-05 18:21:28'),
+	(8, 1, 4, '2021-06-05 18:57:41'),
+	(9, 7, 4, '2021-06-06 18:57:02'),
+	(12, 8, 17, '2021-06-16 10:39:50'),
+	(13, 1, 17, '2021-06-16 10:41:14'),
+	(14, 7, 18, '2021-06-16 12:03:54'),
+	(15, 9, 18, '2021-06-16 12:09:06'),
+	(16, 10, 18, '2021-06-16 12:28:36'),
+	(17, 12, 7, '2021-06-16 20:32:07'),
+	(18, 12, 4, '2021-06-16 20:56:09'),
+	(19, 12, 20, '2021-06-16 20:56:48'),
+	(20, 12, 21, '2021-06-16 22:24:03'),
+	(21, 10, 19, '2021-06-16 22:34:16'),
+	(22, 7, 19, '2021-06-16 22:34:24'),
+	(23, 11, 25, '2021-06-16 23:39:09'),
+	(24, 12, 25, '2021-06-16 23:39:35');
 /*!40000 ALTER TABLE `inscripciones` ENABLE KEYS */;
 
 -- Volcando estructura para tabla nuevoempleo.tipousuario
@@ -162,31 +191,46 @@ CREATE TABLE IF NOT EXISTS `titulados` (
   `idusuario` int(11) NOT NULL,
   `idtitulo` int(11) DEFAULT NULL,
   `email` varchar(50) DEFAULT NULL,
-  `contrasena` blob DEFAULT NULL,
+  `contrasena` varchar(255) DEFAULT NULL,
   `nombre` varchar(50) DEFAULT NULL,
   `apellidos` varchar(50) DEFAULT NULL,
   `direccion` varchar(50) DEFAULT NULL,
   `dni` varchar(50) DEFAULT NULL,
   `telefono` varchar(50) DEFAULT NULL,
-  `curriculum` mediumtext DEFAULT '',
-  `foto` mediumtext DEFAULT '',
+  `curriculum` varchar(255) DEFAULT NULL,
+  `foto` varchar(255) DEFAULT NULL,
+  `registro_completo` tinyint(1) DEFAULT 0,
   KEY `idtitulado` (`idtitulado`),
   KEY `FK_titulados_usuarios` (`idusuario`),
   KEY `FK_titulados_titulo` (`idtitulo`),
   CONSTRAINT `FK_titulados_titulo` FOREIGN KEY (`idtitulo`) REFERENCES `titulos` (`idtitulo`) ON UPDATE CASCADE,
   CONSTRAINT `FK_titulados_usuarios` FOREIGN KEY (`idusuario`) REFERENCES `usuarios` (`idusuario`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4;
 
--- Volcando datos para la tabla nuevoempleo.titulados: ~3 rows (aproximadamente)
+-- Volcando datos para la tabla nuevoempleo.titulados: ~20 rows (aproximadamente)
 DELETE FROM `titulados`;
 /*!40000 ALTER TABLE `titulados` DISABLE KEYS */;
-INSERT INTO `titulados` (`idtitulado`, `idusuario`, `idtitulo`, `email`, `contrasena`, `nombre`, `apellidos`, `direccion`, `dni`, `telefono`, `curriculum`, `foto`) VALUES
-	(4, 7, 110, 'titulado1@titulado.com', _binary 0x24327924313024594E386E7838737379493943764F5739784D4447582E66413139572E57537233517671334758633745687847393171774E562E7A32, 'Juan ', 'Perez García', 'calle magallanes', '72135489m', '666999333', 'titulados/7/6abd64_cv.pdf', 'titulados/7/904df4_logo.ico'),
-	(5, 8, 100, 'titulado2@titulado.com', _binary 0x24327924313024694452673033776D31687359727A4C504556555736654A35466233316153575462304A3456553136652F673364692F4D6B36324143, 'Maria', 'González Perez', 'calle peredo', '72147852m', '666555999', 'titulados/8/c578a2_cv.pdf', 'titulados/8/c578a2_logo.ico'),
-	(6, 9, 97, 'titulado3@titulado.com', _binary 0x243279243130246D556973597249625853374B317778374F424336362E6C50526570384C6344384C352E3966593731794C616C76376C645865314B71, 'Miguel', 'Hernandez', 'calle ramiro', '741235698m', '987456321', 'titulados/9/255b5d_cv.pdf', 'no-imagen.svg'),
-	(7, 10, 62, 'titulado4@titulado.com', _binary 0x24327924313024667466785148734835304357554A744A527047595A4F5177504478626E54554873745956384479635737476438457832776E575069, 'Antonio', 'Saiz', 'calle antonio saiz', '72135480m', '659879452', 'titulados/10/27fd42_cv.pdf', 'no-imagen.svg'),
-	(8, 12, 67, 'titulado5@titulado.com', _binary 0x243279243130246152676B2F4731504D4C5556545769766A58395555652E58756B45795173433479794D2F415935337170566D59486D534A6C2E4F36, 'Marissa', 'Cortavitarte', 'calle peredo', '789456123m', '456987456', 'titulados/12/d2f02f_cv.pdf', 'no-imagen.svg'),
-	(9, 13, 114, 'titulado6@titulado.com', _binary 0x24327924313024696C714C492E48466E417575556D6B6F6E753264612E6B33663377713873437A6444582E5A586D48414F2F6D6E4A367641476B7643, 'Andrés', 'Arana', 'calle perez', '78951236m', '666333666', 'titulados/13/379e30_cv.pdf', 'no-imagen.svg');
+INSERT INTO `titulados` (`idtitulado`, `idusuario`, `idtitulo`, `email`, `contrasena`, `nombre`, `apellidos`, `direccion`, `dni`, `telefono`, `curriculum`, `foto`, `registro_completo`) VALUES
+	(4, 7, 97, 'titulado1@titulado.com', '$2y$10$YN8nx8ssyI9CvOW9xMDGX.fA19W.WSr3Qvq3GXc7EhxG91qwNV.z2', 'Juan ', 'Perez García', 'calle magallanes', '72135489m', '666999333', 'titulados/7/6abd64_cv.pdf', 'titulados/7/723733_klipartz.com (1).png', 1),
+	(5, 8, 100, 'titulado2@titulado.com', '$2y$10$iDRg03wm1hsYrzLPEVUW6eJ5Fb31aSWTb0J4VU16e/g3di/Mk62AC', 'Maria', 'González Perez', 'calle peredo', '72147852m', '666555999', 'titulados/8/c578a2_cv.pdf', 'titulados/8/02295c_klipartz.com (1).png', 1),
+	(6, 9, 97, 'titulado3@titulado.com', '$2y$10$mUisYrIbXS7K1wx7OBC66.lPRep8LcD8L5.9fY71yLalv7ldXe1Kq', 'Miguel', 'Hernandez', 'calle ramiro', '74123569m', '987456321', 'titulados/9/255b5d_cv.pdf', 'titulados/9/01d179_klipartz.com (1).png', 1),
+	(7, 10, 62, 'titulado4@titulado.com', '$2y$10$ftfxQHsH50CWUJtJRpGYZOQwPDxbnTUHstYV8DycW7Gd8Ex2wnWPi', 'Antonio', 'Saiz', 'calle antonio saiz', '72135480m', '659879452', 'titulados/10/27fd42_cv.pdf', 'titulados/10/9f15d8_klipartz.com (1).png', 1),
+	(8, 12, 67, 'titulado5@titulado.com', '$2y$10$aRgk/G1PMLUVTWivjX9UUe.XukEyQsC4yyM/AY53qpVmYHmSJl.O6', 'Marissa', 'Cortavitarte', 'calle peredo', '789456123m', '456987456', 'titulados/12/d2f02f_cv.pdf', 'no-imagen.svg', 1),
+	(9, 13, 114, 'titulado6@titulado.com', '$2y$10$ilqLI.HFnAuuUmkonu2da.k3f3wq8sCzdDX.ZXmHAO/mnJ6vAGkvC', 'Andrés', 'Arana', 'calle perez', '78951236m', '666333666', 'titulados/13/379e30_cv.pdf', 'titulados/13/f01150_no-perfil.png', 1),
+	(10, 15, 94, 'titulado7@titulado.com', '$2y$10$oRFr/Kv/oONhPxJu6tjzbuc1sVNyIgAx6SfoCdUYGgN6pHmv.GPKK', 'Alejandro', 'Lopez', 'calle heminio 3', '72135480r', '666555999', 'titulados/15/02342e_cv.pdf', 'no-imagen.svg', 1),
+	(11, 16, 102, 'titulado8@titulado.com', '$2y$10$g4jfgkEw77TDbn6Nb31vo.tIsDoDKlme8PIzpj1h1y4ZRXjCkPkv2', 'Natalia', 'Arozamena', 'avenida constitución', '74123658j', '666555888', 'titulados/16/655249_cv.pdf', 'no-imagen.svg', 1),
+	(12, 17, 67, 'titulado9@titulado.com', '$2y$10$z64kCOcDbXk40jrt.X5s4ulHDUoX0zJtoOJacxK2CGfec.RuJzxU6', 'Sonia', 'Martinez', 'avenida españa', '74123658n', '789654123', 'titulados/17/b32511_cv.pdf', 'no-imagen.svg', 1),
+	(13, 18, 97, 'titulado10@titulado.com', '$2y$10$i2QdZ6X2PzxvKXOn/aaLoOmcaZngqcAKS4diKXxqeJps1qbkeSmSC', 'Patricia', 'Jimenez', 'avenida cantabria', '78965895l', '666555444', 'titulados/18/dc4599_cv.pdf', 'no-imagen.svg', 1),
+	(14, 22, 56, 'titulado11@titulado.com', '$2y$10$uURzrinAe0KrxE/kZFqcb.GcSWiEVQ8036NrcGEGkXfpJLBG9ah3m', 'Sandra', 'Ibañez', 'calle perico 12', '7214789544f', '666555444', 'titulados/22/e87007_cv.pdf', 'no-imagen.svg', 1),
+	(15, 23, 83, 'titulado12@titulado.com', '$2y$10$Ix/XDmnf314EF8rij/nWOec51tIvCox99qzl2CO0jAEPSXd/e/XyW', 'Francisco', 'Narváez', 'madrid', '72458965m', '652121245', 'titulados/23/e1d8ca_cv.pdf', 'no-imagen.svg', 1),
+	(16, 24, 64, 'titulado14@titulado.com', '$2y$10$P7Cx2GLTMc/JfeJLPD3eh.uP1jCsoZFeXnNQnLxhwMQaQk39hevYK', 'Enrique', 'Cerezo', 'marbella', '72147852l', '659745896', 'titulados/24/b5c29d_cv.pdf', 'titulados/24/42c969_no-perfil.png', 1),
+	(17, 25, 107, 'titulado15@titulado.com', '$2y$10$yFSsV5f/uaPxcFb4OG9N6uslnd6Eukx21pX4WTsvvj87oBHZszCau', 'Alberto', 'Peláez', 'laredo', '78951159l', '741236598', 'titulados/25/8546b4_cv.pdf', 'no-perfil.png', 1),
+	(18, 26, 57, 'mely_3866@hotmail.com', '$2y$10$z5OUhQK2vgmYlxrmzzPas.mv0mwVOBMCqwMzf7qJ1HRIL7XCwY93G', 'Melissa', 'Quispe Vargas', 'hermanos de carriedo y peredo 12', '72275322f', '662684710', 'titulados/26/dc49ff_cv.pdf', 'no-perfil.png', 1),
+	(19, 27, 103, 'mel_28@gmail.com', '$2y$10$2b.aVTaTr.SKuFa00cDDTew/Xno8RpUTD71AkMp9XdB.lznTasaZy', 'Melissa', 'vargas', 'reina victoria ', '72254823f', '662684720', 'titulados/27/1c4453_cv.pdf', 'no-perfil.png', 1),
+	(20, 30, 106, 'titulado16@titulado.com', '$2y$10$jX1g6pjbbxKVm/NkLy6BcOMViWg8I6k7ZcagMtBfHUMNIb849M0cm', 'Carlota', 'menendez', 'cabezón de la sal', '95123456m', '654159753', 'titulados/30/0deed0_cv.pdf', 'no-perfil.png', 1),
+	(21, 31, 103, 'titulado17@titulado.com', '$2y$10$rYS9AdxRCDYRIkpVhunHGe/fMViblV3kkaX3Kn3e0tBAkFNyXNu6K', 'Patricia', 'Álvarez', 'Corrales de Buelna', '95123456m', '982153684', 'titulados/31/78f1cc_cv.pdf', 'no-perfil.png', 1),
+	(23, 33, 101, 'camila@hotmail.com', '$2y$10$psDD.42LEj2FXF7ThjX98u2IMFh4y5bGzCHXoRs.dHsDg1QKLcbF2', 'camila', 'bernal', 'reina victoria 20', '72275322b', '662684711', 'titulados/33/4220db_cv.pdf', 'no-perfil.png', 1),
+	(25, 35, 92, 'titulado18@titulado.com', '$2y$10$IpsgOltkLtwsW6Z7RFnuGeHKRtx9pDu1DwOesIqsV5txeYrG1j9PG', 'Fernanda', 'Cadiz', 'Maliaño', '78963147o', '753654789', 'titulados/35/999ea7_cv.pdf', 'no-perfil.png', 1);
 /*!40000 ALTER TABLE `titulados` ENABLE KEYS */;
 
 -- Volcando estructura para tabla nuevoempleo.titulos
@@ -200,7 +244,7 @@ CREATE TABLE IF NOT EXISTS `titulos` (
   CONSTRAINT `FK_titulos_familia` FOREIGN KEY (`idfamilia`) REFERENCES `familia` (`idfamilia`)
 ) ENGINE=InnoDB AUTO_INCREMENT=115 DEFAULT CHARSET=utf8mb4;
 
--- Volcando datos para la tabla nuevoempleo.titulos: ~97 rows (aproximadamente)
+-- Volcando datos para la tabla nuevoempleo.titulos: ~96 rows (aproximadamente)
 DELETE FROM `titulos`;
 /*!40000 ALTER TABLE `titulos` DISABLE KEYS */;
 INSERT INTO `titulos` (`idtitulo`, `nombre`, `grado`, `idfamilia`) VALUES
@@ -310,9 +354,9 @@ CREATE TABLE IF NOT EXISTS `usuarios` (
   KEY `Índice 1` (`idusuario`) USING BTREE,
   KEY `FK_usuario_tipousuario` (`idtipo`) USING BTREE,
   CONSTRAINT `FK_usuario_tipousuario` FOREIGN KEY (`idtipo`) REFERENCES `tipousuario` (`idtipo`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb4;
 
--- Volcando datos para la tabla nuevoempleo.usuarios: ~4 rows (aproximadamente)
+-- Volcando datos para la tabla nuevoempleo.usuarios: ~29 rows (aproximadamente)
 DELETE FROM `usuarios`;
 /*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
 INSERT INTO `usuarios` (`idusuario`, `idtipo`, `fecha_registro`) VALUES
@@ -323,7 +367,28 @@ INSERT INTO `usuarios` (`idusuario`, `idtipo`, `fecha_registro`) VALUES
 	(11, 1, '2021-06-04 12:21:48'),
 	(12, 3, '2021-06-04 12:30:32'),
 	(13, 3, '2021-06-04 12:31:35'),
-	(14, 2, '2021-06-04 12:33:34');
+	(14, 2, '2021-06-04 12:33:34'),
+	(15, 3, '2021-06-06 18:06:10'),
+	(16, 3, '2021-06-06 18:31:09'),
+	(17, 3, '2021-06-06 18:33:37'),
+	(18, 3, '2021-06-06 18:34:59'),
+	(19, 2, '2021-06-06 18:36:38'),
+	(20, 2, '2021-06-06 18:40:14'),
+	(21, 2, '2021-06-06 18:46:10'),
+	(22, 3, '2021-06-12 18:56:38'),
+	(23, 3, '2021-06-12 19:01:04'),
+	(24, 3, '2021-06-12 19:11:33'),
+	(25, 3, '2021-06-14 00:20:10'),
+	(26, 3, '2021-06-16 11:58:50'),
+	(27, 3, '2021-06-16 12:05:02'),
+	(28, 2, '2021-06-16 12:21:57'),
+	(29, 2, '2021-06-16 20:02:54'),
+	(30, 3, '2021-06-16 20:56:40'),
+	(31, 3, '2021-06-16 21:54:43'),
+	(32, 3, '2021-06-16 22:25:19'),
+	(33, 3, '2021-06-16 22:36:35'),
+	(34, 3, '2021-06-16 22:45:42'),
+	(35, 3, '2021-06-16 22:50:54');
 /*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

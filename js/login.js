@@ -60,7 +60,11 @@ function login($datos){
                 }else if(data.tipousuario=="empresa"){
                     window.location.href="empresa.php";
                 }else if(data.tipousuario=='titulado'){
-                    window.location.href="titulado.php";
+                    if(data.redirect==true){
+                        window.location.href="index.php";
+                    }else{
+                        window.location.href="titulado.php";
+                    }
                 }
                 
             }else{

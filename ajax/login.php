@@ -60,6 +60,12 @@ if (isset($_POST["email"]) && isset($_POST["contrasena"])) {
         }
         if (login($email, $contrasena, $tipo)) {
             //Si el login es correcto
+            if ($tipo == 'titulado') {
+                $db = new DB();
+                if ($db->getUsuario($_SESSION['idusuario'])->getRegistro_completo() == true) {
+                    $data['redirect'] = true;
+                }
+            }
             $data['status'] = 'ok';
             $data['tipousuario'] = $tipo;
         } else {

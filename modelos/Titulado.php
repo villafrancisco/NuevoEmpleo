@@ -10,6 +10,7 @@ class Titulado extends Usuario
     protected $telefono;
     protected $curriculum;
     protected $foto;
+    protected $registro_completo;
 
     function __construct($row = false)
     {
@@ -21,6 +22,7 @@ class Titulado extends Usuario
         $this->telefono = isset($row['telefono']) ? $row['telefono'] : null;
         $this->curriculum = isset($row['curriculum']) ? $row['curriculum'] : null;
         $this->foto = isset($row['foto']) ? $row['foto'] : null;
+        $this->registro_completo = isset($row['registro_completo']) ? $row['registro_completo'] : null;
         parent::__construct($row);
     }
 
@@ -103,5 +105,15 @@ class Titulado extends Usuario
     public function setFoto($foto)
     {
         $this->foto = $foto;
+    }
+
+    public function getRegistro_completo()
+    {
+        return $this->registro_completo;
+    }
+
+    public function setRegistro_completo($registro_completo)
+    {
+        $this->registro_completo = $registro_completo;
     }
 }

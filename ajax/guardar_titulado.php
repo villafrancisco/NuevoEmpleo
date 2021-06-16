@@ -71,6 +71,7 @@ if (isset($_SESSION["idusuario"])) {
             $titulado->setDNI($_POST["dni"]);
             $titulado->setTelefono($_POST["telefono"]);
             $titulado->setIdtitulo($_POST["titulacion"]);
+            $titulado->setRegistro_completo(true);
             if ($db->updateUsuario($titulado)) {
                 //subir archivos
                 $directorio = '../archivos_subidos/titulados/' . $_POST['idusuario'];

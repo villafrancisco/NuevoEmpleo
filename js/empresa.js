@@ -143,17 +143,17 @@ function comprobarArchivo(archivo) {
 //Cargamos un archivo en la pagina
 function cargaImagen(e, archivo) {
     imagenlogo.innerHTML='';
-    div = document.createElement('div');
-    div.setAttribute('class', 'img-fotoperfil');
+   
+   
     img = document.createElement('img');
     img.setAttribute('src', e.target.result);
-    img.setAttribute('class',' img-fluid');
+    img.setAttribute('class',' img-fluid foto-perfil');
    
     
     
-    div.appendChild(img);
     
-    imagenlogo.appendChild(div);
+    
+    imagenlogo.appendChild(img);
 }
 
 let guardarEmpleo=document.getElementById('guardar_empleo');

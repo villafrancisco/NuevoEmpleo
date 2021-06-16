@@ -97,7 +97,7 @@ if (isset($_SESSION['idusuario'])) {
                                                 } ?>
                                             <?php
                                             } else { ?>
-                                                <a href="login.php?tipo=titulado" class="btn btn-lg btn-block btn-primary" idempleo="<?php echo $empleo->getIdempleo() ?>">Inscríbite</a>
+                                                <a href="login.php?tipo=titulado&idempleo=<?php echo $empleo->getIdempleo() ?>" class="btn btn-lg btn-block btn-primary" idempleo="<?php echo $empleo->getIdempleo() ?>">Inscríbite</a>
                                             <?php
                                             }
                                             ?>

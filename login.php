@@ -17,6 +17,11 @@ if (isset($_GET["tipo"]) && ($_GET["tipo"] == "empresa" || $_GET["tipo"] == "tit
 } else {
     header("Location: index.php");
 }
+if (isset($_GET['idempleo'])) {
+    $redirect = true;
+} else {
+    $redirect = false;
+}
 ?>
 
 <!DOCTYPE html>
@@ -38,7 +43,7 @@ if (isset($_GET["tipo"]) && ($_GET["tipo"] == "empresa" || $_GET["tipo"] == "tit
         <input type="email" id="email" name="email" class="form-control" placeholder="Email" required autofocus>
         <label for="contrasena" class="sr-only">Contraseña</label>
         <input type="password" id="contrasena" name="contrasena" class="form-control" placeholder="Contraseña" required>
-
+        <input type="hidden" name="redirect" value="<?php echo $redirect; ?>">
         <div id="loader" class="loader hide"></div>
         <button class="btn btn-lg btn-primary btn-block" type="submit">Entrar</button>
         <p class="mt-5 mb-3 text-muted">&copy; 2017-2021</p>

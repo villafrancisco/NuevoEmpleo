@@ -100,7 +100,7 @@ if (isset($_SESSION["idusuario"])) {
 
         <!-- Button trigger modal -->
         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" id="modal-empleo" title="Publicar empleo">
-            Publicar empleo
+            Publicar Nueva Oferta de Empleo
         </button>
 
     </main>
@@ -148,7 +148,7 @@ if (isset($_SESSION["idusuario"])) {
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                    <button type="button" class="btn btn-primary" id="guardar_empleo" name="guardar_empleo">Guardar empleo</button>
+                    <button type="button" class="btn btn-primary" id="guardar_empleo" name="guardar_empleo">Pubicar Oferta de Empleo</button>
                 </div>
             </div>
         </div>
