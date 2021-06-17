@@ -33,8 +33,14 @@
             tableInputs.apellidos.classList.remove('errorform');
         }
         if(error==true){
-            //muestro mensaje de toast de error
-            toastr.error('Compruebe los campos');
+            Swal.fire({
+                icon: 'error',
+                title: 'Comprueba los campos',
+                showConfirmButton: false,
+                timer: 2000
+              });
+            
+            
         }else{
             //guardo los datos
             
@@ -50,11 +56,24 @@
             .then(data=> {
                 console.log(data);
                     if(data){
-                        //datos actualizados correctamente
-                        toastr.success('Datos Guardados');
+                        
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Datos Guardados',
+                            showConfirmButton: false,
+                            timer: 2000
+                          });
+                        
+
                     }else{
                         //datos no actualizados
-                        toastr.error('Datos incorrectos');
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Datos incorrectos',
+                            showConfirmButton: false,
+                            timer: 2000
+                          });
+                        
                         tableInputs.email.classList.add('errorform');
                     }
                 });

@@ -47,8 +47,12 @@ guardar_empresa.addEventListener('click',(e)=>{
    
     
     if(error==true){
-        //muestro mensaje de toast de error
-        toastr.error('Comprueba los campos','Error');
+        Swal.fire({
+            icon: 'error',
+            title: 'Comprueba los campos',
+            showConfirmButton: false,
+            timer: 2000
+          });
     }else{
         
         //guardo los datos
@@ -73,14 +77,26 @@ guardar_empresa.addEventListener('click',(e)=>{
         .then(data=> {
                 if(data.status=='ok'){
                     //datos actualizados correctamente
-                    toastr.success('Guardado')
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Guardado',
+                        showConfirmButton: false,
+                        timer: 2000
+                      });
+
                     document.getElementById('nombre_empresa').textContent=document.getElementById('nombre').value;
                 }else{
                     //datos no actualizados
                     if(data.email=='error'){
                         email.classList.add('errorform');
                     }
-                    toastr.error('Datos incorrectos');
+                    
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Datos incorrectos',
+                        showConfirmButton: false,
+                        timer: 2000
+                      });
                     
                 }
             });
@@ -136,7 +152,13 @@ function comprobarArchivo(archivo) {
             });
             reader.readAsDataURL(a);
         }else{
-            toastr.error('Solo archivos de imagen','No se ha podido cargar');
+            
+            Swal.fire({
+                icon: 'error',
+                title: 'Solo archivos de imágen',
+                showConfirmButton: false,
+                timer: 2000
+              });
         }
     }
 }
@@ -178,8 +200,13 @@ guardarEmpleo.addEventListener('click',(e)=>{
    
 
     if(errorEmpleo==true){
-        //muestro mensaje de toast de error
-        toastr.error('Comprueba los campos','Error');
+        
+        Swal.fire({
+            icon: 'error',
+            title: 'Comprueba los campos',
+            showConfirmButton: false,
+            timer: 2000
+          });
     }else{
         
         //guardo los datos
@@ -196,15 +223,28 @@ guardarEmpleo.addEventListener('click',(e)=>{
         .then(data=> {
                 if(data.status=='ok'){
                     //datos actualizados correctamente
-                    toastr.success('Guardado')
+                    
                     //borrar formulario y cargar las ofertas en la pagina princpal
+        
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Guardado',
+                        showConfirmButton: false,
+                        timer: 2000
+                      });
                     document.getElementById('form_guardar_empleo').reset();
                     $('#exampleModal').modal('hide');
                     document.getElementById('idempleo').value='';
                     cargar_tabla_empleos();
                     
                 }else{
-                   toastr.error('No se ha podido guardar el empleo');
+                   
+                   Swal.fire({
+                    icon: 'error',
+                    title: 'No se ha podido guardar el empleo',
+                    showConfirmButton: false,
+                    timer: 2000
+                  });
                    document.getElementById('form_guardar_empleo').reset();
                 }
             });
@@ -278,11 +318,23 @@ tabla.addEventListener('click',(e)=>{
         .then(data=> {
                 if(data.status=='ok'){
                     //datos eliminados correctamente
-                    toastr.success('Eliminado')
+                    
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Eliminado',
+                        showConfirmButton: false,
+                        timer: 2000
+                      });
                     cargar_tabla_empleos();
 
                 }else{
-                    toastr.error('Error al borrar la oferta de empleo');
+                    
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error al borrar la oferta de empleo',
+                        showConfirmButton: false,
+                        timer: 2000
+                      });
                 }
             });
     }else if(e.target.parentElement.getAttribute('class')=='editar_empleo'){

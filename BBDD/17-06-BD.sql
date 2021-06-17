@@ -91,7 +91,7 @@ DELETE FROM `empresas`;
 /*!40000 ALTER TABLE `empresas` DISABLE KEYS */;
 INSERT INTO `empresas` (`idempresa`, `idusuario`, `email`, `contrasena`, `nombre`, `telefono`, `direccion`, `logo`) VALUES
 	(2, 14, 'empresa1@empresa.com', '$2y$10$x8sx1Kw9fWV5qHVx8f9UdeobtYqoUx6Q/GgqfEK92U2ZsG3KcTfC6', 'SOLTEC s.l.', '654987123', 'astillero', 'empresas/14/96e06e_logo.png'),
-	(3, 19, 'empresa2@empresa.com', '$2y$10$CtQ7L74b7sDXgZVHd6eWO.2eQuDNGJWDTRnmd2f6QlC9MmoPP/aWa', 'ITECAN', '65896523', 'calle albert einstein', 'empresas/19/c12bf9_descarga (1).png'),
+	(3, 19, 'empresa2@empresa.com', '$2y$10$CtQ7L74b7sDXgZVHd6eWO.2eQuDNGJWDTRnmd2f6QlC9MmoPP/aWa', 'ITECAN', '65896523', 'calle albert einstein', 'empresas/19/c12bf9_descarga_(1).png'),
 	(4, 20, 'empresa3@empresa.com', '$2y$10$ZiBKbCzEhxGjG9pxy17AG.AGvhRvUngYTi1zBK8ANTPzVAUEgm.aa', 'Banco Santander', '654123689', 'avenida constitucion', 'empresas/20/30f22f_descarga.png'),
 	(5, 21, 'empresa4@empresa.com', '$2y$10$MENW7suCoLyqR.5pSBBvMOxp44q8KDItjqa/N5Ar8VUjlRISJ3UP2', 'Farmalab', '987456321', 'avenida esperanza', 'empresas/21/8273ac_farmalab.jpg'),
 	(6, 28, 'carpasa@gmail.com', '$2y$10$HvPPWI1uHsavd4/3XP/nhuXKcmgsz9JgJBlf72WPRNNk8Hjj7pNeK', 'CARPASA', '942051120', 'CALLE VARGAS 53', 'empresas/28/ecfdd4_1200px-Cantabrian_Lábaru_Flag.svg.png'),
@@ -172,7 +172,10 @@ INSERT INTO `inscripciones` (`idinscripcion`, `idempleo`, `idtitulado`, `fecha_i
 	(21, 10, 19, '2021-06-16 22:34:16'),
 	(22, 7, 19, '2021-06-16 22:34:24'),
 	(23, 11, 25, '2021-06-16 23:39:09'),
-	(24, 12, 25, '2021-06-16 23:39:35');
+	(24, 12, 25, '2021-06-16 23:39:35'),
+	(25, 10, 8, '2021-06-17 00:09:32'),
+	(26, 6, 8, '2021-06-17 00:09:37'),
+	(27, 7, 8, '2021-06-17 00:10:02');
 /*!40000 ALTER TABLE `inscripciones` ENABLE KEYS */;
 
 -- Volcando estructura para tabla nuevoempleo.tipousuario

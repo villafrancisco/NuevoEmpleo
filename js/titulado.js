@@ -77,8 +77,15 @@ guardar_titulado.addEventListener('click',(e)=>{
     
     
     if(error==true){
-        //muestro mensaje de toast de error
-        toastr.error('Comprueba los campos','Error');
+        Swal.fire({
+            icon: 'error',
+            title: 'Comprueba los campos',
+            showConfirmButton: false,
+            timer: 2000
+          });
+                    
+                    
+
     }else{
         //actualizo el titulado
         //guardo los datos
@@ -105,13 +112,24 @@ guardar_titulado.addEventListener('click',(e)=>{
             
                 if(data.status=='ok'){
                     //datos actualizados correctamente
-                    toastr.success('Guardado')
+                    
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Guardado',
+                        showConfirmButton: false,
+                        timer: 2000
+                      });
                 }else{
                     //datos no actualizados
                     if(data.email=='error'){
                         email.classList.add('errorform');
                     }
-                    toastr.error('Datos incorrectos');
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Datos incorrectos',
+                        showConfirmButton: false,
+                        timer: 2000
+                      });
                     
                 }
             });
@@ -173,7 +191,12 @@ curriculumInput.addEventListener('change',(e)=>{
             });
             reader.readAsDataURL(a);
         }else{
-            toastr.error('Solo archivos pdf','No se ha podido cargar');
+            Swal.fire({
+                icon: 'error',
+                title: 'Solo archivos pdf',
+                showConfirmButton: false,
+                timer: 2000
+              });
         }
     }
     
@@ -207,7 +230,13 @@ function comprobarArchivo(archivo) {
             });
             reader.readAsDataURL(a);
         }else{
-            toastr.error('Solo archivos de imagen','No se ha podido cargar');
+            
+            Swal.fire({
+                icon: 'error',
+                title: 'Solo archivos de imagen',
+                showConfirmButton: false,
+                timer: 2000
+              });
         }
     }
 }
@@ -233,7 +262,7 @@ function cargar_tabla_inscripciones(){
     }).then(res=> res.json())
     .then(data=> {
             if(data.length!=0){
-                console.log(data);
+                
                 let fragment;;
                 fragment='<thead>'+
                             '<tr>'+
@@ -274,11 +303,21 @@ tabla.addEventListener('click',(e)=>{
         .then(data=> {
                 if(data.status=='ok'){
                     //datos eliminados correctamente
-                    toastr.success('Eliminado')
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Eliminado',
+                        showConfirmButton: false,
+                        timer: 1500
+                      });
                     cargar_tabla_inscripciones();
 
                 }else{
-                    toastr.error('Error al borrar la oferta de empleo');
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error al borrar la oferta de empleo',
+                        showConfirmButton: false,
+                        timer: 1500
+                      });
                 }
             });
     }else if(e.target.parentElement.getAttribute('class')=='editar_empleo'){

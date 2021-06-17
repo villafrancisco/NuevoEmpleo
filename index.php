@@ -89,15 +89,15 @@ if (isset($_SESSION['idusuario'])) {
                                                     }
                                                 }
                                                 if (!$inscrito) { ?>
-                                                    <button type="button" class="disabled btn btn-lg btn-block btn-primary guardar_inscripcion" idempleo="<?php echo $empleo->getIdempleo() ?>">Inscríbite</button>
+                                                    <button type="button" class="disabled btn btn-lg btn-block btn-primary guardar_inscripcion" id="<?php echo $empleo->getIdempleo() ?>">Inscríbite</button>
                                                 <?php
                                                 } else { ?>
-                                                    <button type="button" class="disabled btn btn-lg btn-block btn-outline-primary" idempleo="<?php echo $empleo->getIdempleo() ?>">Ya estás inscrito</button>
+                                                    <button type="button" class="disabled btn btn-lg btn-block btn-outline-primary" id="<?php echo $empleo->getIdempleo() ?>">Ya estás inscrito</button>
                                                 <?php
                                                 } ?>
                                             <?php
                                             } else { ?>
-                                                <a href="login.php?tipo=titulado&idempleo=<?php echo $empleo->getIdempleo() ?>" class="btn btn-lg btn-block btn-primary" idempleo="<?php echo $empleo->getIdempleo() ?>">Inscríbite</a>
+                                                <a href="login.php?tipo=titulado&idempleo=<?php echo $empleo->getIdempleo() ?>" class="btn btn-lg btn-block btn-primary" id="<?php echo $empleo->getIdempleo() ?>">Inscríbite</a>
                                             <?php
                                             }
                                             ?>
