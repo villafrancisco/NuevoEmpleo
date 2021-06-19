@@ -36,3 +36,21 @@ if (isset($_SESSION["idusuario"])) {
         echo json_encode($data);
     }
 }
+if (isset($_POST['idtitulado'])) {
+    $titulado = $db->getTitulado($_POST["idtitulado"]);
+    $inscripciones = $db->getInscripcionesTitulado($titulado);
+    $data = [];
+    $i = 0;
+    foreach ($inscripciones as $inscripcion) {
+        $data[$i]['idinscripcion'] = $inscripcion->getIdinscripcion();
+        $data[$i]['descripcion'] = $db->getEmpleo($inscripcion->getIdempleo())->getDescripcion();
+        $data[$i]['fecha_publicacion'] = $db->getEmpleo($inscripcion->getIdempleo())->getFecha_publicacion();
+        $data[$i]['fecha_inscripcion'] = $inscripcion->getFecha_inscripcion();
+        $data[$i]['nombre_empresa'] = $db->getEmpresa($db->getEmpleo($inscripcion->getIdempleo())->getIdempresa())->getNombre();
+        $data[$i]['logo'] = $db->getEmpresa($db->getEmpleo($inscripcion->getIdempleo())->getIdempresa())->getLogo();
+        $i++;
+
+        //Tengo que devolver idinscripcion, descripcion del empleo, fecha publicacion, fecha inscripcion, y empresa
+    }
+    echo json_encode($data);
+}

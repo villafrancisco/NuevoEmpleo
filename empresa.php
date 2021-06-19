@@ -94,7 +94,7 @@ if (isset($_SESSION["idusuario"])) {
         <!-- Ofertas de empleo publicada por la empresa -->
         <h1 class="display-4 text-center">Ofertas de empleo publicadas</h1>
 
-        <table id="tabla_empleos" class="table table-hover">
+        <table id="tabla_empleos" class="table table-hover table-responsive">
 
         </table>
 

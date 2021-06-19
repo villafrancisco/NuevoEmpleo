@@ -58,6 +58,7 @@ include 'inc/includes.php';
                         <table class="table">
                             <thead class="thead-light">
                                 <tr>
+                                    <th>Ver Inscripciones</th>
                                     <th>Foto</th>
                                     <th>Nombre</th>
                                     <th>Apellidos</th>
@@ -77,6 +78,7 @@ include 'inc/includes.php';
                                 ?>
                                     <form name="form<?php echo $titulado->getIdtitulado(); ?>" name="form<?php echo $titulado->getIdtitulado(); ?>" action="ajax/guardar_titulado" method="post" class="disable-autocomplete" autocomplete="off">
                                         <tr id="<?php echo $titulado->getIdtitulado(); ?>">
+                                            <th><a href="inscripciones.php?idtitulado=<?php echo $titulado->getIdtitulado(); ?>">Ver Inscripciones</a></th>
                                             <th><img class="img-fluid foto-imagen" src="../archivos_subidos/<?php echo $titulado->getFoto(); ?>" alt=""></th>
                                             <td><?php echo $titulado->getNombre(); ?></td>
                                             <td><?php echo $titulado->getApellidos(); ?></td>

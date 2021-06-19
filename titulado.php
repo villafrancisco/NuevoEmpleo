@@ -154,7 +154,7 @@ if (isset($_SESSION["idusuario"])) {
             echo '<p class="text-center">No te has inscrito en ninguna oferta</p>';
         } else {
         ?>
-            <table id="tabla_inscripciones" class="table table-hover">
+            <table id="tabla_inscripciones" class="table table-hover table-responsive">
 
             </table>
         <?php

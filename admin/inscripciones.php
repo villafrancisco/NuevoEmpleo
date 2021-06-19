@@ -1,5 +1,11 @@
 <?php
 include 'inc/includes.php';
+
+if (!isset($_GET['idtitulado']) || empty($_GET['idtitulado'])) {
+    header('Location:administrador.php');
+}
+$titulado = $db->getTitulado($_GET['idtitulado']);
+$inscripciones = $db->getInscripcionesTitulado($titulado);
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -7,11 +13,7 @@ include 'inc/includes.php';
 <head>
     <?php include 'inc/head.php' ?>
 
-    <?php
-    //Array con todos los titulados
-    $empleos = $db->getAllEmpleos();
 
-    ?>
 </head>
 
 <body>
@@ -36,13 +38,13 @@ include 'inc/includes.php';
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="titulados.php">
+                                <a class="nav-link active" href="titulados.php">
                                     <span data-feather="shopping-cart"></span>
                                     <i class="fas fa-graduation-cap"></i>Titulados
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link active" href="empleos.php">
+                                <a class="nav-link" href="empleos.php">
                                     <span data-feather="users"></span>
                                     <i class="fas fa-briefcase"></i>Empleos
                                 </a>
@@ -53,48 +55,26 @@ include 'inc/includes.php';
                 </nav>
 
                 <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
-                    <h3 class="my-0 ml-5 mt-3 mr-md-auto font-weight-normal">Empleos</h3>
-                    <div class="table-responsive">
-                        <table class="table">
-                            <thead class="thead-light">
-                                <tr>
-                                    <th>Ver Inscritos</th>
-                                    <th>Logotipo</th>
-                                    <th>Empresa</th>
-                                    <th>Descripcion</th>
-                                    <th>Fecha Publicación</th>
-                                </tr>
-                            </thead>
-                            <tbody class="table-striped">
-                                <?php
+                    <h3 class="my-0 ml-5 mt-3 mr-md-auto font-weight-normal">Inscripciones realizadas por <?php echo $titulado->getNombre() . " " . $titulado->getApellidos(); ?></h3>
+                    <input type="hidden" id="idtitulado" value="<?php echo $titulado->getIdtitulado(); ?>">
+                    <?php
+                    //TODO
+                    if (empty($inscripciones)) {
+                        echo '<p class="text-center">No se ha inscrito en ninguna oferta</p>';
+                    } else {
+                    ?>
+                        <table id="tabla_inscripciones" class="table table-hover table-responsive">
 
-                                foreach ($empleos as $empleo) {
-
-                                ?>
-
-                                    <tr id="<?php echo $empleo->getIdempleo(); ?>">
-                                        <th><a href="inscritos.php?idempleo=<?php echo $empleo->getIdempleo(); ?>">Ver Inscritos</a></th>
-                                        <td><img class="img-fluid foto-imagen" src="../archivos_subidos/<?php echo $db->getEmpresa($empleo->getIdempresa())->getLogo(); ?>" alt=""></td>
-                                        <td><?php echo $db->getEmpresa($empleo->getIdempresa())->getNombre(); ?></td>
-                                        <td><?php echo $empleo->getDescripcion(); ?></td>
-                                        <td><?php echo $empleo->getFecha_publicacion(); ?></td>
-
-
-                                    </tr>
-
-                                <?php
-                                }
-
-
-                                ?>
-                            </tbody>
                         </table>
-                    </div>
+                    <?php
+                    }
+                    ?>
+
                 </main>
             </div>
         </div>
         <?php include 'inc/scripts.php' ?>
-
+        <script src="js/inscripciones.js"></script>
 </body>
 
 </html>
