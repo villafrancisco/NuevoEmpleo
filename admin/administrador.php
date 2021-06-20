@@ -7,7 +7,7 @@ include 'inc/includes.php';
 <head>
     <?php
     include 'inc/head.php';
-    //Array con todos los administradores
+
     $administradores = $db->getAllTipoUsuario("administrador");
     ?>
 </head>

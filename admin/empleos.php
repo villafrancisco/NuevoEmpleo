@@ -8,7 +8,7 @@ include 'inc/includes.php';
     <?php include 'inc/head.php' ?>
 
     <?php
-    //Array con todos los titulados
+
     $empleos = $db->getAllEmpleos();
 
     ?>
